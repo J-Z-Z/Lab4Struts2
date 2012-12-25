@@ -3,9 +3,36 @@
 "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
-    <package name="asdf" extends="struts-default" namespace="/Student">
-        <action name="StudentAction" class="md.victordov.lab.actionStruts.StudentAction" >
-        	<result name="success">/Student/allStudents.jsp</result>
-        </action>
-    </package>
+
+	<constant name="struts.devMode" value="true" />
+
+	<package name="default" extends="struts-default" namespace="/Student">
+
+		<action name="listAll" class="md.victordov.lab.actionStruts.StudentAction"
+			method="execute">
+			<result name="success">/Student/Student.jsp</result>
+		</action>
+
+		<action name="add*" class="md.victordov.lab.actionStruts.{1}Action"
+			method="add{1}">
+			<result name="success" type="redirect">/{1}/listAll.action</result>
+		</action>
+
+		<action name="edit*" method="editStudent"
+			class="md.victordov.lab.actionStruts.{1}Action">
+			<result name="success">/Student/Student.jsp</result>
+		</action>
+		
+		<action name="update*" class="md.victordov.lab.actionStruts.{1}Action"
+			method="update{1}">
+			<result name="success" type="redirect">/{1}/listAll.action</result>
+		</action>
+
+		<action name="delete*" method="delete{1}"
+			class="md.victordov.lab.actionStruts.{1}Action">
+			<result name="success" type="redirect">/{1}/listAll.action</result>
+		</action>
+
+	</package>
 </struts>
+

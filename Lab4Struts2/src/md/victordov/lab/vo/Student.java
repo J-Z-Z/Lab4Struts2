@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -99,7 +99,7 @@ public class Student implements java.io.Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "s_id", unique = true, nullable = false)
 	private Integer SId;
 

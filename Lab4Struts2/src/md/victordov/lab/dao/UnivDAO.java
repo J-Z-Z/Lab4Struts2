@@ -7,14 +7,11 @@ import md.victordov.lab.common.HibernateUtil;
 import md.victordov.lab.common.exception.ErrorList;
 import md.victordov.lab.common.exception.MyDaoException;
 import md.victordov.lab.vo.Universitate;
-import md.victordov.lab.vo.Universitate;
-import md.victordov.lab.vo.Universitate;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Projections;
 
 public class UnivDAO implements GenericDAO<Universitate>, Serializable {
 

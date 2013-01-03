@@ -1,5 +1,6 @@
 package md.victordov.lab.view.model;
 
+
 public class StudentModel implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -12,7 +13,7 @@ public class StudentModel implements java.io.Serializable {
 		return SId;
 	}
 	public void setSId(Integer sId) {
-		SId = sId;
+		this.SId = sId;
 	}
 	public String getNume() {
 		return nume;

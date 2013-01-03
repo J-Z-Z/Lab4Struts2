@@ -26,21 +26,6 @@ public class Universitate implements java.io.Serializable {
 
 	public Universitate() {
 	}
-
-	public Universitate(String numeUniver, String adresa, String telefon) {
-		this.numeUniver = numeUniver;
-		this.adresa = adresa;
-		this.telefon = telefon;
-	}
-
-	public Universitate(String numeUniver, String adresa, String telefon,
-			Set<Curs> curses) {
-		this.numeUniver = numeUniver;
-		this.adresa = adresa;
-		this.telefon = telefon;
-		this.curses = curses;
-	}
-
 	
 	public Integer getUId() {
 		return this.UId;

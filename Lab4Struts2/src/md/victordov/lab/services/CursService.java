@@ -72,6 +72,7 @@ public class CursService implements Serializable,
 
 	@Override
 	public void delete(int id) throws MyDaoException {
+		System.out.println("This is what I have received: "+id);
 		GenericDAO<Curs> genDao = new CursDAO();
 		genDao.delete(id);
 
@@ -91,11 +92,17 @@ public class CursService implements Serializable,
 			CursModel cursModelTemp = new CursModel();
 			cursModelTemp.setcId(c.getCId());
 			cursModelTemp.setNumeCurs(c.getNumeCurs());
+
 			cursModelTemp.setuId(c.getUniversitate().getUId());
-			cursModelTemp.setUniverNume(c.getUniversitate().getNumeUniver());
+			if (c.getUniversitate().getNumeUniver() != null) {
+				cursModelTemp
+						.setUniverNume(c.getUniversitate().getNumeUniver());
+			}
 			cursModelTemp.setpId(c.getProfesor().getPId());
-			cursModelTemp.setProfesorNume(c.getProfesor().getNume() + " "
-					+ c.getProfesor().getPrenume());
+			if ((c.getProfesor().getNume() != null)
+					&& (c.getProfesor().getPrenume() != null))
+				cursModelTemp.setProfesorNume(c.getProfesor().getNume() + " "
+						+ c.getProfesor().getPrenume());
 			cursModelList.add(cursModelTemp);
 		}
 		return cursModelList;
@@ -120,10 +127,10 @@ public class CursService implements Serializable,
 		Curs curs = new Curs();
 		Profesor profesor = new Profesor();
 		Universitate univ = new Universitate();
-		
+
 		curs.setCId(t.getcId());
 		curs.setNumeCurs(t.getNumeCurs());
-		
+
 		univ.setUId(t.getuId());
 		curs.setUniversitate(univ);
 

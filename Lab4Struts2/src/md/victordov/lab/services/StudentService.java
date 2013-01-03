@@ -80,6 +80,7 @@ public class StudentService implements GenericService<StudentModel, Student> {
 	public StudentModel transform(Student s) {
 
 		StudentModel studentModel = new StudentModel();
+		
 		studentModel.setSId(s.getSId());
 		studentModel.setNume(s.getNume());
 		studentModel.setPrenume(s.getPrenume());
@@ -92,11 +93,14 @@ public class StudentService implements GenericService<StudentModel, Student> {
 
 	@Override
 	public Student transformBack(StudentModel t) {
+		
 		Student student = new Student();
+		
 		student.setSId(t.getSId());
 		student.setNume(t.getNume());
 		student.setPrenume(t.getPrenume());
 		student.setGrupa(t.getGrupa());
+		student.setEmail(t.getEmail());
 		student.setTelFix(t.getTelFix());
 
 		return student;

@@ -85,7 +85,6 @@ public class StudentDAO implements Serializable, GenericDAO<Student> {
 		} finally {
 			session.close();
 		}
-		
 
 	}
 
@@ -95,7 +94,7 @@ public class StudentDAO implements Serializable, GenericDAO<Student> {
 		Transaction tx = session.beginTransaction();
 		try {
 			session.update(t);
-			//session.saveOrUpdate(t);
+			// session.saveOrUpdate(t);
 			tx.commit();
 		} catch (HibernateException he) {
 			if (tx != null)

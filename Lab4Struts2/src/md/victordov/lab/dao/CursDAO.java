@@ -3,7 +3,6 @@ package md.victordov.lab.dao;
 import java.io.Serializable;
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -12,7 +11,6 @@ import org.hibernate.Transaction;
 import md.victordov.lab.common.HibernateUtil;
 import md.victordov.lab.common.exception.ErrorList;
 import md.victordov.lab.common.exception.MyDaoException;
-import md.victordov.lab.vo.Curs;
 import md.victordov.lab.vo.Curs;
 
 public class CursDAO implements Serializable, GenericDAO<Curs> {
@@ -32,6 +30,7 @@ public class CursDAO implements Serializable, GenericDAO<Curs> {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Curs> retrieve() throws MyDaoException {
 		session = HibernateUtil.getSessionFactory().openSession();
@@ -131,6 +130,7 @@ public class CursDAO implements Serializable, GenericDAO<Curs> {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Curs> retrieve(int start, int maxRecords) throws MyDaoException {
 		session = HibernateUtil.getSessionFactory().openSession();

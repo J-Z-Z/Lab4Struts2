@@ -49,11 +49,12 @@
 					<td>Nume Curs</td>
 					<td>Universitate ID</td>
 					<td>Profesor ID</td>
+					<td>Edit Curs</td>
+					<td>Delete Curs</td>
 				</tr>
 			</thead>
-			<s:action name="listAllCurs" />
+			<s:action name="listAllCursModel" />
 			<s:iterator value="cursModelList">
-
 				<tr>
 					<td><s:property value="cId" /></td>
 					<td><s:property value="numeCurs" /></td>

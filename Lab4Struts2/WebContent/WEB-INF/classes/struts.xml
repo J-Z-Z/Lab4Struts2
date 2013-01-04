@@ -5,6 +5,17 @@
 <struts>
 
 	<constant name="struts.devMode" value="true" />
+	
+	<package name="default" extends="struts-default">
+		<result-types>
+			<result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult" />
+		</result-types>
+		<action name="*Link" method="{1}" class="com.vaannila.action.LinkAction">
+			<result name="welcome" type="tiles">welcome</result>
+			<result name="friends" type="tiles">friends</result>
+			<result name="office" type="tiles">office</result>
+		</action>
+	</package>
 
 	<!-- Packet Student -->
 	<package name="Student" extends="struts-default" namespace="/Student">
@@ -33,8 +44,11 @@
 
 		<action name="delete*Model" method="delete{1}Model"
 			class="md.victordov.lab.actionStruts.{1}ModelAction">
-			<result name="success" type="redirect">/{1}/listAll{1}Model.action</result>
+			<result name="success" type="redirect">/{1}/listAll{1}Model.action
+			</result>
 		</action>
+		
+		
 	</package>
 
 
@@ -65,7 +79,8 @@
 
 		<action name="delete*Model" method="delete{1}Model"
 			class="md.victordov.lab.actionStruts.{1}ModelAction">
-			<result name="success" type="redirect">/{1}/listAll{1}Model.action</result>
+			<result name="success" type="redirect">/{1}/listAll{1}Model.action
+			</result>
 		</action>
 	</package>
 
@@ -97,13 +112,15 @@
 
 		<action name="delete*Model" method="delete{1}Model"
 			class="md.victordov.lab.actionStruts.{1}ModelAction">
-			<result name="success" type="redirect">/{1}/listAll{1}Model.action</result>
+			<result name="success" type="redirect">/{1}/listAll{1}Model.action
+			</result>
 		</action>
 	</package>
 
 	<!-- Packet Universitate -->
-	<package name="Universitate" extends="struts-default" namespace="/Universitate" >
-	
+	<package name="Universitate" extends="struts-default"
+		namespace="/Universitate">
+
 		<action name="listAll*Model" class="md.victordov.lab.actionStruts.{1}ModelAction"
 			method="listAll{1}Model">
 			<result name="success">/{1}/{1}.jsp</result>
@@ -128,7 +145,8 @@
 
 		<action name="delete*Model" method="delete{1}Model"
 			class="md.victordov.lab.actionStruts.{1}ModelAction">
-			<result name="success" type="redirect">/{1}/listAll{1}Model.action</result>
+			<result name="success" type="redirect">/{1}/listAll{1}Model.action
+			</result>
 		</action>
 	</package>
 
@@ -159,7 +177,8 @@
 
 		<action name="delete*Model" method="delete{1}Model"
 			class="md.victordov.lab.actionStruts.{1}ModelAction">
-			<result name="success" type="redirect">/{1}/listAll{1}Model.action</result>
+			<result name="success" type="redirect">/{1}/listAll{1}Model.action
+			</result>
 		</action>
 	</package>
 </struts>

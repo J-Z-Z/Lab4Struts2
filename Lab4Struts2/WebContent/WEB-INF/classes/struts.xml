@@ -5,181 +5,68 @@
 <struts>
 
 	<constant name="struts.devMode" value="true" />
-	
-	<package name="default" extends="struts-default">
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<!-- Before constant added -->
+
+	<constant name="struts.enable.SlashesInActionNames" value="true" />
+	<constant name="struts.mapper.alwaysSelectFullNamespace"
+		value="false" />
+	<constant name="struts.action.extension" value="html" />
+	<!-- End of constants add -->
+
+
+	<package name="default" extends="struts-default" namespace="/">
+
+
 		<result-types>
-			<result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult" />
+			<result-type name="tiles"
+				class="org.apache.struts2.views.tiles.TilesResult" />
 		</result-types>
-		<action name="*Link" method="{1}" class="com.vaannila.action.LinkAction">
-			<result name="welcome" type="tiles">welcome</result>
-			<result name="friends" type="tiles">friends</result>
-			<result name="office" type="tiles">office</result>
-		</action>
-	</package>
 
-	<!-- Packet Student -->
-	<package name="Student" extends="struts-default" namespace="/Student">
+		<global-results>
+			<result name="error">/jsp/Error.jsp</result>
+			<result name="sqlError">/jsp/SQLError.jsp</result>
+			<result name="daoException">/jsp/DaoEx.jsp</result>
+		</global-results>
 
-		<action name="listAll*Model" class="md.victordov.lab.actionStruts.{1}ModelAction"
+
+		<global-exception-mappings>
+			<exception-mapping exception="java.sql.SQLException"
+				result="sqlError" />
+			<exception-mapping exception="java.lang.Exception"
+				result="error" />
+				<exception-mapping exception="md.victordov.lab.common.exception.MyDaoException"
+				result="daoException" />
+		</global-exception-mappings>
+
+
+		<action name="*_list" class="md.victordov.lab.actionStruts.{1}ModelAction"
 			method="listAll{1}Model">
-			<result name="success">/{1}/{1}.jsp</result>
+
+			<result name="success" type="tiles">{1}</result>
 		</action>
 
-		<action name="add*Model" class="md.victordov.lab.actionStruts.{1}ModelAction"
+		<action name="*_add" class="md.victordov.lab.actionStruts.{1}ModelAction"
 			method="add{1}Model">
-			<result name="success" type="redirect">/{1}/listAll{1}Model.action
-			</result>
+			<result name="success" type="redirect">{1}_list.html</result>
 		</action>
 
-		<action name="edit*Model" method="edit{1}Model"
+		<action name="*_edit" method="edit{1}Model"
 			class="md.victordov.lab.actionStruts.{1}ModelAction">
-			<result name="success">/{1}/{1}.jsp</result>
+			<result name="success" type="tiles">{1}</result>
 		</action>
 
-		<action name="update*Model" class="md.victordov.lab.actionStruts.{1}ModelAction"
+		<action name="*_update" class="md.victordov.lab.actionStruts.{1}ModelAction"
 			method="update{1}Model">
-			<result name="success" type="redirect">/{1}/listAll{1}Model.action
-			</result>
+			<result name="success" type="redirect">{1}_list.html</result>
 		</action>
 
-		<action name="delete*Model" method="delete{1}Model"
+		<action name="*_delete" method="delete{1}Model"
 			class="md.victordov.lab.actionStruts.{1}ModelAction">
-			<result name="success" type="redirect">/{1}/listAll{1}Model.action
-			</result>
-		</action>
-		
-		
-	</package>
-
-
-	<!-- Packet Curs -->
-	<package name="Curs" extends="struts-default" namespace="/Curs">
-
-		<action name="listAll*Model" class="md.victordov.lab.actionStruts.{1}ModelAction"
-			method="listAll{1}Model">
-			<result name="success">/{1}/{1}.jsp</result>
+			<result name="success" type="redirect">{1}_list.html</result>
 		</action>
 
-		<action name="add*Model" class="md.victordov.lab.actionStruts.{1}ModelAction"
-			method="add{1}Model">
-			<result name="success" type="redirect">/{1}/listAll{1}Model.action
-			</result>
-		</action>
 
-		<action name="edit*Model" method="edit{1}Model"
-			class="md.victordov.lab.actionStruts.{1}ModelAction">
-			<result name="success">/{1}/{1}.jsp</result>
-		</action>
-
-		<action name="update*Model" class="md.victordov.lab.actionStruts.{1}ModelAction"
-			method="update{1}Model">
-			<result name="success" type="redirect">/{1}/listAll{1}Model.action
-			</result>
-		</action>
-
-		<action name="delete*Model" method="delete{1}Model"
-			class="md.victordov.lab.actionStruts.{1}ModelAction">
-			<result name="success" type="redirect">/{1}/listAll{1}Model.action
-			</result>
-		</action>
-	</package>
-
-
-	<!-- Packet Profesor -->
-	<package name="Profesor" extends="struts-default" namespace="/Profesor">
-
-		<action name="listAll*Model" class="md.victordov.lab.actionStruts.{1}ModelAction"
-			method="listAll{1}Model">
-			<result name="success">/{1}/{1}.jsp</result>
-		</action>
-
-		<action name="add*Model" class="md.victordov.lab.actionStruts.{1}ModelAction"
-			method="add{1}Model">
-			<result name="success" type="redirect">/{1}/listAll{1}Model.action
-			</result>
-		</action>
-
-		<action name="edit*Model" method="edit{1}Model"
-			class="md.victordov.lab.actionStruts.{1}ModelAction">
-			<result name="success">/{1}/{1}.jsp</result>
-		</action>
-
-		<action name="update*Model" class="md.victordov.lab.actionStruts.{1}ModelAction"
-			method="update{1}Model">
-			<result name="success" type="redirect">/{1}/listAll{1}Model.action
-			</result>
-		</action>
-
-		<action name="delete*Model" method="delete{1}Model"
-			class="md.victordov.lab.actionStruts.{1}ModelAction">
-			<result name="success" type="redirect">/{1}/listAll{1}Model.action
-			</result>
-		</action>
-	</package>
-
-	<!-- Packet Universitate -->
-	<package name="Universitate" extends="struts-default"
-		namespace="/Universitate">
-
-		<action name="listAll*Model" class="md.victordov.lab.actionStruts.{1}ModelAction"
-			method="listAll{1}Model">
-			<result name="success">/{1}/{1}.jsp</result>
-		</action>
-
-		<action name="add*Model" class="md.victordov.lab.actionStruts.{1}ModelAction"
-			method="add{1}Model">
-			<result name="success" type="redirect">/{1}/listAll{1}Model.action
-			</result>
-		</action>
-
-		<action name="edit*Model" method="edit{1}Model"
-			class="md.victordov.lab.actionStruts.{1}ModelAction">
-			<result name="success">/{1}/{1}.jsp</result>
-		</action>
-
-		<action name="update*Model" class="md.victordov.lab.actionStruts.{1}ModelAction"
-			method="update{1}Model">
-			<result name="success" type="redirect">/{1}/listAll{1}Model.action
-			</result>
-		</action>
-
-		<action name="delete*Model" method="delete{1}Model"
-			class="md.victordov.lab.actionStruts.{1}ModelAction">
-			<result name="success" type="redirect">/{1}/listAll{1}Model.action
-			</result>
-		</action>
-	</package>
-
-	<!-- Packet StudCurs -->
-	<package name="StudCurs" extends="struts-default" namespace="/StudCurs">
-
-		<action name="listAll*Model" class="md.victordov.lab.actionStruts.{1}ModelAction"
-			method="listAll{1}Model">
-			<result name="success">/{1}/{1}.jsp</result>
-		</action>
-
-		<action name="add*Model" class="md.victordov.lab.actionStruts.{1}ModelAction"
-			method="add{1}Model">
-			<result name="success" type="redirect">/{1}/listAll{1}Model.action
-			</result>
-		</action>
-
-		<action name="edit*Model" method="edit{1}Model"
-			class="md.victordov.lab.actionStruts.{1}ModelAction">
-			<result name="success">/{1}/{1}.jsp</result>
-		</action>
-
-		<action name="update*Model" class="md.victordov.lab.actionStruts.{1}ModelAction"
-			method="update{1}Model">
-			<result name="success" type="redirect">/{1}/listAll{1}Model.action
-			</result>
-		</action>
-
-		<action name="delete*Model" method="delete{1}Model"
-			class="md.victordov.lab.actionStruts.{1}ModelAction">
-			<result name="success" type="redirect">/{1}/listAll{1}Model.action
-			</result>
-		</action>
 	</package>
 </struts>
 

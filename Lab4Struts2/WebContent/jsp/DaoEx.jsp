@@ -8,8 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h3>Daca vedeti aceasta pagina atunci a avut loc o eroare care nu
-		este de tipul SQL</h3>
+	<h3>Dao Exception Occurred</h3>
 
 	<s:property value="exception.message" />
 	<s:property value="exceptionStack" />

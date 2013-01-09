@@ -14,19 +14,29 @@
 		<put-attribute name="footer" value="/footer.jsp" />
 	</definition>
 
-	<definition name="welcome" extends="baseLayout">
-		<put-attribute name="title" value="Welcome" />
-		<put-attribute name="body" value="/Curs/Curs.jsp" />
+	<definition name="Curs" extends="baseLayout">
+		<put-attribute name="title" value="Curs " />
+		<put-attribute name="body" value="/Curs.jsp" />
 	</definition>
 
-	<definition name="friends" extends="baseLayout">
-		<put-attribute name="title" value="Friends" />
-		<put-attribute name="body" value="/friends.jsp" />
+	<definition name="Student" extends="baseLayout">
+		<put-attribute name="title" value="Student " />
+		<put-attribute name="body" value="/Student.jsp" />
 	</definition>
 
-	<definition name="office" extends="baseLayout">
-		<put-attribute name="title" value="Office" />
-		<put-attribute name="body" value="/office.jsp" />
+	<definition name="Profesor" extends="baseLayout">
+		<put-attribute name="title" value="Profesor " />
+		<put-attribute name="body" value="/Profesor.jsp" />
+	</definition>
+
+	<definition name="StudCurs" extends="baseLayout">
+		<put-attribute name="title" value="StudCurs " />
+		<put-attribute name="body" value="/StudCurs.jsp" />
+	</definition>
+
+	<definition name="Universitate" extends="baseLayout">
+		<put-attribute name="title" value="Universitate " />
+		<put-attribute name="body" value="/Universitate.jsp" />
 	</definition>
 
 </tiles-definitions>

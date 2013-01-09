@@ -55,8 +55,9 @@ public class CursModelAction extends ActionSupport implements
 			genService.create(cursModel);
 			this.cursModelList = genService.retrieve();
 		} catch (MyDaoException e) {
-			e.printStackTrace();
+			
 			System.out.println("Eroare in add CursModel");
+			return "daoException";
 		}
 
 		return SUCCESS;

@@ -3,7 +3,6 @@ package md.victordov.lab.dao;
 import java.io.Serializable;
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -27,6 +26,7 @@ public class StudCursDAO implements Serializable, GenericDAO<StudCurs> {
 
 	private Session session;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<StudCurs> retrieve() throws MyDaoException {
 		session = HibernateUtil.getSessionFactory().openSession();
@@ -46,6 +46,7 @@ public class StudCursDAO implements Serializable, GenericDAO<StudCurs> {
 		return list;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<StudCurs> retrieve(int start, int maxRecords)
 			throws MyDaoException {

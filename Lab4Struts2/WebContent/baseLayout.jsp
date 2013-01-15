@@ -1,4 +1,5 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+
 <!DOCTYPE html>
 
 <html>
@@ -8,6 +9,7 @@
 <style type="text/css">
 @import url(css/style.css);
 </style>
+
 </head>
 <body>
 	<tiles:insertAttribute name="header" />

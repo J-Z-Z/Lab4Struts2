@@ -26,6 +26,7 @@ public class StudentDAO implements Serializable, GenericDAO<Student> {
 
 	private Session session;
 
+	@SuppressWarnings("unchecked")
 	public List<Student> retrieve() throws MyDaoException {
 		session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
@@ -125,6 +126,7 @@ public class StudentDAO implements Serializable, GenericDAO<Student> {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Student> retrieve(int start, int maxRecords)
 			throws MyDaoException {

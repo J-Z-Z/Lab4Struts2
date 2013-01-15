@@ -29,70 +29,50 @@ public class ProfesorModelAction extends ActionSupport implements
 		this.genService = new ProfesorService();
 	}
 
-	public String execute() {
-		try {
-			this.profesorModelList = genService.retrieve();
-			// this.profesorModel = genService.retrieve(2);
+	public String execute() throws MyDaoException {
 
-		} catch (MyDaoException e) {
-			e.printStackTrace();
-		}
+		this.profesorModelList = genService.retrieve();
 		return SUCCESS;
 	}
 
-	public String listAllProfesorModel() {
-		try {
-			this.profesorModelList = genService.retrieve();
+	public String listAllProfesorModel() throws MyDaoException {
 
-		} catch (MyDaoException e) {
-			e.printStackTrace();
-		}
+		this.profesorModelList = genService.retrieve();
+
 		return SUCCESS;
 	}
 
-	public String addProfesorModel() {
-		try {
-			genService.create(profesorModel);
-			this.profesorModelList = genService.retrieve();
-		} catch (MyDaoException e) {
-			System.out.println("Eroare in add ProfesorModel");
-		}
+	public String addProfesorModel() throws MyDaoException {
+
+		genService.create(profesorModel);
+		this.profesorModelList = genService.retrieve();
 
 		return SUCCESS;
 
 	}
 
-	public String deleteProfesorModel() {
+	public String deleteProfesorModel() throws MyDaoException {
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
-		try {
-			genService.delete(Integer.parseInt(request.getParameter("id")));
-		} catch (NumberFormatException e) {
-		} catch (MyDaoException e) {
-		}
+
+		genService.delete(Integer.parseInt(request.getParameter("id")));
 
 		return SUCCESS;
 	}
 
-	public String editProfesorModel() {
+	public String editProfesorModel() throws MyDaoException {
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
-		try {
-			profesorModel = genService.retrieve(Integer.parseInt(request
-					.getParameter("id")));
-		} catch (NumberFormatException e) {
-		} catch (MyDaoException e) {
-		}
+
+		profesorModel = genService.retrieve(Integer.parseInt(request
+				.getParameter("id")));
 		return SUCCESS;
 	}
 
-	public String updateProfesorModel() {
-		try {
-			genService.update(this.profesorModel);
-			this.profesorModelList = genService.retrieve();
-		} catch (MyDaoException e) {
-			System.out.println("Eroare in Update ProfesorModel");
-		}
+	public String updateProfesorModel() throws MyDaoException {
+
+		genService.update(this.profesorModel);
+		this.profesorModelList = genService.retrieve();
 
 		return SUCCESS;
 	}

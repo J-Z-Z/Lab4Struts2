@@ -4,12 +4,12 @@
 
 <s:if test="%{#parameters.id != null}">
 	<h1>Edit Universitate</h1>
-	<s:form action="Universitate_update" method="post">
-		<s:hidden name="universitate.UId" />
-		<s:textfield name="universitate.numeUniver"
+	<s:form action="Universitate_update" method="post" validate="true">
+		<s:hidden name="universitateModel.UId" />
+		<s:textfield name="universitateModel.numeUniver"
 			label="Denumirea Universitatii" />
-		<s:textfield name="universitate.adresa" label="Adresa Universitatii" />
-		<s:textfield name="universitate.telefon"
+		<s:textfield name="universitateModel.adresa" label="Adresa Universitatii" />
+		<s:textfield name="universitateModel.telefon"
 			label="Telefonul Universitatii" />
 		<s:submit />
 
@@ -17,7 +17,7 @@
 </s:if>
 <s:else>
 	<h1>Insert Universitate</h1>
-	<s:form action="Universitate_add" method="post">
+	<s:form action="Universitate_add" method="post" validate="true">
 		<s:hidden name="universitateModel.UId" />
 		<s:textfield name="universitateModel.numeUniver"
 			label="Denumirea Universitatii" />
@@ -64,6 +64,3 @@
 	</table>
 
 </s:if>
-<s:else>
-	<p>Nu sunt date</p>
-</s:else>

@@ -28,6 +28,8 @@ h1 {
 a {
 	font-size: large;
 	text-decoration: none;
+	
+	
 }
 
 a:HOVER {
@@ -36,7 +38,8 @@ a:HOVER {
 	font-style: normal;
 }
 
-a:VISITED {
+a:ACTIVE {
+	color:navy;
 	
 }
 
@@ -77,6 +80,11 @@ body {
 #nav a {
 	display: inline-block;
 	padding: 10px;
+	color:white;
+}
+
+#nav a:HOVER{
+	color: lime;
 }
 
 #footer {

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Unknown Error</title>
 </head>
 <body>
 	<h3>Daca vedeti aceasta pagina atunci a avut loc o eroare care nu

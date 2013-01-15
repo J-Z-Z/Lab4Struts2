@@ -1,3 +1,17 @@
-<!DOCTYPE validators PUBLIC
-"-//OpenSymphony Group//XWork Validator 1.0.2//EN"
-"http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN"
+	"http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+
+<validators>
+	<field name="universitateModel">
+
+		<field-validator type="visitor">
+
+			<param name="context">universitateContext</param>
+
+			<param name="appendPrefix">true</param>
+
+			<message>Universitate:</message>
+		</field-validator>
+	</field>
+</validators>

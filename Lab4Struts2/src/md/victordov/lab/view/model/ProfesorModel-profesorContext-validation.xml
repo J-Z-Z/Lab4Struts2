@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="GBK"?>
+
+<!DOCTYPE validators PUBLIC 
+  		"-//OpenSymphony Group//XWork Validator 1.0//EN" 
+  		"http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+
+<validators>
+
+	<field name="nume">
+		<field-validator type="requiredstring">
+			<param name="trim">true</param>
+			<message>Numele este necesar</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[([a-zA-Z]{4,25})]]></param>
+
+			<param name="caseSensitive">true</param>
+			<message><![CDATA[ Numele trebuie sa fie intre 4 si 25 litere]]></message>
+		</field-validator>
+	</field>
+
+	<field name="prenume">
+		<field-validator type="requiredstring">
+			<param name="trim">true</param>
+			<message>Prenumele este necesar</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[([a-zA-Z]{4,25})]]></param>
+
+			<param name="caseSensitive">true</param>
+			<message><![CDATA[ Prenumele trebuie sa fie intre 4 si 25 litere]]></message>
+		</field-validator>
+	</field>
+
+	<field name="adresa">
+		<field-validator type="requiredstring">
+			<param name="trim">true</param>
+			<message>Adresa Obligatorie</message>
+		</field-validator>
+
+	</field>
+
+
+
+</validators>  		

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="GBK"?>
+
+<!DOCTYPE validators PUBLIC 
+  		"-//OpenSymphony Group//XWork Validator 1.0//EN" 
+  		"http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+
+<validators>
+
+	<field name="numeCurs">
+		<field-validator type="requiredstring">
+			<param name="trim">true</param>
+			<message>Numele este necesar</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[([\w]{1,28})([+]{2})?]]></param>
+
+			<param name="caseSensitive">true</param>
+			<message><![CDATA[ Numele trebuie sa fie intre 4 si 25 litere]]></message>
+		</field-validator>
+	</field>
+
+
+	<field name="uId">
+		<field-validator type="int">
+			<param name="min">1</param>
+			<param name="max">20</param>
+			<message>Id Universitate este necesar</message>
+		</field-validator>
+
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[[1-9][0-9]*]]></param>
+			<param name="caseSensitive">true</param>
+			<message><![CDATA[ ID-ul universitatii 1 sau 2 cifre]]></message>
+		</field-validator>
+	</field>
+
+	<field name="pId">
+		<field-validator type="int">
+			<param name="min">1</param>
+			<param name="max">20</param>
+			<message>Id Profesor este necesar</message>
+		</field-validator>
+
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[(\b([1-9][0-9]*)\b]]></param>
+			<param name="caseSensitive">true</param>
+			<message><![CDATA[ ID-ul profesorului 1 sau 2 cifre]]></message>
+		</field-validator>
+	</field>
+
+</validators>  		

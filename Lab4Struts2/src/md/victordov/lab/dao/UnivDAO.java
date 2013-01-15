@@ -29,6 +29,7 @@ public class UnivDAO implements GenericDAO<Universitate>, Serializable {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Universitate> retrieve() throws MyDaoException {
 
 		session = HibernateUtil.getSessionFactory().openSession();
@@ -128,6 +129,7 @@ public class UnivDAO implements GenericDAO<Universitate>, Serializable {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Universitate> retrieve(int start, int maxRecords)
 			throws MyDaoException {

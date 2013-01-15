@@ -72,7 +72,7 @@ public class CursService implements Serializable,
 
 	@Override
 	public void delete(int id) throws MyDaoException {
-		System.out.println("This is what I have received: "+id);
+		System.out.println("This is what I have received: " + id);
 		GenericDAO<Curs> genDao = new CursDAO();
 		genDao.delete(id);
 

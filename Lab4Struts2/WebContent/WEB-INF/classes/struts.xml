@@ -23,6 +23,11 @@
 				class="org.apache.struts2.views.tiles.TilesResult" />
 		</result-types>
 
+		<interceptors>
+			<interceptor name="validation"
+				class="org.apache.struts2.interceptor.validation.AnnotationValidationInterceptor" />
+		</interceptors>
+
 		<global-results>
 			<result name="error">/jsp/Error.jsp</result>
 			<result name="sqlError">/jsp/SQLError.jsp</result>
@@ -35,35 +40,45 @@
 				result="sqlError" />
 			<exception-mapping exception="java.lang.Exception"
 				result="error" />
-				<exception-mapping exception="md.victordov.lab.common.exception.MyDaoException"
+			<exception-mapping exception="md.victordov.lab.common.exception.MyDaoException"
 				result="daoException" />
 		</global-exception-mappings>
 
 
 		<action name="*_list" class="md.victordov.lab.actionStruts.{1}ModelAction"
 			method="listAll{1}Model">
-
 			<result name="success" type="tiles">{1}</result>
+			
 		</action>
 
 		<action name="*_add" class="md.victordov.lab.actionStruts.{1}ModelAction"
 			method="add{1}Model">
 			<result name="success" type="redirect">{1}_list.html</result>
+			<result name="input" type="tiles">{1}</result>
+			
 		</action>
 
 		<action name="*_edit" method="edit{1}Model"
 			class="md.victordov.lab.actionStruts.{1}ModelAction">
 			<result name="success" type="tiles">{1}</result>
+			<result name="input" type="tiles">{1}</result>
 		</action>
 
 		<action name="*_update" class="md.victordov.lab.actionStruts.{1}ModelAction"
 			method="update{1}Model">
 			<result name="success" type="redirect">{1}_list.html</result>
+			<result name="input" type="tiles">{1}</result>
 		</action>
 
 		<action name="*_delete" method="delete{1}Model"
 			class="md.victordov.lab.actionStruts.{1}ModelAction">
 			<result name="success" type="redirect">{1}_list.html</result>
+			<result name="input" type="tiles">{1}</result>
+		</action>
+		
+		<action name="index">
+		<result >index.html</result>
+		
 		</action>
 
 

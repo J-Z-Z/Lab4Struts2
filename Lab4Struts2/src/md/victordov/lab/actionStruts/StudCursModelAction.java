@@ -30,69 +30,51 @@ public class StudCursModelAction extends ActionSupport implements
 		this.genService = new StudCursService();
 	}
 
-	public String execute() {
-		try {
-			this.studCursModelList = genService.retrieve();
+	public String execute() throws MyDaoException {
 
-		} catch (MyDaoException e) {
-			e.printStackTrace();
-		}
+		this.studCursModelList = genService.retrieve();
+
 		return SUCCESS;
 	}
 
-	public String listAllStudCursModel() {
-		try {
-			this.studCursModelList = genService.retrieve();
+	public String listAllStudCursModel() throws MyDaoException {
 
-		} catch (MyDaoException e) {
-			e.printStackTrace();
-		}
+		this.studCursModelList = genService.retrieve();
 		return SUCCESS;
 	}
 
-	public String addStudCursModel() {
-		try {
-			genService.create(studCursModel);
-			this.studCursModelList = genService.retrieve();
-		} catch (MyDaoException e) {
-			System.out.println("Eroare in add StudCursModel");
-		}
+	public String addStudCursModel() throws MyDaoException {
+
+		genService.create(studCursModel);
+		this.studCursModelList = genService.retrieve();
 
 		return SUCCESS;
 
 	}
 
-	public String deleteStudCursModel() {
+	public String deleteStudCursModel() throws MyDaoException {
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
-		try {
-			genService.delete(Integer.parseInt(request.getParameter("id")));
-		} catch (NumberFormatException e) {
-		} catch (MyDaoException e) {
-		}
+
+		genService.delete(Integer.parseInt(request.getParameter("id")));
 
 		return SUCCESS;
 	}
 
-	public String editStudCursModel() {
+	public String editStudCursModel() throws MyDaoException {
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
-		try {
-			studCursModel = genService.retrieve(Integer.parseInt(request
-					.getParameter("id")));
-		} catch (NumberFormatException e) {
-		} catch (MyDaoException e) {
-		}
+
+		studCursModel = genService.retrieve(Integer.parseInt(request
+				.getParameter("id")));
+
 		return SUCCESS;
 	}
 
-	public String updateStudCursModel() {
-		try {
-			genService.update(this.studCursModel);
-			this.studCursModelList = genService.retrieve();
-		} catch (MyDaoException e) {
-			System.out.println("Eroare in Update StudCursModel");
-		}
+	public String updateStudCursModel() throws MyDaoException {
+
+		genService.update(this.studCursModel);
+		this.studCursModelList = genService.retrieve();
 
 		return SUCCESS;
 	}

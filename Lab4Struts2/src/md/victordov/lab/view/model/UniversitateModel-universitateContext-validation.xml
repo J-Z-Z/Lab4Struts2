@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="GBK"?>
+
+<!DOCTYPE validators PUBLIC 
+  		"-//OpenSymphony Group//XWork Validator 1.0//EN" 
+  		"http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+
+<validators>
+
+	<field name="numeUniver">
+		<field-validator type="requiredstring">
+			<param name="trim">true</param>
+			<message>Denumirea este necesara</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[([a-zA-Z]{2,25})]]></param>
+
+			<param name="caseSensitive">true</param>
+			<message><![CDATA[ Denumirea trebuie sa fie intre 2 si 25 litere]]></message>
+		</field-validator>
+	</field>
+
+	<field name="adresa">
+		<field-validator type="requiredstring">
+			<param name="trim">true</param>
+			<message>Adresa este necesara</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[([a-zA-Z\.,]{4,30})]]></param>
+
+			<param name="caseSensitive">true</param>
+			<message><![CDATA[ Adresa trebuie sa fie intre 4 si 30 simboluri]]></message>
+		</field-validator>
+	</field>
+
+
+
+	<field name="telefon">
+		<field-validator type="requiredstring">
+			<param name="trim">true</param>
+			<message>Telefonul este necesar</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[(\(\+[\d]{5}\)\s[\d]{3}-[\d]{3})]]></param>
+
+			<param name="caseSensitive">true</param>
+			<message><![CDATA[ Telefon exemplu: (+37322) 123-456 ]]></message>
+		</field-validator>
+	</field>
+
+</validators>  		

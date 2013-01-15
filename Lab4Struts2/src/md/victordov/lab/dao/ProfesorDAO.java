@@ -26,6 +26,7 @@ public class ProfesorDAO implements Serializable, GenericDAO<Profesor> {
 
 	private Session session;
 
+	@SuppressWarnings("unchecked")
 	public List<Profesor> retrieve() throws MyDaoException {
 		session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
@@ -119,6 +120,7 @@ public class ProfesorDAO implements Serializable, GenericDAO<Profesor> {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Profesor> retrieve(int start, int maxRecords)
 			throws MyDaoException {

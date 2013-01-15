@@ -4,7 +4,7 @@
 
 <s:if test="%{#parameters.id != null}">
 	<h1>Edit ProfesorModel</h1>
-	<s:form action="Profesor_update" method="post">
+	<s:form action="Profesor_update" method="post" validate="true">
 		<s:hidden name="profesorModel.PId" />
 		<s:textfield name="profesorModel.nume" label="Numele Profesorlui" />
 		<s:textfield name="profesorModel.prenume"
@@ -16,7 +16,7 @@
 </s:if>
 <s:else>
 	<h1>Insert ProfesorModel</h1>
-	<s:form action="Profesor_add" method="post">
+	<s:form action="Profesor_add" method="post" validate="true">
 		<s:hidden name="PId" />
 		<s:textfield name="profesorModel.nume" label="Numele Profesorlui" />
 		<s:textfield name="profesorModel.prenume" label="Prenumele Profesorlui" />
@@ -56,6 +56,3 @@
 		</s:iterator>
 	</table>
 </s:if>
-<s:else>
-	<p>Nu sunt date</p>
-</s:else>

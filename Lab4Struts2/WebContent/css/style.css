@@ -17,6 +17,10 @@ table {
 	margin-right: auto;
 	margin-left: auto;
 }
+th{
+	border-style: solid;
+	border-right-width: 1px;
+}
 
 h1 {
 	margin-left: auto;
@@ -28,8 +32,6 @@ h1 {
 a {
 	font-size: large;
 	text-decoration: none;
-	
-	
 }
 
 a:HOVER {
@@ -39,8 +41,7 @@ a:HOVER {
 }
 
 a:ACTIVE {
-	color:navy;
-	
+	color: navy;
 }
 
 caption {
@@ -57,6 +58,10 @@ body {
 #container {
 	min-height: 100%;
 	position: relative;
+}
+
+#content {
+	padding-bottom:100px; /* Height of the footer element */
 }
 
 #header {
@@ -80,10 +85,10 @@ body {
 #nav a {
 	display: inline-block;
 	padding: 10px;
-	color:white;
+	color: white;
 }
 
-#nav a:HOVER{
+#nav a:HOVER {
 	color: lime;
 }
 
@@ -100,6 +105,7 @@ body {
 	height: 60px;
 	background: gray;
 }
+
 
 #pageCss {
 	font-style: normal;
@@ -123,4 +129,8 @@ body {
 	padding: 80px;
 	border: 1px solid #ccc;
 	background-color: #eff0e2;
+}
+
+.errorMessage {
+	color: lime;
 }

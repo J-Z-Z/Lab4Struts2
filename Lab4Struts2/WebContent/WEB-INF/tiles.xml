@@ -39,4 +39,14 @@
 		<put-attribute name="body" value="/Universitate.jsp" />
 	</definition>
 
+	<definition name="start" extends="baseLayout">
+		<put-attribute name="title" value="Home" />
+		<put-attribute name="body" value="/index.jsp" />
+	</definition>
+
+	<definition name="lng" extends="baseLayout">
+		<put-attribute name="title" value="Lang Select" />
+		<put-attribute name="body" value="/lang.jsp" />
+	</definition>
+
 </tiles-definitions>

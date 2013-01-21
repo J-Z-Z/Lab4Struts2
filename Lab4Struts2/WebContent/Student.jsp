@@ -7,27 +7,25 @@
 	<s:form action="Student_update" method="post" validate="true">
 
 		<s:hidden name="studentModel.SId" />
-		<s:textfield name="studentModel.nume" label="Numele Studentului" />
-		<s:textfield name="studentModel.prenume"
-			label="Prenuumele Studentului" />
-		<s:textfield name="studentModel.grupa" label="Grupa Studentului" />
-		<s:textfield name="studentModel.email" label="Email-ul Studentului" />
-		<s:textfield name="studentModel.telFix" label="Telefonul Studentului" />
+		<s:textfield name="studentModel.nume" key="global.lname" />
+		<s:textfield name="studentModel.prenume" key="global.name" />
+		<s:textfield name="studentModel.grupa" key="global.group" />
+		<s:textfield name="studentModel.email" key="global.email" />
+		<s:textfield name="studentModel.telFix" key="global.phone" />
 		<s:submit />
 
 	</s:form>
 </s:if>
 <s:else>
-	<h1>Insert StudentModel</h1>
-	<s:fielderror/>
+	<h1>Insert Student</h1>
+	<s:fielderror />
 	<s:form action="Student_add" method="post" validate="true">
 		<s:hidden name="studentModel.SId" />
-		<s:textfield name="studentModel.nume" label="Numele Studentului" />
-		<s:textfield name="studentModel.prenume"
-			label="Prenuumele Studentului" />
-		<s:textfield name="studentModel.grupa" label="Grupa Studentului" />
-		<s:textfield name="studentModel.email" label="Email-ul Studentului" />
-		<s:textfield name="studentModel.telFix" label="Telefonul Studentului" />
+		<s:textfield name="studentModel.nume" key="global.lname" />
+		<s:textfield name="studentModel.prenume" key="global.name" />
+		<s:textfield name="studentModel.grupa" key="global.group" />
+		<s:textfield name="studentModel.email" key="global.email" />
+		<s:textfield name="studentModel.telFix" key="global.phone" />
 		<s:submit />
 
 	</s:form>
@@ -35,20 +33,20 @@
 
 
 <s:if test="studentModelList.size()>0">
-	<h1>StudentModels List</h1>
+	<h1>Student List</h1>
 
 	<table id="data">
-		<caption>StudentModel</caption>
+		<caption>Student</caption>
 		<thead>
 			<tr>
-				<th>ID</th>
-				<th>Nume</th>
-				<th>Prenume</th>
-				<th>Grupa</th>
-				<th>Email</th>
-				<th>Telefon</th>
-				<th>Edit</th>
-				<th>Delete</th>
+				<th><s:property value="getText('global.studentId')" /></th>
+				<th><s:property value="getText('global.lname')" /></th>
+				<th><s:property value="getText('global.name')" /></th>
+				<th><s:property value="getText('global.group')" /></th>
+				<th><s:property value="getText('global.email')" /></th>
+				<th><s:property value="getText('global.phone')" /></th>
+				<th><s:property value="getText('global.edit')" /></th>
+				<th><s:property value="getText('global.delete')" /></th>
 				<th align="center">Insert</th>
 			</tr>
 		</thead>
@@ -63,10 +61,14 @@
 				<td><s:property value="telFix" /></td>
 				<td><s:url id="editURL" action="Student_edit">
 						<s:param name="id" value="%{SId}"></s:param>
-					</s:url> <s:a href="%{editURL}">Edit</s:a></td>
+					</s:url> <s:a href="%{editURL}">
+						<s:property value="getText('global.edit')" />
+					</s:a></td>
 				<td><s:url id="deleteURL" action="Student_delete">
 						<s:param name="id" value="%{SId}"></s:param>
-					</s:url> <s:a href="%{deleteURL}">Delete</s:a></td>
+					</s:url> <s:a href="%{deleteURL}">
+						<s:property value="getText('global.delete')" />
+					</s:a></td>
 			</tr>
 		</s:iterator>
 	</table>

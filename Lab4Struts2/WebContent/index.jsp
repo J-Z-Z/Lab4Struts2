@@ -1,1 +1,6 @@
-<META HTTP-EQUIV="Refresh" CONTENT="0;URL=welcomeLink.action">
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<h1>
+	<s:property value="getText('global.welcome')" />
+</h1>

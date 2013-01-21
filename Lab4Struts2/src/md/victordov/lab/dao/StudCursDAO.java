@@ -53,8 +53,7 @@ public class StudCursDAO implements Serializable, GenericDAO<StudCurs> {
 		session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 
-		Query q = session
-				.createQuery("from StudCurs as sc ");
+		Query q = session.createQuery("from StudCurs as sc ");
 		int pageIndex = start;
 		int numberOfRecordsPerPage = maxRecords;
 		int s;
@@ -104,9 +103,15 @@ public class StudCursDAO implements Serializable, GenericDAO<StudCurs> {
 	@Override
 	public void create(StudCurs t) throws MyDaoException {
 		session = HibernateUtil.getSessionFactory().openSession();
+		StudCurs studCurs = new StudCurs(t);
+		
+		System.out.println("Nume curs" + t.getCurs().getNumeCurs());
+		System.out.println("Email student" + t.getStudent().getEmail());
+		
 		Transaction tx = session.beginTransaction();
-		session.save(t);
+		session.save(studCurs);
 		tx.commit();
+		session.close();
 
 	}
 

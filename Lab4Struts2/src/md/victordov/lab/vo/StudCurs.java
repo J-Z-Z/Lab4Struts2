@@ -19,8 +19,14 @@ import javax.persistence.Table;
 public class StudCurs implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	public StudCurs(){
+		
+	}
 
-	public StudCurs() {
+	public StudCurs(StudCurs t) {
+		this.curs = t.getCurs();
+		this.student = t.getStudent();
 	}
 
 	public StudCurs(Curs curs, Student student) {
@@ -59,10 +65,12 @@ public class StudCurs implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "c_id", nullable = false)
+	@Embedded
 	private Curs curs;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "s_id", nullable = false)
+	@Embedded
 	private Student student;
 
 }

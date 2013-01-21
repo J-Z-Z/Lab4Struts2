@@ -3,37 +3,46 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
 <s:if test="%{#parameters.id != null}">
-	<h1>Edit Students and Curses</h1>
+	<h1>
+		<s:property value="getText('global.edit')" />
+		Student-Curs
+	</h1>
 	<s:form action="StudCurs_update" method="post" validate="true">
 		<s:hidden name="studCursModel.scId" />
-		<s:textfield name="studCursModel.studentId" label="Student ID" />
-		<s:textfield name="studCursModel.cursId" label="Curs ID" />
+		<s:textfield name="studCursModel.studentId" key="global.studentId" />
+		<s:textfield name="studCursModel.cursId" key="global.cursId" />
 		<s:submit />
 
 	</s:form>
 </s:if>
 <s:else>
-	<h1>Insert StudCursModel</h1>
+	<h1>
+		<s:property value="getText('global.insertMessage')" />
+		Student-Curs
+	</h1>
 	<s:form action="StudCurs_add" method="post" validate="true">
 		<s:hidden name="studCursModel.scId" />
-		<s:textfield name="studCursModel.studentId" label="Student ID" />
-		<s:textfield name="studCursModel.cursId" label="Curs ID" />
+		<s:textfield name="studCursModel.studentId" key="global.studentId"
+			required="true" />
+		<s:textfield name="studCursModel.cursId" key="global.cursId"
+			required="true" />
 		<s:submit />
 
 	</s:form>
 </s:else>
 
 <s:if test="studCursModelList.size()>0">
-	<h1>StudCursModel List</h1>
+	<h1>Student-Curs List</h1>
 
 	<table id="data">
-		<caption>StudCursModel</caption>
+		<caption>Student-Curs</caption>
 		<thead>
 			<tr>
-				<th>ID</th>
-				<th>Student ID</th>
-				<th>Curs ID</th>
-				<th>Delete</th>
+				<th><s:property value="getText('global.studcurs')" /></th>
+				<th><s:property value="getText('global.studentId')" /></th>
+				<th><s:property value="getText('global.cursId')" /></th>
+				<th><s:property value="getText('global.edit')" /></th>
+				<th><s:property value="getText('global.delete')" /></th>
 			</tr>
 		</thead>
 		<s:action name="listAllStudCursModel" />
@@ -44,10 +53,14 @@
 				<td><s:property value="cursId" /></td>
 				<td><s:url id="editURL" action="StudCurs_edit">
 						<s:param name="id" value="%{scId}"></s:param>
-					</s:url> <s:a href="%{editURL}">Edit</s:a></td>
+					</s:url> <s:a href="%{editURL}">
+						<s:property value="getText('global.edit')" />
+					</s:a></td>
 				<td><s:url id="deleteURL" action="StudCurs_delete">
 						<s:param name="id" value="%{scId}"></s:param>
-					</s:url> <s:a href="%{deleteURL}">Delete</s:a></td>
+					</s:url> <s:a href="%{deleteURL}">
+						<s:property value="getText('global.delete')" />
+					</s:a></td>
 			</tr>
 		</s:iterator>
 	</table>

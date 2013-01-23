@@ -13,5 +13,7 @@
 
 	<s:property value="exception.message" />
 	<s:property value="exceptionStack" />
+	<s:actionerror/>
+	
 </body>
 </html>

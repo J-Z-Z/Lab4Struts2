@@ -35,8 +35,10 @@ public class ProfesorDAO implements Serializable, GenericDAO<Profesor> {
 			list = (List<Profesor>) session.createQuery("from Profesor").list();
 			tx.commit();
 		} catch (HibernateException he) {
-			if (tx != null)
+			if (tx != null) {
 				tx.rollback();
+			}
+
 			throw new MyDaoException(ErrorList.RETRIEVE_LIST_ERR_KEY, he);
 		} finally {
 			session.close();

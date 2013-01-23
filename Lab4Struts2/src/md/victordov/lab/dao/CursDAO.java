@@ -112,7 +112,6 @@ public class CursDAO implements Serializable, GenericDAO<Curs> {
 
 	@Override
 	public void delete(int id) throws MyDaoException {
-
 		session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		Curs p;

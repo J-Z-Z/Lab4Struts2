@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-
+<%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
+<%@ page buffer = "16kb" %>
 <s:if test="%{#parameters.id != null}">
 	<h1>Edit StudentModel</h1>
 	<s:form action="Student_update" method="post" validate="true">
@@ -18,7 +19,6 @@
 </s:if>
 <s:else>
 	<h1>Insert Student</h1>
-	<s:fielderror />
 	<s:form action="Student_add" method="post" validate="true">
 		<s:hidden name="studentModel.SId" />
 		<s:textfield name="studentModel.nume" key="global.lname" />
@@ -35,41 +35,31 @@
 <s:if test="studentModelList.size()>0">
 	<h1>Student List</h1>
 
-	<table id="data">
-		<caption>Student</caption>
-		<thead>
-			<tr>
-				<th><s:property value="getText('global.studentId')" /></th>
-				<th><s:property value="getText('global.lname')" /></th>
-				<th><s:property value="getText('global.name')" /></th>
-				<th><s:property value="getText('global.group')" /></th>
-				<th><s:property value="getText('global.email')" /></th>
-				<th><s:property value="getText('global.phone')" /></th>
-				<th><s:property value="getText('global.edit')" /></th>
-				<th><s:property value="getText('global.delete')" /></th>
-				<th align="center">Insert</th>
-			</tr>
-		</thead>
-		<s:action name="listAllStudentModel" />
-		<s:iterator value="studentModelList">
-			<tr>
-				<td><s:property value="SId" /></td>
-				<td><s:property value="nume" /></td>
-				<td><s:property value="prenume" /></td>
-				<td><s:property value="grupa" /></td>
-				<td><s:property value="email" /></td>
-				<td><s:property value="telFix" /></td>
-				<td><s:url id="editURL" action="Student_edit">
-						<s:param name="id" value="%{SId}"></s:param>
-					</s:url> <s:a href="%{editURL}">
-						<s:property value="getText('global.edit')" />
-					</s:a></td>
-				<td><s:url id="deleteURL" action="Student_delete">
-						<s:param name="id" value="%{SId}"></s:param>
-					</s:url> <s:a href="%{deleteURL}">
-						<s:property value="getText('global.delete')" />
-					</s:a></td>
-			</tr>
-		</s:iterator>
-	</table>
+	<display:table id="data" name="studentModelList" pagesize="5"
+		export="false" requestURI="/Student_list.html">
+		<display:column property="SId" titleKey="global.studentId"
+			sortable="true" />
+		<display:column property="nume" titleKey="global.lname"
+			sortable="true" />
+		<display:column property="prenume" titleKey="global.name"
+			sortable="true" />
+		<display:column property="grupa" titleKey="global.group"
+			sortable="true" />
+		<display:column property="email" titleKey="global.email"
+			sortable="true" />
+		<display:column property="telFix" titleKey="global.phone"
+			sortable="true" />
+
+		<display:column titleKey="global.edit" href="Student_edit.html"
+			paramId="id" paramProperty="SId">
+			<s:property value="getText('global.edit')" />
+		</display:column>
+
+		<display:column titleKey="global.delete" href="Student_delete.html"
+			paramId="id" paramProperty="SId">
+			<s:property value="getText('global.delete')" />
+		</display:column>
+
+<display:setProperty name="paging.banner.placement" value="bottom" />
+	</display:table>
 </s:if>

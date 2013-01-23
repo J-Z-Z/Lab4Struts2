@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-
+<%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
 <s:if test="%{#parameters.id != null}">
 	<h1>
 		<s:property value="getText('global.edit')" />
@@ -32,37 +32,26 @@
 
 <s:if test="profesorModelList.size()>0">
 	<h1>Profesor List</h1>
+	<display:table id="data" name="profesorModelList" pagesize="5"
+		export="false" requestURI="/Profesor_list.html">
+		<display:column property="PId" titleKey="global.profesorId"
+			sortable="true" />
+		<display:column property="nume" titleKey="global.lname"
+			sortable="true" />
+		<display:column property="prenume" titleKey="global.name"
+			sortable="true" />
+		<display:column property="adresa" titleKey="global.address"
+			sortable="true" />
 
-	<table id="data">
-		<caption>Profesor</caption>
-		<thead>
-			<tr>
-				<th><s:property value="getText('global.profesorId')" /></th>
-				<th><s:property value="getText('global.lname')" /></th>
-				<th><s:property value="getText('global.name')" /></th>
-				<th><s:property value="getText('global.address')" /></th>
-				<th><s:property value="getText('global.edit')" /></th>
-				<th><s:property value="getText('global.delete')" /></th>
-			</tr>
-		</thead>
-		<s:action name="Profesor_list" />
-		<s:iterator value="profesorModelList">
-			<tr>
-				<td><s:property value="PId" /></td>
-				<td><s:property value="nume" /></td>
-				<td><s:property value="prenume" /></td>
-				<td><s:property value="adresa" /></td>
-				<td><s:url id="editURL" action="Profesor_edit">
-						<s:param name="id" value="%{PId}"></s:param>
-					</s:url> <s:a href="%{editURL}">
-						<s:property value="getText('global.edit')" />
-					</s:a></td>
-				<td><s:url id="deleteURL" action="Profesor_delete">
-						<s:param name="id" value="%{PId}"></s:param>
-					</s:url> <s:a href="%{deleteURL}">
-						<s:property value="getText('global.delete')" />
-					</s:a></td>
-			</tr>
-		</s:iterator>
-	</table>
+		<display:column titleKey="global.edit" href="Profesor_edit.html"
+			paramId="id" paramProperty="PId">
+			<s:property value="getText('global.edit')" />
+		</display:column>
+
+		<display:column titleKey="global.delete" href="Profesor_delete.html"
+			paramId="id" paramProperty="PId">
+			<s:property value="getText('global.delete')" />
+		</display:column>
+		<display:setProperty name="paging.banner.placement" value="bottom" />
+	</display:table>
 </s:if>

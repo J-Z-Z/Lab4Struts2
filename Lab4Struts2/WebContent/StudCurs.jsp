@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-
+<%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
 <s:if test="%{#parameters.id != null}">
 	<h1>
 		<s:property value="getText('global.edit')" />
@@ -34,35 +34,26 @@
 <s:if test="studCursModelList.size()>0">
 	<h1>Student-Curs List</h1>
 
-	<table id="data">
-		<caption>Student-Curs</caption>
-		<thead>
-			<tr>
-				<th><s:property value="getText('global.studcurs')" /></th>
-				<th><s:property value="getText('global.studentId')" /></th>
-				<th><s:property value="getText('global.cursId')" /></th>
-				<th><s:property value="getText('global.edit')" /></th>
-				<th><s:property value="getText('global.delete')" /></th>
-			</tr>
-		</thead>
-		<s:action name="listAllStudCursModel" />
-		<s:iterator value="studCursModelList">
-			<tr>
-				<td><s:property value="scId" /></td>
-				<td><s:property value="studentId" /></td>
-				<td><s:property value="cursId" /></td>
-				<td><s:url id="editURL" action="StudCurs_edit">
-						<s:param name="id" value="%{scId}"></s:param>
-					</s:url> <s:a href="%{editURL}">
-						<s:property value="getText('global.edit')" />
-					</s:a></td>
-				<td><s:url id="deleteURL" action="StudCurs_delete">
-						<s:param name="id" value="%{scId}"></s:param>
-					</s:url> <s:a href="%{deleteURL}">
-						<s:property value="getText('global.delete')" />
-					</s:a></td>
-			</tr>
-		</s:iterator>
-	</table>
+	<display:table id="data" name="studCursModelList" pagesize="5"
+		export="false" requestURI="/StudCurs_list.html">
+		<display:column property="scId" titleKey="global.studcursId"
+			sortable="true" />
+		<display:column property="studentId" titleKey="global.studentId"
+			sortable="true" />
+		<display:column property="cursId" titleKey="global.cursId"
+			sortable="true" />
+
+
+		<display:column titleKey="global.edit" href="StudCurs_edit.html"
+			paramId="id" paramProperty="scId">
+			<s:property value="getText('global.edit')" />
+		</display:column>
+
+		<display:column titleKey="global.delete" href="StudCurs_delete.html"
+			paramId="id" paramProperty="scId">
+			<s:property value="getText('global.delete')" />
+		</display:column>
+		<display:setProperty name="paging.banner.placement" value="bottom" />
+	</display:table>
 
 </s:if>

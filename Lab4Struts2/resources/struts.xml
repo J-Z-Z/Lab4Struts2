@@ -24,9 +24,11 @@
 				class="org.apache.struts2.views.tiles.TilesResult" />
 		</result-types>
 
+
 		<interceptors>
 			<interceptor name="validation"
 				class="org.apache.struts2.interceptor.validation.AnnotationValidationInterceptor" />
+
 		</interceptors>
 
 		<global-results>
@@ -83,7 +85,7 @@
 
 		<action name="locale" class="md.victordov.lab.international.Locale"
 			method="execute">
-			<result type="tiles">lng</result>
+			<result  type="tiles">lng</result>
 		</action>
 
 

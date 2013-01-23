@@ -12,10 +12,10 @@
 			<message>Numele este necesar</message>
 		</field-validator>
 		<field-validator type="regex">
-			<param name="expression"><![CDATA[([a-zA-Z]{4,25})]]></param>
+			<param name="expression"><![CDATA[([a-zA-Z]{3,25})]]></param>
 
 			<param name="caseSensitive">true</param>
-			<message><![CDATA[ Numele trebuie sa fie intre 4 si 25 litere]]></message>
+			<message><![CDATA[ Numele trebuie sa fie intre 3 si 25 litere]]></message>
 		</field-validator>
 	</field>
 
@@ -25,10 +25,10 @@
 			<message>Prenumele este necesar</message>
 		</field-validator>
 		<field-validator type="regex">
-			<param name="expression"><![CDATA[([a-zA-Z]{4,25})]]></param>
+			<param name="expression"><![CDATA[([a-zA-Z]{3,25})]]></param>
 
 			<param name="caseSensitive">true</param>
-			<message><![CDATA[ Prenumele trebuie sa fie intre 4 si 25 litere]]></message>
+			<message><![CDATA[ Prenumele trebuie sa fie intre 3 si 25 litere]]></message>
 		</field-validator>
 	</field>
 

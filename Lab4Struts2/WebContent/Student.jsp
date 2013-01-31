@@ -63,3 +63,16 @@
 <display:setProperty name="paging.banner.placement" value="bottom" />
 	</display:table>
 </s:if>
+<script>
+var td = document.getElementsByTagName("td");
+for (var i =0; i<td.length; i++){
+td[i].onmouseover = function(){
+	this.style.backgroundColor = "fee";
+};
+
+td[i].onmouseout = function(){
+	this.style.backgroundColor = "white";
+};
+	
+}
+</script>

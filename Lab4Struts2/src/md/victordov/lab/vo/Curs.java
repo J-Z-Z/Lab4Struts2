@@ -7,11 +7,16 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import md.victordov.lab.vo.Universitate;
 import md.victordov.lab.vo.Profesor;
 
@@ -23,8 +28,14 @@ import md.victordov.lab.vo.Profesor;
 public class Curs implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	private static final Log log = LogFactory.getLog(Curs.class);
 	public Curs() {
+	}
+
+	public Curs(Curs curs) {
+		this.numeCurs = curs.numeCurs;
+		this.profesor = curs.getProfesor();
+		this.universitate = curs.getUniversitate();
 	}
 
 	public Integer getCId() {
@@ -48,6 +59,7 @@ public class Curs implements java.io.Serializable {
 	}
 
 	public void setProfesor(Profesor profesor) {
+		log.debug("Curs: The profesor was set");
 		this.profesor = profesor;
 	}
 

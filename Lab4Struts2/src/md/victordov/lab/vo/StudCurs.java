@@ -1,7 +1,6 @@
 package md.victordov.lab.vo;
 
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -65,12 +64,10 @@ public class StudCurs implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "c_id", nullable = false)
-	@Embedded
 	private Curs curs;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "s_id", nullable = false)
-	@Embedded
 	private Student student;
 
 }

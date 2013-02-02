@@ -19,14 +19,14 @@ public class UniversitateService implements
 	}
 
 	@Override
-	public List<UniversitateModel> retrieve(int start, int maxRecords)
+	public List<UniversitateModel> retrieve(Integer start, Integer maxRecords)
 			throws MyDaoException {
 		GenericDAO<Universitate> gDao = new UnivDAO();
 		return this.transformList(gDao.retrieve(start, maxRecords));
 	}
 
 	@Override
-	public UniversitateModel retrieve(int id) throws MyDaoException {
+	public UniversitateModel retrieve(Integer id) throws MyDaoException {
 		GenericDAO<Universitate> gDao = new UnivDAO();
 		return this.transform(gDao.retrieve(id));
 	}
@@ -46,7 +46,7 @@ public class UniversitateService implements
 	}
 
 	@Override
-	public void delete(int id) throws MyDaoException {
+	public void delete(Integer id) throws MyDaoException {
 		GenericDAO<Universitate> gDao = new UnivDAO();
 		gDao.delete(id);
 

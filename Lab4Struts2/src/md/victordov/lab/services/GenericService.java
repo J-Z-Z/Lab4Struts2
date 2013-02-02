@@ -8,15 +8,15 @@ public interface GenericService<T,R> {
 
 	List<T> retrieve() throws MyDaoException;
 
-	List<T> retrieve(int start, int maxRecords) throws MyDaoException;
+	List<T> retrieve(Integer start, Integer maxRecords) throws MyDaoException;
 
-	T retrieve(int id) throws MyDaoException;
+	T retrieve(Integer id) throws MyDaoException;
 
 	void create(T t) throws MyDaoException;
 
 	void update(T t) throws MyDaoException;
 
-	void delete(int id) throws MyDaoException;
+	void delete(Integer id) throws MyDaoException;
 
 	Long countSize() throws MyDaoException;
 

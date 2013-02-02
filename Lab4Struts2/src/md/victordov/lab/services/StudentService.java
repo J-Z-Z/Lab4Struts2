@@ -19,7 +19,7 @@ public class StudentService implements GenericService<StudentModel, Student> {
 	}
 
 	@Override
-	public List<StudentModel> retrieve(int start, int maxRecords)
+	public List<StudentModel> retrieve(Integer start, Integer maxRecords)
 			throws MyDaoException {
 		GenericDAO<Student> gDao = new StudentDAO();
 
@@ -27,7 +27,7 @@ public class StudentService implements GenericService<StudentModel, Student> {
 	}
 
 	@Override
-	public StudentModel retrieve(int id) throws MyDaoException {
+	public StudentModel retrieve(Integer id) throws MyDaoException {
 		GenericDAO<Student> gDao = new StudentDAO();
 		return this.transform(gDao.retrieve(id));
 	}
@@ -47,7 +47,7 @@ public class StudentService implements GenericService<StudentModel, Student> {
 	}
 
 	@Override
-	public void delete(int id) throws MyDaoException {
+	public void delete(Integer id) throws MyDaoException {
 		GenericDAO<Student> gDao = new StudentDAO();
 		gDao.delete(id);
 

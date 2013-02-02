@@ -19,7 +19,7 @@ public class ProfesorService implements GenericService<ProfesorModel, Profesor> 
 	}
 
 	@Override
-	public List<ProfesorModel> retrieve(int start, int maxRecords)
+	public List<ProfesorModel> retrieve(Integer start, Integer maxRecords)
 			throws MyDaoException {
 		GenericDAO<Profesor> gDao = new ProfesorDAO();
 		return this.transformList(gDao.retrieve(start, maxRecords));
@@ -27,7 +27,7 @@ public class ProfesorService implements GenericService<ProfesorModel, Profesor> 
 	}
 
 	@Override
-	public ProfesorModel retrieve(int id) throws MyDaoException {
+	public ProfesorModel retrieve(Integer id) throws MyDaoException {
 		GenericDAO<Profesor> gDao = new ProfesorDAO();
 		return this.transform(gDao.retrieve(id));
 	}
@@ -46,7 +46,7 @@ public class ProfesorService implements GenericService<ProfesorModel, Profesor> 
 	}
 
 	@Override
-	public void delete(int id) throws MyDaoException {
+	public void delete(Integer id) throws MyDaoException {
 		GenericDAO<Profesor> gDao = new ProfesorDAO();
 		gDao.delete(id);
 	}

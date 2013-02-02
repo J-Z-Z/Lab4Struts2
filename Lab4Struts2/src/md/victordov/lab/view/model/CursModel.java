@@ -1,16 +1,17 @@
 package md.victordov.lab.view.model;
 
-public class CursModel {
+public class CursModel implements java.io.Serializable {
 
+	private static final long serialVersionUID = 6462054439131634000L;
 	public CursModel() {
 
 	}
 
-	public int getcId() {
+	public Integer getcId() {
 		return cId;
 	}
 
-	public void setcId(int cId) {
+	public void setcId(Integer cId) {
 		this.cId = cId;
 	}
 
@@ -22,14 +23,6 @@ public class CursModel {
 		this.numeCurs = numeCurs;
 	}
 
-	public int getuId() {
-		return uId;
-	}
-
-	public void setuId(int uId) {
-		this.uId = uId;
-	}
-
 	public String getUniverNume() {
 		return univerNume;
 	}
@@ -38,13 +31,6 @@ public class CursModel {
 		this.univerNume = univerNume;
 	}
 
-	public int getpId() {
-		return pId;
-	}
-
-	public void setpId(int pId) {
-		this.pId = pId;
-	}
 
 	public String getProfesorNume() {
 		return profesorNume;
@@ -54,11 +40,27 @@ public class CursModel {
 		this.profesorNume = profesorNume;
 	}
 
-	private int cId; // Curs Id
+	public Integer getUniversitateId() {
+		return universitateId;
+	}
+
+	public void setUniversitateId(Integer universitateId) {
+		this.universitateId = universitateId;
+	}
+
+	public Integer getProfesorId() {
+		return profesorId;
+	}
+
+	public void setProfesorId(Integer profesorId) {
+		this.profesorId = profesorId;
+	}
+
+	private Integer cId; // Curs Id
 	private String numeCurs; // Denumirea cursului
-	private int uId; // Universitate Id
+	private Integer universitateId; // Universitate Id
 	private String univerNume;
-	private int pId; // Profesor Id
+	private Integer profesorId; // Profesor Id
 	private String profesorNume;
 
 }

@@ -12,8 +12,8 @@
 
 		<s:hidden name="cursModel.cId" />
 		<s:textfield name="cursModel.numeCurs" key="global.denCurs" />
-		<s:textfield name="cursModel.uId" key="global.univId" />
-		<s:textfield name="cursModel.pId" key="global.cursId" />
+		<s:textfield name="cursModel.universitateId" key="global.univId" />
+		<s:textfield name="cursModel.profesorId" key="global.cursId" />
 		<s:submit key="global.submit" />
 	</s:form>
 </s:if>
@@ -25,8 +25,8 @@
 	<s:form action="Curs_add" method="post" validate="true">
 		<s:hidden name="cursModel.cId" />
 		<s:textfield name="cursModel.numeCurs" key="global.denCurs" />
-		<s:textfield name="cursModel.uId" key="global.univId" />
-		<s:textfield name="cursModel.pId" key="global.cursId" />
+		<s:textfield name="cursModel.universitateId" key="global.univId" />
+		<s:textfield name="cursModel.profesorId" key="global.cursId" />
 		<s:submit />
 
 	</s:form>
@@ -41,9 +41,9 @@
 			sortable="true" />
 		<display:column property="numeCurs" titleKey="global.denCurs"
 			sortable="true" />
-		<display:column property="uId" titleKey="global.univId"
+		<display:column property="universitateId" titleKey="global.univId"
 			sortable="true" />
-		<display:column property="pId" titleKey="global.profesorId"
+		<display:column property="profesorId" titleKey="global.profesorId"
 			sortable="true" />
 
 		<display:column titleKey="global.edit" href="Curs_edit.html"

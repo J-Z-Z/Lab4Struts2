@@ -12,7 +12,7 @@
 			<message>Numele este necesar</message>
 		</field-validator>
 		<field-validator type="regex">
-			<param name="expression"><![CDATA[([\w]{1,28})([+]{2})?]]></param>
+			<param name="expression"><![CDATA[([\w]{1,28}){1,3}([+]{2})?]]></param>
 
 			<param name="caseSensitive">true</param>
 			<message><![CDATA[ Numele trebuie sa fie intre 4 si 25 litere]]></message>
@@ -20,7 +20,10 @@
 	</field>
 
 
-	<field name="uId">
+	<field name="universitateId">
+	<field-validator type="required">
+			<message>Introduce-ti Universitate ID</message>
+		</field-validator>
 		<field-validator type="int">
 			<param name="min">1</param>
 			<param name="max">20</param>
@@ -34,7 +37,10 @@
 		</field-validator>
 	</field>
 
-	<field name="pId">
+	<field name="profesorId">
+	<field-validator type="required">
+			<message>Introduce-ti Profesor ID</message>
+		</field-validator>
 		<field-validator type="int">
 			<param name="min">1</param>
 			<param name="max">20</param>

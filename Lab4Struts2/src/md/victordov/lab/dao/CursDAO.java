@@ -1,6 +1,7 @@
 package md.victordov.lab.dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -14,7 +15,7 @@ import md.victordov.lab.common.exception.MyDaoException;
 import md.victordov.lab.vo.Curs;
 
 public class CursDAO implements Serializable, GenericDAO<Curs> {
-	
+
 	/**
 	 * @author VictorDov
 	 * 
@@ -26,16 +27,12 @@ public class CursDAO implements Serializable, GenericDAO<Curs> {
 	private static final long serialVersionUID = 1L;
 	private Session session;
 
-	public CursDAO() {
-
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Curs> retrieve() throws MyDaoException {
 		session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
-		List<Curs> list = null;
+		List<Curs> list = new ArrayList<Curs>();
 		try {
 			list = (List<Curs>) session.createQuery("from Curs").list();
 			tx.commit();
@@ -58,7 +55,12 @@ public class CursDAO implements Serializable, GenericDAO<Curs> {
 
 		try {
 			Curs instance = (Curs) session.get(Curs.class, id);
-
+			if (instance == null) {
+				System.out.println("get successful, no instance found");
+			} else {
+				System.out.println("CursDao, method retrieve( id )");
+				System.out.println("get successful, instance found");
+			}
 			return instance;
 		} catch (HibernateException he) {
 			if (tx != null)
@@ -79,7 +81,6 @@ public class CursDAO implements Serializable, GenericDAO<Curs> {
 		session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
-
 			session.save(t);
 			tx.commit();
 		} catch (HibernateException he) {
@@ -144,7 +145,7 @@ public class CursDAO implements Serializable, GenericDAO<Curs> {
 		q.setMaxResults(numberOfRecordsPerPage);
 		List<Curs> list = null;
 		try {
-			list = (List<Curs>) (List<Curs>) q.list();
+			list = (List<Curs>) q.list();
 			tx.commit();
 		} catch (HibernateException he) {
 			if (tx != null)

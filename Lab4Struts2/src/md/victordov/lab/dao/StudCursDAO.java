@@ -23,7 +23,6 @@ public class StudCursDAO implements Serializable, GenericDAO<StudCurs> {
 	 *         number of records.
 	 */
 	private static final long serialVersionUID = 1L;
-
 	private Session session;
 
 	@SuppressWarnings("unchecked")
@@ -83,9 +82,9 @@ public class StudCursDAO implements Serializable, GenericDAO<StudCurs> {
 		try {
 			StudCurs instance = (StudCurs) session.get(StudCurs.class, id);
 			if (instance == null) {
-
+				System.out.println("get successful, no instance found");
 			} else {
-
+				System.out.println("get successful, instance found");
 			}
 			return instance;
 		} catch (HibernateException he) {

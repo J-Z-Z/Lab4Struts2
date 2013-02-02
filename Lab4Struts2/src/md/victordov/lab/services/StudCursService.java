@@ -20,14 +20,14 @@ public class StudCursService implements GenericService<StudCursModel, StudCurs> 
 	}
 
 	@Override
-	public List<StudCursModel> retrieve(int start, int maxRecords)
+	public List<StudCursModel> retrieve(Integer start, Integer maxRecords)
 			throws MyDaoException {
 		GenericDAO<StudCurs> gDao = new StudCursDAO();
 		return this.transformList(gDao.retrieve(start, maxRecords));
 	}
 
 	@Override
-	public StudCursModel retrieve(int id) throws MyDaoException {
+	public StudCursModel retrieve(Integer id) throws MyDaoException {
 		GenericDAO<StudCurs> gDao = new StudCursDAO();
 		return this.transform(gDao.retrieve(id));
 	}
@@ -45,7 +45,7 @@ public class StudCursService implements GenericService<StudCursModel, StudCurs> 
 	}
 
 	@Override
-	public void delete(int id) throws MyDaoException {
+	public void delete(Integer id) throws MyDaoException {
 		GenericDAO<StudCurs> gDao = new StudCursDAO();
 		gDao.delete(id);
 

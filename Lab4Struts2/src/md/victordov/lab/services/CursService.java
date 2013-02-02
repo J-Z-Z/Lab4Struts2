@@ -1,6 +1,5 @@
 package md.victordov.lab.services;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,77 +11,57 @@ import md.victordov.lab.vo.Curs;
 import md.victordov.lab.vo.Profesor;
 import md.victordov.lab.vo.Universitate;
 
-public class CursService implements Serializable,
-		GenericService<CursModel, Curs> {
+public class CursService implements GenericService<CursModel, Curs> {
 
 	/**
 	 * @author victor dovgaliuc Curs. @ Service handles all DAO request but
 	 *         returns and receives different object CursModel object
 	 */
-	private static final long serialVersionUID = 1L;
-
-	public CursService() {
-
-	}
 
 	@Override
 	public List<CursModel> retrieve() throws MyDaoException {
-		GenericDAO<Curs> genDao = new CursDAO();
-		List<Curs> cursList = new ArrayList<Curs>(genDao.retrieve());
-		List<CursModel> cursModelList = new ArrayList<CursModel>(
-				this.transformList(cursList));
-		return cursModelList;
+		GenericDAO<Curs> gDao = new CursDAO();
+		return this.transformList(gDao.retrieve());
 	}
 
 	@Override
-	public List<CursModel> retrieve(int start, int maxRecords)
+	public List<CursModel> retrieve(Integer start, Integer maxRecords)
 			throws MyDaoException {
-		GenericDAO<Curs> genDao = new CursDAO();
-		List<Curs> cursList = new ArrayList<Curs>(genDao.retrieve(start,
-				maxRecords));
-		List<CursModel> cursModelList = new ArrayList<CursModel>(
-				this.transformList(cursList));
-		return cursModelList;
+		GenericDAO<Curs> gDao = new CursDAO();
+		return this.transformList(gDao.retrieve(start, maxRecords));
 	}
 
 	@Override
-	public CursModel retrieve(int id) throws MyDaoException {
-		GenericDAO<Curs> genDao = new CursDAO();
-		CursModel cursModel = this.transform(genDao.retrieve(id));
-
-		return cursModel;
+	public CursModel retrieve(Integer id) throws MyDaoException {
+		GenericDAO<Curs> gDao = new CursDAO();
+		return this.transform(gDao.retrieve(id));
 	}
 
 	@Override
 	public void create(CursModel t) throws MyDaoException {
-		GenericDAO<Curs> genDao = new CursDAO();
-		Curs curs = new Curs();
-		curs = this.transformBack(t);
-		genDao.create(curs);
+		GenericDAO<Curs> gDao = new CursDAO();
+		gDao.create(this.transformBack(t));
 	}
 
 	@Override
 	public void update(CursModel t) throws MyDaoException {
-		GenericDAO<Curs> genDao = new CursDAO();
-		Curs curs = new Curs();
-		curs = this.transformBack(t);
-		genDao.update(curs);
+		GenericDAO<Curs> gDao = new CursDAO();
+		gDao.update(this.transformBack(t));
 
 	}
 
 	@Override
-	public void delete(int id) throws MyDaoException {
+	public void delete(Integer id) throws MyDaoException {
 		System.out.println("This is what I have received: " + id);
-		GenericDAO<Curs> genDao = new CursDAO();
-		genDao.delete(id);
+		GenericDAO<Curs> gDao = new CursDAO();
+		gDao.delete(id);
 
 	}
 
 	@Override
 	public Long countSize() throws MyDaoException {
-		GenericDAO<Curs> genDao = new CursDAO();
-
-		return genDao.countSize();
+		GenericDAO<Curs> gDao = new CursDAO();
+		return gDao.countSize();
 	}
 
 	@Override
@@ -93,12 +72,12 @@ public class CursService implements Serializable,
 			cursModelTemp.setcId(c.getCId());
 			cursModelTemp.setNumeCurs(c.getNumeCurs());
 
-			cursModelTemp.setuId(c.getUniversitate().getUId());
+			cursModelTemp.setUniversitateId(c.getUniversitate().getUId());
 			if (c.getUniversitate().getNumeUniver() != null) {
 				cursModelTemp
 						.setUniverNume(c.getUniversitate().getNumeUniver());
 			}
-			cursModelTemp.setpId(c.getProfesor().getPId());
+			cursModelTemp.setProfesorId(c.getProfesor().getPId());
 			if ((c.getProfesor().getNume() != null)
 					&& (c.getProfesor().getPrenume() != null))
 				cursModelTemp.setProfesorNume(c.getProfesor().getNume() + " "
@@ -113,9 +92,9 @@ public class CursService implements Serializable,
 		CursModel cursModel = new CursModel();
 		cursModel.setcId(c.getCId());
 		cursModel.setNumeCurs(c.getNumeCurs());
-		cursModel.setuId(c.getUniversitate().getUId());
+		cursModel.setUniversitateId(c.getUniversitate().getUId());
 		cursModel.setUniverNume(c.getUniversitate().getNumeUniver());
-		cursModel.setpId(c.getProfesor().getPId());
+		cursModel.setProfesorId(c.getProfesor().getPId());
 		cursModel.setProfesorNume(c.getProfesor().getNume() + " "
 				+ c.getProfesor().getPrenume());
 
@@ -131,10 +110,10 @@ public class CursService implements Serializable,
 		curs.setCId(t.getcId());
 		curs.setNumeCurs(t.getNumeCurs());
 
-		univ.setUId(t.getuId());
+		univ.setUId(t.getUniversitateId());
 		curs.setUniversitate(univ);
 
-		profesor.setPId(t.getpId());
+		profesor.setPId(t.getProfesorId());
 		curs.setProfesor(profesor);
 
 		return curs;

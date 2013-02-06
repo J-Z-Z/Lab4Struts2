@@ -87,6 +87,10 @@
 			method="execute">
 			<result  type="tiles">lng</result>
 		</action>
+		
+		<action name="zero">
+			<result>testJquery.jsp</result>
+		</action>
 
 
 	</package>

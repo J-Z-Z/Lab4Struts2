@@ -51,7 +51,7 @@
 			<s:property value="getText('global.edit')" />
 		</display:column>
 
-		<display:column titleKey="global.delete" href="Curs_delete.html"
+		<display:column  titleKey="global.delete" href="Curs_delete.html"
 			paramId="id" paramProperty="cId">
 			<s:property value="getText('global.delete')" />
 		</display:column>

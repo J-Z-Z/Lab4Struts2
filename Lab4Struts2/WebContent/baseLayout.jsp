@@ -8,7 +8,13 @@
 <title><tiles:insertAttribute name="title" ignore="true" /></title>
 <style type="text/css">
 @import url(css/style.css);
+
+@import url(css/ui-lightness/jquery-ui-1.10.0.custom.css);
 </style>
+<script src="js/jquery-1.9.0.js"></script>
+<script src="js/jquery-ui-1.10.0.custom.js"></script>
+
+
 
 </head>
 <body>

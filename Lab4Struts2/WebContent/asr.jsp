@@ -12,11 +12,5 @@
 <body>
 
 
-
-<sj:textarea javascriptTooltip="Miko Mik">This is my text area</sj:textarea>
-
-
-
-
 </body>
 </html>

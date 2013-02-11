@@ -58,3 +58,8 @@
 		<display:setProperty name="paging.banner.placement" value="bottom" />
 	</display:table>
 </s:if>
+<s:if test="%{#parameters.ids != null}">
+<p>Ids</p>
+</s:if>
+<s:else>Not Ids</s:else>
+

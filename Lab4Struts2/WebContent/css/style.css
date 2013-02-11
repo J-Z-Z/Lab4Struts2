@@ -16,7 +16,6 @@ table {
 	border-left-style: solid;
 	margin-right: auto;
 	margin-left: auto;
-
 }
 
 th {
@@ -139,10 +138,6 @@ body {
 	color: lime;
 }
 /* Applied for odd rows for display tag */
-
-.odd{
+.odd {
 	background-color: ffffcc;
 }
-
-
-

@@ -56,9 +56,8 @@
 
 		<action name="*_add" class="md.victordov.lab.actionStruts.{1}ModelAction"
 			method="add{1}Model">
-			<result name="success" type="redirect">{1}_list.html</result>
-			<result name="input" type="tiles">{1}</result>
-
+			<result name="success">{1}add.jsp</result>
+			<result name="input">{1}add.jsp</result>
 		</action>
 
 		<action name="*_edit" method="edit{1}Model"
@@ -85,9 +84,9 @@
 
 		<action name="locale" class="md.victordov.lab.international.Locale"
 			method="execute">
-			<result  type="tiles">lng</result>
+			<result type="tiles">lng</result>
 		</action>
-		
+
 		<action name="zero">
 			<result>testJquery.jsp</result>
 		</action>

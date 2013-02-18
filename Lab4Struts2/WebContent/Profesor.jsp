@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
+
 <s:if test="%{#parameters.id != null}">
 	<h1>
 		<s:property value="getText('global.edit')" />
@@ -16,19 +17,18 @@
 
 	</s:form>
 </s:if>
-<s:else>
-	<h1>
+<div id="ProfesorInsForm" title="Create new Profesor">
+	<h2>
 		<s:property value="getText('global.insertMessage')" />
 		Profesor
-	</h1>
-	<s:form action="Profesor_add" method="post" validate="true">
+	</h2>
+	<s:form method="post" validate="true">
 		<s:hidden name="PId" />
-		<s:textfield name="profesorModel.nume" key="global.lname" />
-		<s:textfield name="profesorModel.prenume" key="global.name" />
-		<s:textfield name="profesorModel.adresa" key="global.address" />
-		<s:submit key="global.submit" />
+		<s:textfield name="profesorModel.nume" key="global.lname" id="profesorModelNume"/>
+		<s:textfield name="profesorModel.prenume" key="global.name" id="profesorModelPrenume"/>
+		<s:textfield name="profesorModel.adresa" key="global.address" id="profesorModelAdresa"/>
 	</s:form>
-</s:else>
+</div>
 
 <s:if test="profesorModelList.size()>0">
 	<h1>Profesor List</h1>
@@ -44,7 +44,7 @@
 			sortable="true" />
 
 		<display:column titleKey="global.edit" href="Profesor_edit.html"
-			paramId="id" paramProperty="PId">
+			paramId="id" paramProperty="PId" >
 			<s:property value="getText('global.edit')" />
 		</display:column>
 
@@ -54,4 +54,8 @@
 		</display:column>
 		<display:setProperty name="paging.banner.placement" value="bottom" />
 	</display:table>
+	<br />
+	<br />
 </s:if>
+
+<button id="create-Profesor">Create new Profesor</button>

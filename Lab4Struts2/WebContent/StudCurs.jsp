@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
+
 <s:if test="%{#parameters.id != null}">
 	<h1>
 		<s:property value="getText('global.edit')" />
@@ -15,21 +16,19 @@
 
 	</s:form>
 </s:if>
-<s:else>
-	<h1>
+<div id="StudCursInsForm" title="Create new Student Curs">
+	<h2>
 		<s:property value="getText('global.insertMessage')" />
 		Student-Curs
-	</h1>
-	<s:form action="StudCurs_add" method="post" validate="true">
+	</h2>
+	<s:form method="post" validate="true">
 		<s:hidden name="studCursModel.scId" />
 		<s:textfield name="studCursModel.studentId" key="global.studentId"
-			required="true" />
+			required="true" id="studCursModelStudentId"/>
 		<s:textfield name="studCursModel.cursId" key="global.cursId"
-			required="true" />
-		<s:submit />
-
+			required="true" id="studCursModelCursId"/>		
 	</s:form>
-</s:else>
+</div>
 
 <s:if test="studCursModelList.size()>0">
 	<h1>Student-Curs List</h1>
@@ -55,5 +54,8 @@
 		</display:column>
 		<display:setProperty name="paging.banner.placement" value="bottom" />
 	</display:table>
-
+	<br />
+	<br />
 </s:if>
+
+<button id="create-StudCurs">Create new Student Curs</button>

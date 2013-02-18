@@ -6,15 +6,12 @@
 
 <s:form method="post" validate="true">
 	<s:hidden name="studentModel.SId" />
-	<s:textfield name="studentModel.nume" key="global.lname"
-		id="studentModelnume" />
+	<s:textfield name="studentModel.nume" key="global.lname" id="stdntNume" />
 	<s:textfield name="studentModel.prenume" key="global.name"
-		id="studentModelprenume" />
-	<s:textfield name="studentModel.grupa" key="global.group"
-		id="studentModelgrupa" />
+		id="stdnPrenume" />
+	<s:textfield name="studentModel.grupa" key="global.group" id="stdntGrp" />
 	<s:textfield name="studentModel.email" key="global.email"
-		id="studentModelemail" />
+		id="stdntEmail" />
 	<s:textfield name="studentModel.telFix" key="global.phone"
-		id="studentModeltelFix" />
-
+		id="stdntTel" />
 </s:form>

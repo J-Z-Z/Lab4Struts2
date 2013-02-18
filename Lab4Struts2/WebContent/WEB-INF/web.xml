@@ -8,7 +8,8 @@
 	</welcome-file-list>
 	<context-param>
 		<param-name>
-			org.apache.tiles.impl.BasicTilesContainer.DEFINITIONS_CONFIG</param-name>
+			org.apache.tiles.impl.BasicTilesContainer.DEFINITIONS_CONFIG
+		</param-name>
 		<param-value>/WEB-INF/tiles.xml</param-value>
 	</context-param>
 
@@ -55,7 +56,7 @@
 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>
-	<!-- Security Constraint will remove the access to the jsp Usually this 
+	<!-- Security Constraint will remove the access to the jsp. Usually this 
 		can be avoided by putting all jsp's in the WEB-INF folder and that will remove 
 		direct access to files. However just to be sure, security is added. -->
 

@@ -2,6 +2,8 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
+
+
 <s:if test="%{#parameters.id != null}">
 
 	<h1>
@@ -17,20 +19,18 @@
 		<s:submit key="global.submit" />
 	</s:form>
 </s:if>
-<s:else>
-	<h1>
+<div id="CursInsForm" title="Create new Curs">
+	<h2>
 		<s:property value="getText('global.insertMessage')" />
 		Curs
-	</h1>
-	<s:form action="Curs_add" method="post" validate="true">
+	</h2>
+	<s:form method="post" validate="true">
 		<s:hidden name="cursModel.cId" />
-		<s:textfield name="cursModel.numeCurs" key="global.denCurs" />
-		<s:textfield name="cursModel.universitateId" key="global.univId" />
-		<s:textfield name="cursModel.profesorId" key="global.cursId" />
-		<s:submit />
-
+		<s:textfield name="cursModel.numeCurs" key="global.denCurs" id="cursModelNumeCurs"/>
+		<s:textfield name="cursModel.universitateId" key="global.univId" id="cursModelUniversitateId"/>
+		<s:textfield name="cursModel.profesorId" key="global.cursId" id="cursModelProfesorId"/>
 	</s:form>
-</s:else>
+</div>
 
 <s:if test="cursModelList.size()>0">
 	<h1>Curs List</h1>
@@ -57,9 +57,9 @@
 		</display:column>
 		<display:setProperty name="paging.banner.placement" value="bottom" />
 	</display:table>
+	<br />
+	<br />
 </s:if>
-<s:if test="%{#parameters.ids != null}">
-<p>Ids</p>
-</s:if>
-<s:else>Not Ids</s:else>
 
+
+<button id="create-Curs">Create new Curs</button>

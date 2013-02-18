@@ -2,11 +2,13 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
+
+
 <s:if test="%{#parameters.id != null}">
-	<h1>
+	<h2>
 		<s:property value="getText('global.edit')" />
 		Universitate
-	</h1>
+	</h2>
 	<s:form action="Universitate_update" method="post" validate="true">
 		<s:hidden name="universitateModel.UId" />
 		<s:textfield name="universitateModel.numeUniver" key="global.denum" />
@@ -15,20 +17,18 @@
 		<s:submit key="global.submit" />
 	</s:form>
 </s:if>
-<s:else>
-	<h1>
+<div id="UniversitateInsForm" title="Create new Universitate">
+	<h2>
 		<s:property value="getText('global.insertMessage')" />
 		Universitate
-	</h1>
-	<s:form action="Universitate_add" method="post" validate="true">
+	</h2>
+	<s:form method="post" validate="true">
 		<s:hidden name="universitateModel.UId" />
-		<s:textfield name="universitateModel.numeUniver" key="global.denum" />
-		<s:textfield name="universitateModel.adresa" key="global.address" />
-		<s:textfield name="universitateModel.telefon" key="global.phone" />
-		<s:submit key="global.submit" />
-
+		<s:textfield name="universitateModel.numeUniver" key="global.denum" id="univNume"/>
+		<s:textfield name="universitateModel.adresa" key="global.address" id="univAdresa"/>
+		<s:textfield name="universitateModel.telefon" key="global.phone" id="univTel"/>
 	</s:form>
-</s:else>
+</div>
 
 
 <s:if test="universitateModelList.size()>0">
@@ -56,5 +56,8 @@
 		</display:column>
 		<display:setProperty name="paging.banner.placement" value="bottom" />
 	</display:table>
-
+	<br />
+	<br />
 </s:if>
+
+<button id="create-Universitate">Create new Universitate</button>

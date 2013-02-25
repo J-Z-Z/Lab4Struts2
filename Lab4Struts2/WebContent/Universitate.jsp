@@ -1,14 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
 
-
-<s:if test="%{#parameters.id != null}">
-	<h2>
+<div id="container">
+<s:if test="%{#parameters.id != null || universitateModel.UId}">
+	<h1>
 		<s:property value="getText('global.edit')" />
 		Universitate
-	</h2>
+	</h1>
 	<s:form action="Universitate_update" method="post" validate="true">
 		<s:hidden name="universitateModel.UId" />
 		<s:textfield name="universitateModel.numeUniver" key="global.denum" />
@@ -17,7 +16,57 @@
 		<s:submit key="global.submit" />
 	</s:form>
 </s:if>
-<div id="UniversitateInsForm" title="Create new Universitate">
+
+
+
+<s:if test="universitateModelList.size()>0">
+	<h1>Universitates List</h1>
+	<table class="ui-widget ui-widget-content">
+		<caption>Universitate</caption>
+		<thead>
+			<tr class="ui-widget-header ">
+				<th><s:property value="getText('global.univId')" /></th>
+				<th><s:property value="getText('global.denum')" /></th>
+				<th><s:property value="getText('global.address')" /></th>
+				<th><s:property value="getText('global.phone')" /></th>
+				<th><s:property value="getText('global.edit')" /></th>
+				<th><s:property value="getText('global.delete')" /></th>
+			</tr>
+		</thead>
+		<s:iterator value="universitateModelList">
+			<tr>
+				<td><s:property value="UId" /></td>
+				<td><s:property value="numeUniver" /></td>
+				<td><s:property value="adresa" /></td>
+				<td><s:property value="telefon" /></td>
+				<td><s:url id="editURL" action="Universitate_edit">
+						<s:param name="id" value="%{UId}"></s:param>
+					</s:url> <s:a href="%{editURL}">
+						<s:property value="getText('global.edit')" />
+					</s:a></td>
+				<td><s:url id="deleteURL" action="Universitate_delete">
+						<s:param name="id" value="%{UId}"></s:param>
+					</s:url> <s:a href="%{deleteURL}">
+						<s:property value="getText('global.delete')" />
+					</s:a></td>
+			</tr>
+		</s:iterator>	
+	</table>
+	
+	<!-- Pagination Logic -->
+	<div id="pager">
+	<s:iterator value="pgArray" var="m">
+		<s:url id="nextPage" action="Universitate_list.html">
+			<s:param name="pgNr" value="#m+1"></s:param>
+		</s:url>
+		<s:a href="%{nextPage}">
+			<s:property value="#m+1" />
+		</s:a>
+	</s:iterator>
+	</div>
+	
+	<!-- Auto-hidden Insert University dialog window -->
+	<div id="UniversitateInsForm" title="Create new Universitate">
 	<h2>
 		<s:property value="getText('global.insertMessage')" />
 		Universitate
@@ -29,35 +78,8 @@
 		<s:textfield name="universitateModel.telefon" key="global.phone" id="univTel"/>
 	</s:form>
 </div>
-
-
-<s:if test="universitateModelList.size()>0">
-	<h1>Universitates List</h1>
-
-	<display:table id="data" name="universitateModelList" pagesize="5"
-		export="false" requestURI="/Universitate_list.html">
-		<display:column property="UId" titleKey="global.univId"
-			sortable="true" />
-		<display:column property="numeUniver" titleKey="global.denum"
-			sortable="true" />
-		<display:column property="adresa" titleKey="global.address"
-			sortable="true" />
-		<display:column property="telefon" titleKey="global.phone"
-			sortable="true" />
-
-		<display:column titleKey="global.edit" href="Universitate_edit.html"
-			paramId="id" paramProperty="UId">
-			<s:property value="getText('global.edit')" />
-		</display:column>
-
-		<display:column titleKey="global.delete"
-			href="Universitate_delete.html" paramId="id" paramProperty="UId">
-			<s:property value="getText('global.delete')" />
-		</display:column>
-		<display:setProperty name="paging.banner.placement" value="bottom" />
-	</display:table>
-	<br />
-	<br />
-</s:if>
-
 <button id="create-Universitate">Create new Universitate</button>
+</s:if>
+</div>
+
+ 

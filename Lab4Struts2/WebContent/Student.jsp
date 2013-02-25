@@ -1,73 +1,111 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
+<div id="containera">
+	<s:if test="%{#parameters.id != null || studentModel.SId!=null}">
+
+		<div id="StudentEditForm" title="Edit Student">
+			<h1>Edit StudentModel</h1>
+			<s:form action="Student_update" method="post" validate="true">
+				<s:hidden name="studentModel.SId" />
+				<s:textfield name="studentModel.nume" key="global.lname" />
+				<s:textfield name="studentModel.prenume" key="global.name" />
+				<s:textfield name="studentModel.grupa" key="global.group" />
+				<s:textfield name="studentModel.email" key="global.email" />
+				<s:textfield name="studentModel.telFix" key="global.phone" />
+				<s:submit />
+			</s:form>
+		</div>
+	</s:if>
+
+	<div id="loading"></div>
+	<s:if test="studentModelList.size()>0 && studentModelList!=null">
+		<div id="container">
+			<h1>Student List</h1>
+
+			<table class="ui-widget ui-widget-content">
+				<caption>Student</caption>
+				<thead>
+					<tr class="ui-widget-header ">
+						<th><s:property value="getText('global.studentId')" /></th>
+						<th><s:property value="getText('global.name')" /></th>
+						<th><s:property value="getText('global.lname')" /></th>
+						<th><s:property value="getText('global.group')" /></th>
+						<th><s:property value="getText('global.email')" /></th>
+						<th><s:property value="getText('global.phone')" /></th>
+						<th><s:property value="getText('global.edit')" /></th>
+						<th><s:property value="getText('global.delete')" /></th>
+					</tr>
+				</thead>
+				<s:iterator value="studentModelList">
+					<tr>
+						<td><s:property value="SId" /></td>
+						<td><s:property value="nume" /></td>
+						<td><s:property value="prenume" /></td>
+						<td><s:property value="grupa" /></td>
+						<td><s:property value="email" /></td>
+						<td><s:property value="telFix" /></td>
+						<td><s:url id="editURL" action="Student_edit">
+								<s:param name="id" value="%{SId}"></s:param>
+							</s:url> <s:a href="%{editURL}">
+								<s:property value="getText('global.edit')" />
+							</s:a></td>
+						<td><s:url id="deleteURL" action="Student_delete">
+								<s:param name="id" value="%{SId}"></s:param>
+							</s:url> <s:a href="%{deleteURL}">
+								<s:property value="getText('global.delete')" />
+							</s:a></td>
+
+						<td><a href="javascript:void(null)"
+							onclick="editIt(<s:property value="SId" />,
+					'<s:property value="nume" />',
+				    '<s:property value="prenume" />')">Edit2</a></td>
+					</tr>
+				</s:iterator>
+			</table>
 
 
-<s:if test="%{#parameters.id != null}">
-<div id="StudentEditForm" title="Edit Student">
-	<h2>Edit StudentModel</h2>
-	<s:form action="Student_update" method="post" validate="true">
-		<s:hidden name="studentModel.SId" />
-		<s:textfield name="studentModel.nume" key="global.lname" />
-		<s:textfield name="studentModel.prenume" key="global.name" />
-		<s:textfield name="studentModel.grupa" key="global.group" />
-		<s:textfield name="studentModel.email" key="global.email" />
-		<s:textfield name="studentModel.telFix" key="global.phone" />
-		<s:submit />
-	</s:form>
+			<!-- Pagination logic -->
+
+			<div id="pager">
+				<s:iterator value="pgArray" var="m">
+					<s:url id="nextPage" action="Student_list.html">
+						<s:param name="pgNr" value="#m+1"></s:param>
+					</s:url>
+					<s:a href="%{nextPage}">
+						<s:property value="#m+1" />
+					</s:a>
+				</s:iterator>
+			</div>
+
+
+			<!-- Auto-hidden Insert Modal Window -->
+
+			<div id="StudentInsForm" title="Create new Student">
+				<p class="validateTips">All form fields are required.</p>
+
+				<s:form method="post" validate="true">
+					<s:hidden name="studentModel.SId" />
+					<s:textfield name="studentModel.nume" key="global.lname"
+						id="stdntNume" />
+					<s:textfield name="studentModel.prenume" key="global.name"
+						id="stdnPrenume" />
+					<s:textfield name="studentModel.grupa" key="global.group"
+						id="stdntGrp" />
+					<s:textfield name="studentModel.email" key="global.email"
+						id="stdntEmail" />
+					<s:textfield name="studentModel.telFix" key="global.phone"
+						id="stdntTel" />
+				</s:form>
+			</div>
+			<button id="create-Student">Create new Student</button>
+		</div>
+	</s:if>
+	<script>
+function editIt(var1, var2, var3){
+	alert(var1+ ' ' +var2+ '  ' +var3);
+};
+
+</script>
+
 </div>
-</s:if>
 
-<div id="StudentInsForm" title="Create new Student">
-    <p class="validateTips">All form fields are required.</p>
-
-    <s:form method="post" validate="true">
-        <s:hidden name="studentModel.SId"/>
-        <s:textfield name="studentModel.nume" key="global.lname"
-                     id="stdntNume" />
-        <s:textfield name="studentModel.prenume" key="global.name"
-                     id="stdnPrenume"/>
-        <s:textfield name="studentModel.grupa" key="global.group"
-                     id="stdntGrp"/>
-        <s:textfield name="studentModel.email" key="global.email"
-                     id="stdntEmail"/>
-        <s:textfield name="studentModel.telFix" key="global.phone"
-                     id="stdntTel"/>
-    </s:form>
-</div>
-<s:if test="studentModelList.size()>0">
-
-	<h1>Student List</h1>
-
-	<display:table id="data" name="studentModelList" pagesize="5"
-		export="false" requestURI="/Student_list.html">
-		<display:column property="SId" titleKey="global.studentId"
-			sortable="true" />
-		<display:column property="nume" titleKey="global.lname"
-			sortable="true" />
-		<display:column property="prenume" titleKey="global.name"
-			sortable="true" />
-		<display:column property="grupa" titleKey="global.group"
-			sortable="true" />
-		<display:column property="email" titleKey="global.email"
-			sortable="true" />
-		<display:column property="telFix" titleKey="global.phone"
-			sortable="true" />
-
-		<display:column titleKey="global.edit" href="Student_edit.html"
-			paramId="id" paramProperty="SId" >
-			<s:property value="getText('global.edit')" />
-		</display:column>
-
-		<display:column  titleKey="global.delete" href="Student_delete.html"
-			paramId="id" paramProperty="SId">
-			<s:property value="getText('global.delete')" />
-		</display:column>
-	
-<display:setProperty name="paging.banner.placement" value="bottom" />
-	</display:table>
-	<br />
-	<br />
-</s:if>
-
-<button id="create-Student">Create new Student</button>
 

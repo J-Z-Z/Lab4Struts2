@@ -69,7 +69,7 @@ public class CursService implements GenericService<CursModel, Curs> {
 		List<CursModel> cursModelList = new ArrayList<CursModel>();
 		for (Curs c : r) {
 			CursModel cursModelTemp = new CursModel();
-			cursModelTemp.setcId(c.getCId());
+			cursModelTemp.setCursId(c.getCId());
 			cursModelTemp.setNumeCurs(c.getNumeCurs());
 
 			cursModelTemp.setUniversitateId(c.getUniversitate().getUId());
@@ -90,7 +90,7 @@ public class CursService implements GenericService<CursModel, Curs> {
 	@Override
 	public CursModel transform(Curs c) {
 		CursModel cursModel = new CursModel();
-		cursModel.setcId(c.getCId());
+		cursModel.setCursId(c.getCId());
 		cursModel.setNumeCurs(c.getNumeCurs());
 		cursModel.setUniversitateId(c.getUniversitate().getUId());
 		cursModel.setUniverNume(c.getUniversitate().getNumeUniver());
@@ -107,7 +107,7 @@ public class CursService implements GenericService<CursModel, Curs> {
 		Profesor profesor = new Profesor();
 		Universitate univ = new Universitate();
 
-		curs.setCId(t.getcId());
+		curs.setCId(t.getCursId());
 		curs.setNumeCurs(t.getNumeCurs());
 
 		univ.setUId(t.getUniversitateId());

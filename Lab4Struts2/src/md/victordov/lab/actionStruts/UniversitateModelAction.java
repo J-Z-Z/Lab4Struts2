@@ -1,5 +1,6 @@
 package md.victordov.lab.actionStruts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,9 @@ public class UniversitateModelAction extends ActionSupport implements
 	private UniversitateModel universitateModel;
 	public GenericService<UniversitateModel, Universitate> genService;
 	private List<UniversitateModel> universitateModelList;
+	private static final int MAX_PG = 5;
+	private Long countTotal = 0L;
+	private List<Long> pgArray = new ArrayList<Long>();
 
 	public UniversitateModelAction() {
 		this.genService = new UniversitateService();
@@ -37,9 +41,23 @@ public class UniversitateModelAction extends ActionSupport implements
 	}
 
 	public String listAllUniversitateModel() throws MyDaoException {
-
-		this.universitateModelList = genService.retrieve();
-
+		HttpServletRequest request = (HttpServletRequest) ActionContext
+				.getContext().get(ServletActionContext.HTTP_REQUEST);
+		Integer pgNr = 0;
+		countTotal = genService.countSize();
+		try{
+			if(request.getParameter("pgNr")!=null){
+				pgNr =Integer.parseInt(request.getParameter("pgNr"));				
+			}
+		}catch(NumberFormatException nfe){
+			System.out.println("Page Exception");
+		}
+		for(int i =0; i<Math.ceil((double)countTotal/MAX_PG); i++){
+			pgArray.add((long)i);
+		}
+		
+		this.universitateModelList = genService.retrieve(pgNr,MAX_PG);
+		
 		return SUCCESS;
 	}
 
@@ -94,6 +112,22 @@ public class UniversitateModelAction extends ActionSupport implements
 	@Override
 	public UniversitateModel getModel() {
 		return this.universitateModel;
+	}
+
+	public Long getCountTotal() {
+		return countTotal;
+	}
+
+	public void setCountTotal(Long countTotal) {
+		this.countTotal = countTotal;
+	}
+
+	public List<Long> getPgArray() {
+		return pgArray;
+	}
+
+	public void setPgArray(List<Long> pgArray) {
+		this.pgArray = pgArray;
 	}
 
 }

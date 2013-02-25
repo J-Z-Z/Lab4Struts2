@@ -7,13 +7,6 @@ public class CursModel implements java.io.Serializable {
 
 	}
 
-	public Integer getcId() {
-		return cId;
-	}
-
-	public void setcId(Integer cId) {
-		this.cId = cId;
-	}
 
 	public String getNumeCurs() {
 		return numeCurs;
@@ -56,7 +49,16 @@ public class CursModel implements java.io.Serializable {
 		this.profesorId = profesorId;
 	}
 
-	private Integer cId; // Curs Id
+	public Integer getCursId() {
+		return cursId;
+	}
+
+
+	public void setCursId(Integer cursId) {
+		this.cursId = cursId;
+	}
+
+	private Integer cursId; // Curs Id
 	private String numeCurs; // Denumirea cursului
 	private Integer universitateId; // Universitate Id
 	private String univerNume;

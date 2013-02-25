@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
 
-<s:if test="%{#parameters.id != null}">
+<div id="container">
+<s:if test="%{#parameters.id != null || profesorModel.PId}">
 	<h1>
 		<s:property value="getText('global.edit')" />
 		Profesor
@@ -17,7 +17,55 @@
 
 	</s:form>
 </s:if>
-<div id="ProfesorInsForm" title="Create new Profesor">
+
+
+<s:if test="profesorModelList.size()>0">
+	<h1>Profesor List</h1>
+	<table class="ui-widget ui-widget-content">
+		<caption>Profesor</caption>
+		<thead>
+			<tr class="ui-widget-header">
+				<th><s:property value="getText('global.profesorId')" /></th>
+				<th><s:property value="getText('global.name')" /></th>
+				<th><s:property value="getText('global.lname')" /></th>
+				<th><s:property value="getText('global.address')" /></th>
+				<th><s:property value="getText('global.edit')" /></th>
+				<th><s:property value="getText('global.delete')"/> </th>
+			</tr>
+		</thead>
+		<s:iterator value="profesorModelList">
+			<tr>
+				<td><s:property value="PId" /></td>
+				<td><s:property value="nume" /></td>
+				<td><s:property value="prenume" /></td>
+				<td><s:property value="adresa" /></td>
+				<td><s:url id="editURL" action="Profesor_edit">
+						<s:param name="id" value="%{PId}"></s:param>
+					</s:url> <s:a href="%{editURL}">
+						<s:property value="getText('global.edit')" />
+					</s:a></td>
+				<td><s:url id="deleteURL" action="Profesor_delete">
+						<s:param name="id" value="%{PId}"></s:param>
+					</s:url> <s:a href="%{deleteURL}">
+						<s:property value="getText('global.delete')" />
+					</s:a></td>
+			</tr>
+		</s:iterator>	
+	</table>
+	<div id="pager">
+	<s:iterator value="pgArray" var="m">
+		<s:url id="nextPage" action="Profesor_list.html">
+		<s:param name="pgNr" value="#m+1"></s:param>
+		</s:url>
+		
+		<s:a href="%{nextPage}">
+						<s:property value="#m+1" />
+					</s:a>
+		
+	</s:iterator>
+	</div>
+	<br />
+	<div id="ProfesorInsForm" title="Create new Profesor">
 	<h2>
 		<s:property value="getText('global.insertMessage')" />
 		Profesor
@@ -29,33 +77,6 @@
 		<s:textfield name="profesorModel.adresa" key="global.address" id="profesorModelAdresa"/>
 	</s:form>
 </div>
-
-<s:if test="profesorModelList.size()>0">
-	<h1>Profesor List</h1>
-	<display:table id="data" name="profesorModelList" pagesize="5"
-		export="false" requestURI="/Profesor_list.html">
-		<display:column property="PId" titleKey="global.profesorId"
-			sortable="true" />
-		<display:column property="nume" titleKey="global.lname"
-			sortable="true" />
-		<display:column property="prenume" titleKey="global.name"
-			sortable="true" />
-		<display:column property="adresa" titleKey="global.address"
-			sortable="true" />
-
-		<display:column titleKey="global.edit" href="Profesor_edit.html"
-			paramId="id" paramProperty="PId" >
-			<s:property value="getText('global.edit')" />
-		</display:column>
-
-		<display:column titleKey="global.delete" href="Profesor_delete.html"
-			paramId="id" paramProperty="PId">
-			<s:property value="getText('global.delete')" />
-		</display:column>
-		<display:setProperty name="paging.banner.placement" value="bottom" />
-	</display:table>
-	<br />
-	<br />
-</s:if>
-
 <button id="create-Profesor">Create new Profesor</button>
+</s:if>
+</div>

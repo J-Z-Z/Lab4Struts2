@@ -1,10 +1,13 @@
 package md.victordov.lab.actionStruts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
+
 
 import md.victordov.lab.common.exception.MyDaoException;
 import md.victordov.lab.services.CursService;
@@ -20,25 +23,45 @@ public class CursModelAction extends ActionSupport implements
 	/**
 	 * 
 	 */
+	private static final Logger logger = Logger.getLogger(CursModelAction.class);
+	
 	private static final long serialVersionUID = 1L;
 	private CursModel cursModel;
 	public GenericService<CursModel, Curs> genService;
 	private List<CursModel> cursModelList;
+	private static final int MAX_PG = 5;
+	private Long countTotal = 0L;
+	private List<Long> pgArray = new ArrayList<Long>();
 
 	public CursModelAction() {
 		this.genService = new CursService();
 	}
 
 	public String execute() throws MyDaoException {
-
+		
+		
 		this.cursModelList = genService.retrieve();
-
 		return SUCCESS;
 	}
 
 	public String listAllCursModel() throws MyDaoException {
-
-		this.cursModelList = genService.retrieve();
+		logger.debug("debugging list all curs model");
+		HttpServletRequest request = (HttpServletRequest) ActionContext
+				.getContext().get(ServletActionContext.HTTP_REQUEST);
+		Integer pgNr = 0;
+		countTotal = genService.countSize();
+		try{
+			if(request.getParameter("pgNr")!=null){
+				pgNr =Integer.parseInt(request.getParameter("pgNr"));				
+			}
+		}catch(NumberFormatException nfe){
+			System.out.println("Page Exception");
+		}
+		for(int i =0; i<Math.ceil((double)countTotal/MAX_PG); i++){
+			pgArray.add((long)i);
+		}
+		
+		this.cursModelList = genService.retrieve(pgNr,MAX_PG);
 
 		return SUCCESS;
 	}
@@ -47,7 +70,7 @@ public class CursModelAction extends ActionSupport implements
 
 		genService.create(cursModel);
 		this.cursModelList = genService.retrieve();
-
+				
 		return SUCCESS;
 
 	}
@@ -66,7 +89,7 @@ public class CursModelAction extends ActionSupport implements
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
 
 		cursModel = genService.retrieve(Integer.parseInt(request
-				.getParameter("id")));
+				.getParameter("id"))); 
 		return SUCCESS;
 	}
 
@@ -93,6 +116,22 @@ public class CursModelAction extends ActionSupport implements
 	@Override
 	public CursModel getModel() {
 		return this.cursModel;
+	}
+
+	public Long getCountTotal() {
+		return countTotal;
+	}
+
+	public void setCountTotal(Long countTotal) {
+		this.countTotal = countTotal;
+	}
+
+	public List<Long> getPgArray() {
+		return pgArray;
+	}
+
+	public void setPgArray(List<Long> pgArray) {
+		this.pgArray = pgArray;
 	}
 
 }

@@ -163,7 +163,7 @@ public class UnivDAO implements GenericDAO<Universitate>, Serializable {
 		session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 
-		Long count = ((Long) session
+		Long count =  ((Long) session
 				.createQuery("select count(*) from Universitate as univ")
 				.iterate().next()).longValue();
 		tx.commit();

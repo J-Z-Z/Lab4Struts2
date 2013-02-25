@@ -1,5 +1,6 @@
 package md.victordov.lab.actionStruts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,10 @@ public class StudentModelAction extends ActionSupport implements
 	private StudentModel studentModel;
 	public GenericService<StudentModel, Student> genService;
 	private List<StudentModel> studentModelList;
+	private static final int MAX_PG = 5;
+	private Long countTotal = 0L;
+	private List<Long> pgArray = new ArrayList<Long>();
+	
 
 	public StudentModelAction() {
 		this.genService = new StudentService();
@@ -38,9 +43,23 @@ public class StudentModelAction extends ActionSupport implements
 	}
 
 	public String listAllStudentModel() throws MyDaoException {
-
-		this.studentModelList = genService.retrieve();
-
+		HttpServletRequest request = (HttpServletRequest) ActionContext
+				.getContext().get(ServletActionContext.HTTP_REQUEST);
+		Integer pgNr = 0;
+		countTotal = genService.countSize();
+		try{
+			if(request.getParameter("pgNr")!=null){
+				pgNr =Integer.parseInt(request.getParameter("pgNr"));				
+			}
+		}catch(NumberFormatException nfe){
+			System.out.println("Page Exception");
+		}
+		for(int i =0; i<Math.ceil((double)countTotal/MAX_PG); i++){
+			pgArray.add((long)i);
+		}
+		
+		this.studentModelList = genService.retrieve(pgNr,MAX_PG);
+				
 		return SUCCESS;
 	}
 
@@ -100,6 +119,22 @@ public class StudentModelAction extends ActionSupport implements
 	public void validate() {
 
 		super.validate();
+	}
+
+	public Long getCountTotal() {
+		return countTotal;
+	}
+
+	public void setCountTotal(Long countTotal) {
+		this.countTotal = countTotal;
+	}
+
+	public List<Long> getPgArray() {
+		return pgArray;
+	}
+
+	public void setPgArray(List<Long> pgArray) {
+		this.pgArray = pgArray;
 	}
 
 }

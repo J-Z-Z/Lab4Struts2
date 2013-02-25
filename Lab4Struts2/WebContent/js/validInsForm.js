@@ -5,7 +5,7 @@
                 {
                     autoOpen:false,
                     width:370,
-                    position:[ 250, 50 ],
+                    position:[ 450, 100 ],
                     modal:true,
                     buttons:{
                         "Create a student":function () {
@@ -34,15 +34,15 @@
                         }
                     },
                     close:function () {
-                        $("#stdntNume").val("").removeClass("ui-state-error");
-                        $("#stdnPrenume").val("").removeClass("ui-state-error");
-                        $("#stdntGrp").val("").removeClass("ui-state-error");
-                        $("#stdntEmail").val("").removeClass("ui-state-error");
-                        $("#stdntTel").val("").removeClass("ui-state-error");
-                        var classErrRemove = $(".errorMessage");
-                        if (classErrRemove.length > 0) {
-                            for (var i = 0; i < classErrRemove.length; i++) {
-                                classErrRemove[i].innerHTML = "";
+                        $("#stdntNume").val("");
+                        $("#stdnPrenume").val("");
+                        $("#stdntGrp").val("");
+                        $("#stdntEmail").val("");
+                        $("#stdntTel").val("");
+                        var $errInpClear = $('tr[errorFor]');
+                        if ($errInpClear.length > 0) {
+                            for (var i = 0; i < $errInpClear.length; i++) {
+                            	$errInpClear[i].remove();
                             }
                         }
                         $("#StudentInsForm").dialog("close");
@@ -57,7 +57,7 @@
                 {
                     autoOpen:false,
                     width:370,
-                    position:[ 250, 50 ],
+                    position:[ 450, 100 ],
                     modal:true,
                     buttons:{
                         "Create a student":function () {
@@ -77,6 +77,7 @@
                             request.done(function (htmlData) {
                                 $("#UniversitateInsForm").html(htmlData);
                             });
+                            
                         },
                         Cancel:function () {
                             $(this).dialog("close");
@@ -86,10 +87,10 @@
                         $("#univNume").val("").removeClass("ui-state-error");
                         $("#univAdresa").val("").removeClass("ui-state-error");
                         $("#univTel").val("").removeClass("ui-state-error");
-                        var classErrRemove = $(".errorMessage");
-                        if (classErrRemove.length > 0) {
-                            for (var i = 0; i < classErrRemove.length; i++) {
-                                classErrRemove[i].innerHTML = "";
+                        var $errInpClear = $('tr[errorFor]');
+                        if ($errInpClear.length > 0) {
+                            for (var i = 0; i < $errInpClear.length; i++) {
+                            	$errInpClear[i].remove();
                             }
                         }
                         $("#UniversitateInsForm").dialog("close");
@@ -104,7 +105,7 @@
                 {
                     autoOpen:false,
                     width:370,
-                    position:[ 250, 50 ],
+                    position:[ 'center', 100 ],
                     modal:true,
                     buttons:{
                         "Create Curs":function () {
@@ -133,10 +134,10 @@
                         $("#cursModelNumeCurs").val("").removeClass("ui-state-error");
                         $("#cursModelUniversitateId").val("").removeClass("ui-state-error");
                         $("#cursModelProfesorId").val("").removeClass("ui-state-error");
-                        var classErrRemove = $(".errorMessage");
-                        if (classErrRemove.length > 0) {
-                            for (var i = 0; i < classErrRemove.length; i++) {
-                                classErrRemove[i].innerHTML = "";
+                        var $errInpClear = $('tr[errorFor]');
+                        if ($errInpClear.length > 0) {
+                            for (var i = 0; i < $errInpClear.length; i++) {
+                            	$errInpClear[i].remove();
                             }
                         }
                         $("#CursInsForm").dialog("close");
@@ -151,7 +152,7 @@
                 {
                     autoOpen:false,
                     width:370,
-                    position:[ 250, 50 ],
+                    position:[ 450, 100 ],
                     modal:true,
                     buttons:{
                         "Create Profesor":function () {
@@ -180,10 +181,10 @@
                         $("#profesorModelNume").val("").removeClass("ui-state-error");
                         $("#profesorModelPrenume").val("").removeClass("ui-state-error");
                         $("#profesorModelAdresa").val("").removeClass("ui-state-error");
-                        var classErrRemove = $(".errorMessage");
-                        if (classErrRemove.length > 0) {
-                            for (var i = 0; i < classErrRemove.length; i++) {
-                                classErrRemove[i].innerHTML = "";
+                        var $errInpClear = $('tr[errorFor]');
+                        if ($errInpClear.length > 0) {
+                            for (var i = 0; i < $errInpClear.length; i++) {
+                            	$errInpClear[i].remove();
                             }
                         }
                         $("#ProfesorInsForm").dialog("close");
@@ -198,7 +199,7 @@
                 {
                     autoOpen:false,
                     width:370,
-                    position:[ 250, 50 ],
+                    position:[ 450, 100 ],
                     modal:true,
                     buttons:{
                         "Create a Student Curs":function () {
@@ -225,10 +226,10 @@
                     close:function () {
                         $("#studCursModelStudentId").val("").removeClass("ui-state-error");
                         $("#studCursModelCursId").val("").removeClass("ui-state-error");
-                        var classErrRemove = $(".errorMessage");
-                        if (classErrRemove.length > 0) {
-                            for (var i = 0; i < classErrRemove.length; i++) {
-                                classErrRemove[i].innerHTML = "";
+                        var $errInpClear = $('tr[errorFor]');
+                        if ($errInpClear.length > 0) {
+                            for (var i = 0; i < $errInpClear.length; i++) {
+                            	$errInpClear[i].remove();
                             }
                         }
                         $("#StudCursInsForm").dialog("close");
@@ -239,5 +240,48 @@
             $("#StudCursInsForm").dialog("open");
         });
         
+
+        
+        
+        
+        
+        function loading_show(){
+            $('#loading').html("<img src='images/loading.gif'/>").fadeIn('fast');
+        };
+        function loading_hide(){
+            $('#loading').fadeOut('fast');
+        };                
+     $ldMe =    function loadData(page){
+            loading_show();                    
+         var request=   $.ajax
+            ({
+                type: "GET",
+                url: "/Lab4Struts2/Student_list.html",
+                data: "pgNr="+page,
+    
+            
+            });
+            
+            request.done(function (htmlData) {
+                $("#container").html(htmlData );
+                loading_hide();
+            });
+        };
+        
+        
+           
+        function chop(page){
+            
+            
+            if(page != 0 && page <= 6){
+                loadData(page);
+            }
+        };
+        
         
     });
+  
+  
+
+
+	

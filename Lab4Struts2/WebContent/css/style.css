@@ -55,7 +55,7 @@ body {
 }
 
 #container {
-	min-height: 745px;
+	min-height: 145px;
 	position: relative;
 }
 
@@ -94,7 +94,14 @@ body {
 	margin: 8px auto 0px auto;
 	overflow: auto;
 }
-.data{
+
+.data {
 	
 }
 
+#loading {
+	display:block;
+	margin-left: 47%;
+	margin-right: 53%;
+	width:150px;
+}

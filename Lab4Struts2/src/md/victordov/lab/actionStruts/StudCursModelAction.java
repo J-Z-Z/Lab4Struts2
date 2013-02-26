@@ -26,7 +26,7 @@ public class StudCursModelAction extends ActionSupport implements
 	private StudCursModel studCursModel;
 	public GenericService<StudCursModel, StudCurs> genService;
 	private List<StudCursModel> studCursModelList;
-	private static final int MAX_PG = 5;
+	private static final int MAX_PER_PAGE = 5;
 	private Long countTotal = 0L;
 	private List<Long> pgArray = new ArrayList<Long>();
 
@@ -45,19 +45,23 @@ public class StudCursModelAction extends ActionSupport implements
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
 		Integer pgNr = 0;
+		Integer totalNrPages;
 		countTotal = genService.countSize();
-		try{
-			if(request.getParameter("pgNr")!=null){
-				pgNr =Integer.parseInt(request.getParameter("pgNr"));				
+		totalNrPages = (int) Math.ceil((double) countTotal / MAX_PER_PAGE);
+		try {
+			if (request.getParameter("pgNr") != null) {
+				pgNr = Integer.parseInt(request.getParameter("pgNr"));
+				pgNr = pgNr > totalNrPages ? totalNrPages : pgNr;
+
 			}
-		}catch(NumberFormatException nfe){
+		} catch (NumberFormatException nfe) {
 			System.out.println("Page Exception");
 		}
-		for(int i =0; i<Math.ceil((double)countTotal/MAX_PG); i++){
-			pgArray.add((long)i);
+		for (int i = 0; i < Math.ceil((double) countTotal / MAX_PER_PAGE); i++) {
+			pgArray.add((long) i);
 		}
 		
-		this.studCursModelList = genService.retrieve(pgNr,MAX_PG);
+		this.studCursModelList = genService.retrieve(pgNr,MAX_PER_PAGE);
 		
 		return SUCCESS;
 	}

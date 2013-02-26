@@ -251,31 +251,85 @@
         function loading_hide(){
             $('#loading').fadeOut('fast');
         };                
-     $ldMe =    function loadData(page){
+     $nxtPgStudent =    function loadData(page){
             loading_show();                    
          var request=   $.ajax
             ({
                 type: "GET",
-                url: "/Lab4Struts2/Student_list.html",
+                url: "/Lab4Struts2/Studentpg.html",
                 data: "pgNr="+page,
     
             
             });
             
             request.done(function (htmlData) {
-                $("#container").html(htmlData );
+                $("#ajxTableData").html(htmlData );
                 loading_hide();
             });
         };
         
-        
+        $nxtPgProfesor =    function loadData(page){
+            loading_show();                    
+         var request=   $.ajax
+            ({
+                type: "GET",
+                url: "/Lab4Struts2/Profesorpg.html",
+                data: "pgNr="+page,
+                
+            });
+            
+            request.done(function (htmlData) {
+                $("#ajxTableData").html(htmlData );
+                loading_hide();
+            });
+        };
            
-        function chop(page){
+        $nxtPgStudCurs =    function loadData(page){
+            loading_show();                    
+         var request=   $.ajax
+            ({
+                type: "GET",
+                url: "/Lab4Struts2/StudCurspg.html",
+                data: "pgNr="+page,
+                
+            });
             
+            request.done(function (htmlData) {
+                $("#ajxTableData").html(htmlData );
+                loading_hide();
+            });
+        };
+        
+        $nxtPgUniversitate =    function loadData(page){
+            loading_show();                    
+         var request=   $.ajax
+            ({
+                type: "GET",
+                url: "/Lab4Struts2/Universitatepg.html",
+                data: "pgNr="+page,
+                
+            });
             
-            if(page != 0 && page <= 6){
-                loadData(page);
-            }
+            request.done(function (htmlData) {
+                $("#ajxTableData").html(htmlData );
+                loading_hide();
+            });
+        };
+        
+        $nxtPgCurs =    function loadData(page){
+            loading_show();                    
+         var request=   $.ajax
+            ({
+                type: "GET",
+                url: "/Lab4Struts2/Curspg.html",
+                data: "pgNr="+page,
+                
+            });
+            
+            request.done(function (htmlData) {
+                $("#ajxTableData").html(htmlData );
+                loading_hide();
+            });
         };
         
         

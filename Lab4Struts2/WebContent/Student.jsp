@@ -1,5 +1,5 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<div id="containera">
+<div id="container">
 	<s:if test="%{#parameters.id != null || studentModel.SId!=null}">
 
 		<div id="StudentEditForm" title="Edit Student">
@@ -18,9 +18,8 @@
 
 	<div id="loading"></div>
 	<s:if test="studentModelList.size()>0 && studentModelList!=null">
-		<div id="container">
+		<div id="ajxTableData">
 			<h1>Student List</h1>
-
 			<table class="ui-widget ui-widget-content">
 				<caption>Student</caption>
 				<thead>
@@ -64,46 +63,42 @@
 
 
 			<!-- Pagination logic -->
-
 			<div id="pager">
 				<s:iterator value="pgArray" var="m">
-					<s:url id="nextPage" action="Student_list.html">
-						<s:param name="pgNr" value="#m+1"></s:param>
-					</s:url>
-					<s:a href="%{nextPage}">
-						<s:property value="#m+1" />
-					</s:a>
+
+					<a href="javascript:void(null)"
+						onclick="$nxtPgStudent(<s:property value="#m+1" />)"><s:property
+							value="#m+1" /></a>
 				</s:iterator>
 			</div>
-
-
-			<!-- Auto-hidden Insert Modal Window -->
-
-			<div id="StudentInsForm" title="Create new Student">
-				<p class="validateTips">All form fields are required.</p>
-
-				<s:form method="post" validate="true">
-					<s:hidden name="studentModel.SId" />
-					<s:textfield name="studentModel.nume" key="global.lname"
-						id="stdntNume" />
-					<s:textfield name="studentModel.prenume" key="global.name"
-						id="stdnPrenume" />
-					<s:textfield name="studentModel.grupa" key="global.group"
-						id="stdntGrp" />
-					<s:textfield name="studentModel.email" key="global.email"
-						id="stdntEmail" />
-					<s:textfield name="studentModel.telFix" key="global.phone"
-						id="stdntTel" />
-				</s:form>
-			</div>
-			<button id="create-Student">Create new Student</button>
 		</div>
+
+		<!-- Auto-hidden Insert Modal Window -->
+
+		<div id="StudentInsForm" title="Create new Student">
+			<p class="validateTips">All form fields are required.</p>
+
+			<s:form method="post" validate="true">
+				<s:hidden name="studentModel.SId" />
+				<s:textfield name="studentModel.nume" key="global.lname"
+					id="stdntNume" />
+				<s:textfield name="studentModel.prenume" key="global.name"
+					id="stdnPrenume" />
+				<s:textfield name="studentModel.grupa" key="global.group"
+					id="stdntGrp" />
+				<s:textfield name="studentModel.email" key="global.email"
+					id="stdntEmail" />
+				<s:textfield name="studentModel.telFix" key="global.phone"
+					id="stdntTel" />
+			</s:form>
+		</div>
+		<button id="create-Student">Create new Student</button>
+
 	</s:if>
 	<script>
 function editIt(var1, var2, var3){
 	alert(var1+ ' ' +var2+ '  ' +var3);
 };
-
 </script>
 
 </div>

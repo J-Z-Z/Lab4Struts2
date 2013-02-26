@@ -51,7 +51,6 @@
 		<action name="*_list" class="md.victordov.lab.actionStruts.{1}ModelAction"
 			method="listAll{1}Model">
 			<result name="success" type="tiles">{1}</result>
-
 		</action>
 
 		<action name="*_add" class="md.victordov.lab.actionStruts.{1}ModelAction"
@@ -91,6 +90,10 @@
 			<result>testJquery.jsp</result>
 		</action>
 
-
+		<action name="*pg" class="md.victordov.lab.actionStruts.{1}ModelAction"
+			method="listAll{1}Model">
+			<result name="success" >{1}pg.jsp</result>
+		</action>
+	
 	</package>
 </struts>

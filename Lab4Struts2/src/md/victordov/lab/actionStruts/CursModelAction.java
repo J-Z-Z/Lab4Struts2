@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 
 
@@ -23,13 +22,13 @@ public class CursModelAction extends ActionSupport implements
 	/**
 	 * 
 	 */
-	private static final Logger logger = Logger.getLogger(CursModelAction.class);
+	
 	
 	private static final long serialVersionUID = 1L;
 	private CursModel cursModel;
 	public GenericService<CursModel, Curs> genService;
 	private List<CursModel> cursModelList;
-	private static final int MAX_PG = 5;
+	private static final int MAX_PER_PAGE = 5;
 	private Long countTotal = 0L;
 	private List<Long> pgArray = new ArrayList<Long>();
 
@@ -45,23 +44,26 @@ public class CursModelAction extends ActionSupport implements
 	}
 
 	public String listAllCursModel() throws MyDaoException {
-		logger.debug("debugging list all curs model");
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
 		Integer pgNr = 0;
+		Integer totalNrPages;
 		countTotal = genService.countSize();
-		try{
-			if(request.getParameter("pgNr")!=null){
-				pgNr =Integer.parseInt(request.getParameter("pgNr"));				
+		totalNrPages = (int) Math.ceil((double) countTotal / MAX_PER_PAGE);
+		try {
+			if (request.getParameter("pgNr") != null) {
+				pgNr = Integer.parseInt(request.getParameter("pgNr"));
+				pgNr = pgNr > totalNrPages ? totalNrPages : pgNr;
+
 			}
-		}catch(NumberFormatException nfe){
+		} catch (NumberFormatException nfe) {
 			System.out.println("Page Exception");
 		}
-		for(int i =0; i<Math.ceil((double)countTotal/MAX_PG); i++){
-			pgArray.add((long)i);
+		for (int i = 0; i < Math.ceil((double) countTotal / MAX_PER_PAGE); i++) {
+			pgArray.add((long) i);
 		}
 		
-		this.cursModelList = genService.retrieve(pgNr,MAX_PG);
+		this.cursModelList = genService.retrieve(pgNr,MAX_PER_PAGE);
 
 		return SUCCESS;
 	}

@@ -22,16 +22,16 @@
 					<td><s:property value="nume" /></td>
 					<td><s:property value="prenume" /></td>
 					<td><s:property value="adresa" /></td>
-					<td><s:url id="editURL" action="Profesor_edit">
-							<s:param name="id" value="%{PId}"></s:param>
-						</s:url> <s:a href="%{editURL}">
-							<s:property value="getText('global.edit')" />
-						</s:a></td>
-					<td><s:url id="deleteURL" action="Profesor_delete">
-							<s:param name="id" value="%{PId}"></s:param>
-						</s:url> <s:a href="%{deleteURL}">
+					<td>
+							<a href="javascript:void(null)"
+								onclick="editProf(<s:property value="PId" />)">Edit
+							</a>
+						</td>
+					<td>
+						<a href="javascript:void(null)" onclick="deleteProfesor(<s:property value="PId" />)" id="delProfLink<s:property value="PId" />">
 							<s:property value="getText('global.delete')" />
-						</s:a></td>
+						</a>
+					</td>
 				</tr>
 			</s:iterator>
 		</table>

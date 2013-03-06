@@ -3,20 +3,18 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
 <div id="container">
+<!-- Form for editing the Profesor  -->
+<div id="ProfesorEditForm" title="Edit Profesor">
 	<s:if test="%{#parameters.id != null || profesorModel.PId}">
-		<h1>
-			<s:property value="getText('global.edit')" />
-			Profesor
-		</h1>
-		<s:form action="Profesor_update" method="post" validate="true">
-			<s:hidden name="profesorModel.PId" />
-			<s:textfield name="profesorModel.nume" key="global.lname" />
-			<s:textfield name="profesorModel.prenume" key="global.name" />
-			<s:textfield name="profesorModel.adresa" key="global.address" />
-			<s:submit key="global.submit" />
-
+		<h1><s:property value="getText('global.edit')" />Profesor</h1>
+		<s:form method="post" validate="true">
+			<s:hidden name="profesorModel.PId" id="prf_edt_id"/>
+			<s:textfield name="profesorModel.nume" key="global.lname" id="prf_edt_nume"/>
+			<s:textfield name="profesorModel.prenume" key="global.name" id="prf_edt_prenume"/>
+			<s:textfield name="profesorModel.adresa" key="global.address" id="prf_edt_adresa"/>
 		</s:form>
 	</s:if>
+</div>
 
 <div id="loading"></div>
 	<s:if test="profesorModelList.size()>0  && profesorModelList!=null">
@@ -40,16 +38,16 @@
 						<td><s:property value="nume" /></td>
 						<td><s:property value="prenume" /></td>
 						<td><s:property value="adresa" /></td>
-						<td><s:url id="editURL" action="Profesor_edit">
-								<s:param name="id" value="%{PId}"></s:param>
-							</s:url> <s:a href="%{editURL}">
-								<s:property value="getText('global.edit')" />
-							</s:a></td>
-						<td><s:url id="deleteURL" action="Profesor_delete">
-								<s:param name="id" value="%{PId}"></s:param>
-							</s:url> <s:a href="%{deleteURL}">
+						<td>
+							<a href="javascript:void(null)"
+								onclick="editProf(<s:property value="PId" />)">Edit
+							</a>
+						</td>
+						<td>
+							<a href="javascript:void(null)" onclick="deleteProfesor(<s:property value="PId" />)" id="delProfLink<s:property value="PId" />">
 								<s:property value="getText('global.delete')" />
-							</s:a></td>
+							</a>
+						</td>
 					</tr>
 				</s:iterator>
 			</table>

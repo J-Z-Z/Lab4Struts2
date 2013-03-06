@@ -94,6 +94,18 @@
 			method="listAll{1}Model">
 			<result name="success" >{1}pg.jsp</result>
 		</action>
-	
+		
+		<action name="*edit" class="md.victordov.lab.actionStruts.{1}ModelAction"
+			method="edit{1}Model">
+			<result name="success" >{1}edit.jsp</result>
+			<result name="input" >{1}edit.jsp</result>
+		</action>
+		
+		<action name="*update" class="md.victordov.lab.actionStruts.{1}ModelAction"
+			method="update{1}Model">
+			<result name="success" >{1}edit.jsp</result>
+			<result name="input" >{1}edit.jsp</result>
+		</action>
+	 
 	</package>
 </struts>

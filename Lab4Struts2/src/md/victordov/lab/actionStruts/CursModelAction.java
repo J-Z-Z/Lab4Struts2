@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
 
-
 import md.victordov.lab.common.exception.MyDaoException;
 import md.victordov.lab.services.CursService;
 import md.victordov.lab.services.GenericService;
@@ -22,8 +21,7 @@ public class CursModelAction extends ActionSupport implements
 	/**
 	 * 
 	 */
-	
-	
+
 	private static final long serialVersionUID = 1L;
 	private CursModel cursModel;
 	public GenericService<CursModel, Curs> genService;
@@ -31,14 +29,22 @@ public class CursModelAction extends ActionSupport implements
 	private static final int MAX_PER_PAGE = 5;
 	private Long countTotal = 0L;
 	private List<Long> pgArray = new ArrayList<Long>();
+	private Integer pgNr = 0;
+
+	public Integer getPgNr() {
+		return pgNr;
+	}
+
+	public void setPgNr(Integer pgNr) {
+		this.pgNr = pgNr;
+	}
 
 	public CursModelAction() {
 		this.genService = new CursService();
 	}
 
 	public String execute() throws MyDaoException {
-		
-		
+
 		this.cursModelList = genService.retrieve();
 		return SUCCESS;
 	}
@@ -46,7 +52,7 @@ public class CursModelAction extends ActionSupport implements
 	public String listAllCursModel() throws MyDaoException {
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
-		Integer pgNr = 0;
+
 		Integer totalNrPages;
 		countTotal = genService.countSize();
 		totalNrPages = (int) Math.ceil((double) countTotal / MAX_PER_PAGE);
@@ -62,8 +68,8 @@ public class CursModelAction extends ActionSupport implements
 		for (int i = 0; i < Math.ceil((double) countTotal / MAX_PER_PAGE); i++) {
 			pgArray.add((long) i);
 		}
-		
-		this.cursModelList = genService.retrieve(pgNr,MAX_PER_PAGE);
+
+		this.cursModelList = genService.retrieve(pgNr, MAX_PER_PAGE);
 
 		return SUCCESS;
 	}
@@ -72,7 +78,7 @@ public class CursModelAction extends ActionSupport implements
 
 		genService.create(cursModel);
 		this.cursModelList = genService.retrieve();
-				
+
 		return SUCCESS;
 
 	}
@@ -91,13 +97,15 @@ public class CursModelAction extends ActionSupport implements
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
 
 		cursModel = genService.retrieve(Integer.parseInt(request
-				.getParameter("id"))); 
+				.getParameter("id")));
 		return SUCCESS;
 	}
 
 	public String updateCursModel() throws MyDaoException {
+		if (this.cursModel != null) {
+			genService.update(this.cursModel);
+		}
 
-		genService.update(this.cursModel);
 		this.cursModelList = genService.retrieve();
 
 		return SUCCESS;
@@ -115,11 +123,6 @@ public class CursModelAction extends ActionSupport implements
 		this.cursModel = cursModel;
 	}
 
-	@Override
-	public CursModel getModel() {
-		return this.cursModel;
-	}
-
 	public Long getCountTotal() {
 		return countTotal;
 	}
@@ -134,6 +137,12 @@ public class CursModelAction extends ActionSupport implements
 
 	public void setPgArray(List<Long> pgArray) {
 		this.pgArray = pgArray;
+	}
+
+	@Override
+	public CursModel getModel() {
+
+		return cursModel;
 	}
 
 }

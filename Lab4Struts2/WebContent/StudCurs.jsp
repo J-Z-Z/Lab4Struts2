@@ -3,22 +3,19 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
 <div id="container">
-	<s:if test="%{#parameters.id != null || studCursModel.scId}">
-		<h1>
-			<s:property value="getText('global.edit')" />
-			Student-Curs
-		</h1>
-		<s:form action="StudCurs_update" method="post" validate="true">
-			<s:hidden name="studCursModel.scId" />
-			<s:textfield name="studCursModel.studentId" key="global.studentId" />
-			<s:textfield name="studCursModel.cursId" key="global.cursId" />
-			<s:submit />
 
+<div id="StudCursEditForm" title="Edit Student Curs">
+	<s:if test="%{#parameters.id != null || studCursModel.scId}">
+		<h1><s:property value="getText('global.edit')" />Student-Curs</h1>
+		<s:form method="post" validate="true">
+			<s:hidden name="studCursModel.scId" id="stdc_edt_id"/>
+			<s:textfield name="studCursModel.studentId" key="global.studentId" id="stdc_edt_sId"/>
+			<s:textfield name="studCursModel.cursId" key="global.cursId" id="stdc_edt_cId"/>
 		</s:form>
 	</s:if>
+</div>
 
-
-	<s:if test="studCursModelList.size()>0 && studCursModelList!=null">
+	<s:if test="studCursModelList!=null && studCursModelList.size()>0">
 	<div id="loading"></div>
 		<div id="ajxTableData">
 			<h1>Student-Curs List</h1>
@@ -42,16 +39,16 @@
 						<td><s:property value="cursNume" /></td>
 						<td><s:property value="studentId" /></td>
 						<td><s:property value="studentNume" /></td>
-						<td><s:url id="editURL" action="StudCurs_edit">
-								<s:param name="id" value="%{scId}"></s:param>
-							</s:url> <s:a href="%{editURL}">
-								<s:property value="getText('global.edit')" />
-							</s:a></td>
-						<td><s:url id="deleteURL" action="StudCurs_delete">
-								<s:param name="id" value="%{scId}"></s:param>
-							</s:url> <s:a href="%{deleteURL}">
+						<td>
+							<a href="javascript:void(null)"
+								onclick="editStudCurs(<s:property value="scId" />)">Edit
+							</a>
+						</td>
+						<td>
+							<a href="javascript:void(null)" onclick="deleteStudCurs(<s:property value="scId" />)" id="delStudCursLink<s:property value="scId" />">
 								<s:property value="getText('global.delete')" />
-							</s:a></td>
+							</a>
+						</td>
 					</tr>
 				</s:iterator>
 			</table>
@@ -60,7 +57,6 @@
 			<!-- Pagination logic -->
 			<div id="pager">
 				<s:iterator value="pgArray" var="m">
-
 					<a href="javascript:void(null)"
 						onclick="$nxtPgStudCurs(<s:property value="#m+1" />)"><s:property
 							value="#m+1" /></a>
@@ -71,10 +67,7 @@
 
 		<!-- Auto-hidden insert dialog window -->
 		<div id="StudCursInsForm" title="Create new Student Curs">
-			<h2>
-				<s:property value="getText('global.insertMessage')" />
-				Student-Curs
-			</h2>
+			<h2><s:property value="getText('global.insertMessage')" />Student-Curs</h2>
 			<s:form method="post" validate="true">
 				<s:hidden name="studCursModel.scId" />
 				<s:textfield name="studCursModel.studentId" key="global.studentId"

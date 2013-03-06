@@ -25,7 +25,7 @@
 			<message>Adresa este necesara</message>
 		</field-validator>
 		<field-validator type="regex">
-			<param name="expression"><![CDATA[([a-zA-Z\.,]{4,30})]]></param>
+			<param name="expression"><![CDATA[([a-zA-Z\.,\s0-9]{4,30})]]></param>
 
 			<param name="caseSensitive">true</param>
 			<message><![CDATA[ Adresa trebuie sa fie intre 4 si 30 simboluri]]></message>

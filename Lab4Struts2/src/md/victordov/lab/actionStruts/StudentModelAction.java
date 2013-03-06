@@ -89,13 +89,43 @@ public class StudentModelAction extends ActionSupport implements
 
 		studentModel = genService.retrieve(Integer.parseInt(request
 				.getParameter("id")));
-
+		System.out.println("from edit:  ");
+		System.out.println("ID:"+this.studentModel.getSId());
+		System.out.println("Nume: " + this.studentModel.getNume());
+		System.out.println("Prenume: " + this.studentModel.getPrenume());
+		System.out.println("Grupa: " + this.studentModel.getGrupa());
+		System.out.println("Email: " + this.studentModel.getEmail());
+		System.out.println("TelFix: " + this.studentModel.getTelFix());
 		return SUCCESS;
 	}
 
 	public String updateStudentModel() throws MyDaoException {
+		if(this.studentModel!=null){
+			try{
+				genService.update(this.studentModel);
+				System.out.println("From Update, If id !=null => Ok: ");
+				System.out.println("ID:"+this.studentModel.getSId());
+				System.out.println("Nume: " + this.studentModel.getNume());
+				System.out.println("Prenume: " + this.studentModel.getPrenume());
+				System.out.println("Grupa: " + this.studentModel.getGrupa());
+				System.out.println("Email: " + this.studentModel.getEmail());
+				System.out.println("TelFix: " + this.studentModel.getTelFix());
+			}
+				catch(MyDaoException mde){
+					System.out.println("Student Update Fail, Object NUll");
+					System.out.println("ID:"+this.studentModel.getSId());
+					System.out.println("Nume: " + this.studentModel.getNume());
+					System.out.println("Prenume: " + this.studentModel.getPrenume());
+					System.out.println("Grupa: " + this.studentModel.getGrupa());
+					System.out.println("Email: " + this.studentModel.getEmail());
+					System.out.println("TelFix: " + this.studentModel.getTelFix());	
+					throw mde;
+				}
+			}
+			
+			
 
-		genService.update(this.studentModel);
+		
 		this.studentModelList = genService.retrieve();
 
 		return SUCCESS;

@@ -3,27 +3,20 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
 <div id="container">
-
-
-
+<div id="CursEditForm" title="Edit Curs">
 	<s:if test="%{#parameters.id != null || cursModel.cursId}">
-		<h1>
-			<s:property value="getText('global.edit')" />
-			Curs
-		</h1>
-		<s:form action="Curs_update" method="post" validate="true">
-
-			<s:hidden name="cursModel.cursId" />
-			<s:textfield name="cursModel.numeCurs" key="global.denCurs" />
-			<s:textfield name="cursModel.universitateId" key="global.univId" />
-			<s:textfield name="cursModel.profesorId" key="global.cursId" />
-			<s:submit key="global.submit" />
+		<h1><s:property value="getText('global.edit')" />Curs</h1>
+		<s:form method="post" validate="true">
+			<s:hidden name="cursModel.cursId" id="crs_edt_id"/>
+			<s:textfield name="cursModel.numeCurs" key="global.denCurs" id="crs_edt_numeCurs"/>
+			<s:textfield name="cursModel.universitateId" key="global.univId" id="crs_edt_univId"/>
+			<s:textfield name="cursModel.profesorId" key="global.cursId" id="crs_edt_profId"/>
 		</s:form>
 	</s:if>
-
+</div>
 
 	<div id="loading"></div>
-	<s:if test="cursModelList.size()>0 && cursModelList!=null">
+	<s:if test="cursModelList!=null && cursModelList.size()>0">
 
 		<div id="ajxTableData">
 			<h1>Curs List</h1>
@@ -45,16 +38,16 @@
 						<td><s:property value="numeCurs" /></td>
 						<td><s:property value="universitateId" /></td>
 						<td><s:property value="profesorId" /></td>
-						<td><s:url id="editURL" action="Curs_edit">
-								<s:param name="id" value="%{cursId}"></s:param>
-							</s:url> <s:a href="%{editURL}">
-								<s:property value="getText('global.edit')" />
-							</s:a></td>
-						<td><s:url id="deleteURL" action="Curs_delete">
-								<s:param name="id" value="%{cursId}"></s:param>
-							</s:url> <s:a href="%{deleteURL}">
+						<td>
+							<a href="javascript:void(null)"
+								onclick="editCurs(<s:property value="cursId" />)">Edit
+							</a>
+						</td>
+						<td>
+							<a href="javascript:void(null)" onclick="deleteCurs(<s:property value="cursId" />)" id="delCursLink<s:property value="cursId" />">
 								<s:property value="getText('global.delete')" />
-							</s:a></td>
+							</a>
+						</td>
 					</tr>
 				</s:iterator>
 			</table>
@@ -62,9 +55,18 @@
 			<!-- Pagination Logic -->
 			<div id="pager">
 				<s:iterator value="pgArray" var="m">
+				<s:if test="pgNr == #m+1">
+				
+				<a href="javascript:void(null)"
+						onclick="$nxtPgCurs(<s:property value="#m+1" />)"><strong><s:property
+							value="#m+1" /></strong></a>
+				
+				</s:if>
+				<s:else>
 					<a href="javascript:void(null)"
 						onclick="$nxtPgCurs(<s:property value="#m+1" />)"><s:property
 							value="#m+1" /></a>
+				</s:else>
 				</s:iterator>
 			</div>
 		</div>

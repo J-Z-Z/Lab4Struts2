@@ -1,8 +1,7 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
-<s:if test="universitateModelList.size()>0">
-	<div id="loading"></div>
-	<div id="ajxTableData">
+<s:if test="universitateModelList!=null && universitateModelList.size()>0">
+
 		<h1>Universitates List</h1>
 		<table class="ui-widget ui-widget-content">
 			<caption>Universitate</caption>
@@ -22,16 +21,17 @@
 					<td><s:property value="numeUniver" /></td>
 					<td><s:property value="adresa" /></td>
 					<td><s:property value="telefon" /></td>
-					<td><s:url id="editURL" action="Universitate_edit">
-							<s:param name="id" value="%{UId}"></s:param>
-						</s:url> <s:a href="%{editURL}">
-							<s:property value="getText('global.edit')" />
-						</s:a></td>
-					<td><s:url id="deleteURL" action="Universitate_delete">
-							<s:param name="id" value="%{UId}"></s:param>
-						</s:url> <s:a href="%{deleteURL}">
+					<td>
+						<a href="javascript:void(null)"
+							onclick="editUniversitate(<s:property value="UId" />)">Edit
+						</a>
+					</td>
+					<td>
+						
+						<a href="javascript:void(null)" onclick="deleteUniversitate(<s:property value="UId" />)" id="delUnivLink<s:property value="UId" />">
 							<s:property value="getText('global.delete')" />
-						</s:a></td>
+						</a>
+					</td>
 				</tr>
 			</s:iterator>
 		</table>
@@ -46,5 +46,4 @@
 			</s:iterator>
 		</div>
 
-	</div>
 </s:if>

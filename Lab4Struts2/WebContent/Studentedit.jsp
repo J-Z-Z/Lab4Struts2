@@ -3,16 +3,15 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
 
-<s:if test="%{#parameters.id != null}">
-<div id="StudentEditForm" title="Edit Student">
+<s:if test="%{#parameters.id != null || studentModel.SId!=null}">
+
 	<h1>Edit StudentModel</h1>
-	<s:form action="Student_update" method="post" validate="true">
-		<s:hidden name="studentModel.SId" />
-		<s:textfield name="studentModel.nume" key="global.lname" />
-		<s:textfield name="studentModel.prenume" key="global.name" />
-		<s:textfield name="studentModel.grupa" key="global.group" />
-		<s:textfield name="studentModel.email" key="global.email" />
-		<s:textfield name="studentModel.telFix" key="global.phone" />
+	<s:form  method="post" validate="true">
+		<s:hidden name="studentModel.SId" id="st_edt_id"/>
+		<s:textfield name="studentModel.nume" key="global.lname" id="st_edt_nume" />
+		<s:textfield name="studentModel.prenume" key="global.name" id="st_edt_prenume"/>
+		<s:textfield name="studentModel.grupa" key="global.group" id="st_edt_grupa"/>
+		<s:textfield name="studentModel.email" key="global.email" id="st_edt_email"/>
+		<s:textfield name="studentModel.telFix" key="global.phone" id="st_edt_telFix"/>
 	</s:form>
-</div>
 </s:if>

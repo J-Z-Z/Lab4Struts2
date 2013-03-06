@@ -3,24 +3,22 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
 <div id="container">
+
+<div id="UniversitateEditForm" title="Edit Universitate">
 	<s:if test="%{#parameters.id != null || universitateModel.UId}">
-		<h1>
-			<s:property value="getText('global.edit')" />
-			Universitate
-		</h1>
-		<s:form action="Universitate_update" method="post" validate="true">
-			<s:hidden name="universitateModel.UId" />
-			<s:textfield name="universitateModel.numeUniver" key="global.denum" />
-			<s:textfield name="universitateModel.adresa" key="global.address" />
-			<s:textfield name="universitateModel.telefon" key="global.phone" />
-			<s:submit key="global.submit" />
+		<h1><s:property value="getText('global.edit')" />Universitate</h1>
+		<s:form method="post" validate="true">
+			<s:hidden name="universitateModel.UId" id="unv_edt_id"/>
+			<s:textfield name="universitateModel.numeUniver" key="global.denum" id="unv_edt_denum"/>
+			<s:textfield name="universitateModel.adresa" key="global.address" id="unv_edt_adresa"/>
+			<s:textfield name="universitateModel.telefon" key="global.phone" id="unv_edt_phone"/>
 		</s:form>
 	</s:if>
+</div>
 
-
-
-	<s:if test="universitateModelList.size()>0">
-		<div id="loading"></div>
+	<div id="loading"></div>
+	<s:if test="universitateModelList!=null && universitateModelList.size()>0">
+		
 		<div id="ajxTableData">
 			<h1>Universitates List</h1>
 			<table class="ui-widget ui-widget-content">
@@ -41,16 +39,17 @@
 						<td><s:property value="numeUniver" /></td>
 						<td><s:property value="adresa" /></td>
 						<td><s:property value="telefon" /></td>
-						<td><s:url id="editURL" action="Universitate_edit">
-								<s:param name="id" value="%{UId}"></s:param>
-							</s:url> <s:a href="%{editURL}">
-								<s:property value="getText('global.edit')" />
-							</s:a></td>
-						<td><s:url id="deleteURL" action="Universitate_delete">
-								<s:param name="id" value="%{UId}"></s:param>
-							</s:url> <s:a href="%{deleteURL}">
-								<s:property value="getText('global.delete')" />
-							</s:a></td>
+						<td>
+							<a href="javascript:void(null)"
+								onclick="editUniversitate(<s:property value="UId" />)">Edit
+							</a>
+						</td>
+						<td>
+						
+						<a href="javascript:void(null)" onclick="deleteUniversitate(<s:property value="UId" />)" id="delUnivLink<s:property value="UId" />">
+							<s:property value="getText('global.delete')" />
+						</a>
+					</td>
 					</tr>
 				</s:iterator>
 			</table>

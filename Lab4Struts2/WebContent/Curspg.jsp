@@ -1,6 +1,6 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
-<s:if test="cursModelList.size()>0 && cursModelList!=null">
+<s:if test="cursModelList!=null && cursModelList.size()>0">
 
 	<div id="ajxTableData">
 		<h1>Curs List</h1>
@@ -22,16 +22,16 @@
 					<td><s:property value="numeCurs" /></td>
 					<td><s:property value="universitateId" /></td>
 					<td><s:property value="profesorId" /></td>
-					<td><s:url id="editURL" action="Curs_edit">
-							<s:param name="id" value="%{cursId}"></s:param>
-						</s:url> <s:a href="%{editURL}">
-							<s:property value="getText('global.edit')" />
-						</s:a></td>
-					<td><s:url id="deleteURL" action="Curs_delete">
-							<s:param name="id" value="%{cursId}"></s:param>
-						</s:url> <s:a href="%{deleteURL}">
+					<td>
+							<a href="javascript:void(null)"
+								onclick="editCurs(<s:property value="cursId" />)">Edit
+							</a>
+						</td>
+					<td>
+						<a href="javascript:void(null)" onclick="deleteCurs(<s:property value="cursId" />)" id="delCursLink<s:property value="cursId" />">
 							<s:property value="getText('global.delete')" />
-						</s:a></td>
+						</a>
+					</td>
 				</tr>
 			</s:iterator>
 		</table>
@@ -39,10 +39,19 @@
 		<!-- Pagination Logic -->
 		<div id="pager">
 			<s:iterator value="pgArray" var="m">
+				<s:if test="pgNr == #m+1">
+				
 				<a href="javascript:void(null)"
-					onclick="$nxtPgCurs(<s:property value="#m+1" />)"><s:property
-						value="#m+1" /></a>
-			</s:iterator>
+						onclick="$nxtPgCurs(<s:property value="#m+1" />)"><strong><s:property
+							value="#m+1" /></strong></a>
+				
+				</s:if>
+				<s:else>
+					<a href="javascript:void(null)"
+						onclick="$nxtPgCurs(<s:property value="#m+1" />)"><s:property
+							value="#m+1" /></a>
+				</s:else>
+				</s:iterator>
 		</div>
 	</div>
 </s:if>

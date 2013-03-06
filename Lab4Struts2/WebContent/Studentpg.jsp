@@ -27,16 +27,16 @@
 					<td><s:property value="grupa" /></td>
 					<td><s:property value="email" /></td>
 					<td><s:property value="telFix" /></td>
-					<td><s:url id="editURL" action="Student_edit">
-							<s:param name="id" value="%{SId}"></s:param>
-						</s:url> <s:a href="%{editURL}">
-							<s:property value="getText('global.edit')" />
-						</s:a></td>
-					<td><s:url id="deleteURL" action="Student_delete">
-							<s:param name="id" value="%{SId}"></s:param>
-						</s:url> <s:a href="%{deleteURL}">
+					<td><a href="javascript:void(null)"
+							onclick="editStudent(<s:property value="SId" />)">Edit</a>
+					</td>
+					<td>
+						
+						<a href="javascript:void(null)" onclick="deleteStudent(<s:property value="SId" />)" id="delStudentLink<s:property value="SId" />">
 							<s:property value="getText('global.delete')" />
-						</s:a></td>
+						</a>
+					</td>
+						
 
 				</tr>
 			</s:iterator>

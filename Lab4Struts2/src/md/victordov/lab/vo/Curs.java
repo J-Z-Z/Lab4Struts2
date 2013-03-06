@@ -29,10 +29,15 @@ public class Curs implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static final Log log = LogFactory.getLog(Curs.class);
+
 	public Curs() {
 	}
 
-
+	public Curs(Curs curs) {
+		this.numeCurs = curs.numeCurs;
+		this.profesor = curs.getProfesor();
+		this.universitate = curs.getUniversitate();
+	}
 
 	public Integer getCId() {
 		return this.CId;
@@ -91,7 +96,7 @@ public class Curs implements java.io.Serializable {
 	@Column(name = "nume_curs", nullable = false, length = 30)
 	private String numeCurs;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "curs")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "curs")
 	private Set<StudCurs> studCurses = new HashSet<StudCurs>(0);
 
 }

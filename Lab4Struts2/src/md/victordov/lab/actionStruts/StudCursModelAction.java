@@ -121,8 +121,6 @@ public class StudCursModelAction extends ActionSupport implements
 			rezult = genService.update(this.studCursModel);	
 		}
 		
-		this.studCursModelList = genService.retrieve();
-
 		return rezult ? "success" : "validate";
 	}
 

@@ -108,8 +108,6 @@ public class ProfesorModelAction extends ActionSupport implements
 			rezult = genService.update(this.profesorModel);
 		}
 		
-		this.profesorModelList = genService.retrieve();
-
 		return rezult ? "success" : "validate";
 	}
 

@@ -1,5 +1,5 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<div id="container">
+
 
 
 <div id="StudentEditForm" title="Edit Student">
@@ -89,7 +89,4 @@
 		<button name="Insert_StudentButton" onclick="addStudent();" class="btn btn-primary" type="button">Insert New Student</button>
 
 	</s:if>
-
-</div>
-
 

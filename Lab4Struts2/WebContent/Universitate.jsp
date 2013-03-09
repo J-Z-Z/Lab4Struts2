@@ -2,7 +2,6 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
-<div id="container">
 
 <div id="UniversitateEditForm" title="Edit Universitate">
 	<s:if test="%{#parameters.id != null || universitateModel.UId}">
@@ -83,5 +82,3 @@
 		<div id="UnivAddForm" title="Create new Universitate"></div>
 		<button name="Insert_Universitate" onclick="addUniversitate();" class="btn btn-primary" type="button">Insert New University</button>	
 	</s:if>
-</div>
-

@@ -2,8 +2,6 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
-<div id="container">
-
 <div id="StudCursEditForm" title="Edit Student Curs">
 	<s:if test="%{#parameters.id != null || studCursModel.scId}">
 		<h1><s:property value="getText('global.edit')" />Student-Curs</h1>
@@ -83,5 +81,3 @@
 		<div id="StudCursAddForm"></div>
 		<button name="Insert_SC" onclick="addStudCurs();" class="btn btn-primary" type="button">Insert New Student Curs</button>
 	</s:if>
-
-</div>

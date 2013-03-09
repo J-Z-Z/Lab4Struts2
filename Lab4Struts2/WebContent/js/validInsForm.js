@@ -1,7 +1,52 @@
 $(document).ready(function () {
+	
 
 });
 
+function langEn(){
+	var request = $.ajax
+	       ({
+	           type: "GET",
+	           url: "/Lab4Struts2/locale.html",
+	           data: {"request_locale":"en"}
+	});
+
+	request.done(function(){
+	alert("Engligh Content Selected");
+	});
+
+	request.fail(function(jqXHR, textStatus) {
+		alert( "Request failed: " + textStatus );
+	});
+	};
+
+function langRo(){
+	var request = $.ajax
+	       ({
+	           type: "GET",
+	           url: "/Lab4Struts2/locale.html",
+	           data: {"request_locale":"ro"}
+	});
+
+	request.done(function(){
+	alert("Limba Romana a fost aleasa");
+	});
+
+	request.fail(function(jqXHR, textStatus) {
+		alert( "Request failed: " + textStatus );
+	});
+	};
+
+
+	
+function ajxNavLoad(pageName){
+	var linkPage = '/Lab4Struts2/' + pageName + '_list.html';
+	$('#container').load(linkPage, function(response, status, xhr) {
+		if(status=="error"){
+			alert("The page could not be loaded");
+		}
+	});
+};
 
 
 function loading_show() {

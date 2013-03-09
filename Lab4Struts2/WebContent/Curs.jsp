@@ -2,7 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
-<div id="container">
+
 <div id="CursEditForm" title="Edit Curs">
 	<s:if test="%{#parameters.id != null || cursModel.cursId}">
 		<h1><s:property value="getText('global.edit')" />Curs</h1>
@@ -82,4 +82,3 @@
 
 	</s:if>
 
-</div>

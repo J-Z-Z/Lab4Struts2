@@ -129,8 +129,6 @@ public class UniversitateModelAction extends ActionSupport implements
 			rezult = genService.update(this.universitateModel);	
 		}
 		
-		this.universitateModelList = genService.retrieve();
-
 		return rezult ? "success" : "validate";
 	}
 

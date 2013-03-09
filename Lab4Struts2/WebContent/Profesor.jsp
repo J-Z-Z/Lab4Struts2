@@ -2,7 +2,6 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
-<div id="container">
 <!-- Form for editing the Profesor  -->
 <div id="ProfesorEditForm" title="Edit Profesor">
 	<s:if test="%{#parameters.id != null || profesorModel.PId}">
@@ -81,4 +80,3 @@
 		<div id="ProfAddForm" title="Create new Profesor"></div>
 		<button name="Insert_Profesor" onclick="addProf();" class="btn btn-primary" type="button">Insert New Profesor</button>
 	</s:if>
-</div>

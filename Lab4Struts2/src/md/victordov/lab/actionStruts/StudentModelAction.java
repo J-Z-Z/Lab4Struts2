@@ -114,18 +114,17 @@ public class StudentModelAction extends ActionSupport implements
 	}
 
 	public String updateStudentModel() throws MyDaoException {
+		boolean rezult = false;
 		if(this.studentModel!=null){
 			try{
-				genService.update(this.studentModel);
+				rezult = genService.update(this.studentModel);
 			}
 				catch(MyDaoException mde){
 					throw mde;
 				}
 			}
 		
-		this.studentModelList = genService.retrieve();
-
-		return SUCCESS;
+		return rezult ? "success" : "validate";
 	}
 
 	public List<StudentModel> getStudentModelList() {

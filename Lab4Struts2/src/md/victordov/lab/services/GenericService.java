@@ -12,11 +12,11 @@ public interface GenericService<T,R> {
 
 	T retrieve(Integer id) throws MyDaoException;
 
-	void create(T t) throws MyDaoException;
+	boolean create(T t) throws MyDaoException;
 
-	void update(T t) throws MyDaoException;
+	boolean update(T t) throws MyDaoException;
 
-	void delete(Integer id) throws MyDaoException;
+	boolean delete(Integer id) throws MyDaoException;
 
 	Long countSize() throws MyDaoException;
 

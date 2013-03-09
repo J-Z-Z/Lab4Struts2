@@ -12,11 +12,11 @@ public interface GenericDAO<T> {
 
 	T retrieve(int id) throws MyDaoException;
 
-	void create(T t) throws MyDaoException;
+	boolean create(T t) throws MyDaoException;
 
-	void update(T t) throws MyDaoException;
+	boolean update(T t) throws MyDaoException;
 
-	void delete(int id) throws MyDaoException;
+	boolean delete(int id) throws MyDaoException;
 
 	Long countSize() throws MyDaoException;
 

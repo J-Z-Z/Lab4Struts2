@@ -76,7 +76,7 @@ public class UnivDAO implements GenericDAO<Universitate>, Serializable {
 
 	}
 
-	public void create(Universitate t) throws MyDaoException {
+	public boolean create(Universitate t) throws MyDaoException {
 
 		session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
@@ -91,10 +91,12 @@ public class UnivDAO implements GenericDAO<Universitate>, Serializable {
 		} finally {
 			session.close();
 		}
+		
+		return true;
 
 	}
 
-	public void update(Universitate t) throws MyDaoException {
+	public boolean update(Universitate t) throws MyDaoException {
 
 		session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
@@ -108,16 +110,14 @@ public class UnivDAO implements GenericDAO<Universitate>, Serializable {
 		} finally {
 			session.close();
 		}
-
+		return true;
 	}
 
-	public void delete(int id) throws MyDaoException {
+	public boolean delete(int id) throws MyDaoException {
 		session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
-		Universitate p;
 		try {
-			p = (Universitate) session.get(Universitate.class, id);
-			session.delete(p);
+			session.delete((Universitate) session.get(Universitate.class, id));
 			tx.commit();
 		} catch (HibernateException he) {
 			if (tx != null)
@@ -126,6 +126,7 @@ public class UnivDAO implements GenericDAO<Universitate>, Serializable {
 		} finally {
 			session.close();
 		}
+		return true;
 
 	}
 

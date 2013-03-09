@@ -20,7 +20,7 @@
 
 		<div id="ajxTableData">
 			<h1>Curs List</h1>
-			<table class="ui-widget ui-widget-content">
+			<table class="table table-striped table-hover table-condensed">
 				<caption>Curs</caption>
 				<thead>
 					<tr class="ui-widget-header">
@@ -33,18 +33,18 @@
 					</tr>
 				</thead>
 				<s:iterator value="cursModelList">
-					<tr>
+					<tr id="delCursLink<s:property value="cursId" />">
 						<td><s:property value="cursId" /></td>
 						<td><s:property value="numeCurs" /></td>
 						<td><s:property value="universitateId" /></td>
 						<td><s:property value="profesorId" /></td>
 						<td>
 							<a href="javascript:void(null)"
-								onclick="editCurs(<s:property value="cursId" />)">Edit
+								onclick="editCurs(<s:property value="cursId" />)" class="btn btn-mini">Edit
 							</a>
 						</td>
 						<td>
-							<a href="javascript:void(null)" onclick="deleteCurs(<s:property value="cursId" />)" id="delCursLink<s:property value="cursId" />">
+							<a href="javascript:void(null)" onclick="deleteCurs(<s:property value="cursId" />)"  class="btn btn-mini">
 								<s:property value="getText('global.delete')" />
 							</a>
 						</td>
@@ -52,42 +52,33 @@
 				</s:iterator>
 			</table>
 
-			<!-- Pagination Logic -->
-			<div id="pager">
-				<s:iterator value="pgArray" var="m">
-				<s:if test="pgNr == #m+1">
-				
-				<a href="javascript:void(null)"
-						onclick="$nxtPgCurs(<s:property value="#m+1" />)"><strong><s:property
-							value="#m+1" /></strong></a>
-				
-				</s:if>
-				<s:else>
-					<a href="javascript:void(null)"
-						onclick="$nxtPgCurs(<s:property value="#m+1" />)"><s:property
-							value="#m+1" /></a>
-				</s:else>
-				</s:iterator>
-			</div>
+<!-- Pagination logic -->
+<div id="pager">
+    <div class="pagination">
+        <ul>
+            <s:iterator value="pgArray" var="m">
+                <li>
+                    <s:if test="pgNr == #m+1">
+                        <a href="javascript:void(null)" onclick="$nxtPgCurs(<s:property value="#m+1" />)" class="btn btn-link">
+                            <strong><s:property value="#m+1" /></strong>
+	                    </a>
+                    </s:if>
+
+                    <s:else>
+	                    <a href="javascript:void(null)" onclick="$nxtPgCurs(<s:property value="#m+1" />)" class="btn btn-link">
+                            <s:property value="#m+1" />
+	                    </a>
+                    </s:else>
+                </li>
+            </s:iterator>
+        </ul>
+	</div>
+</div>
 		</div>
 
 
-		<div id="CursInsForm" title="Create new Curs">
-			<h2>
-				<s:property value="getText('global.insertMessage')" />
-				Curs
-			</h2>
-			<s:form method="post" validate="true">
-				<s:hidden name="cursModel.cursId" />
-				<s:textfield name="cursModel.numeCurs" key="global.denCurs"
-					id="cursModelNumeCurs" />
-				<s:textfield name="cursModel.universitateId" key="global.univId"
-					id="cursModelUniversitateId" />
-				<s:textfield name="cursModel.profesorId" key="global.cursId"
-					id="cursModelProfesorId" />
-			</s:form>
-		</div>
-		<button id="create-Curs">Create new Curs</button>
+		<div id="CursAddForm" title="Create new Curs"></div>
+		<button name="Insert_Curs" onclick="addCurs();" class="btn btn-primary" type="button">Insert New Curs</button>
 
 	</s:if>
 

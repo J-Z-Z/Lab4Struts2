@@ -32,23 +32,24 @@ public class UniversitateService implements
 	}
 
 	@Override
-	public void create(UniversitateModel t) throws MyDaoException {
+	public boolean create(UniversitateModel t) throws MyDaoException {
 		GenericDAO<Universitate> gDao = new UnivDAO();
-		gDao.create(this.transformBack(t));
+		return gDao.create(this.transformBack(t));
 
 	}
 
 	@Override
-	public void update(UniversitateModel t) throws MyDaoException {
+	public boolean update(UniversitateModel t) throws MyDaoException {
 		GenericDAO<Universitate> gDao = new UnivDAO();
-		gDao.update(this.transformBack(t));
+		return gDao.update(this.transformBack(t));
 
 	}
 
 	@Override
-	public void delete(Integer id) throws MyDaoException {
+	public boolean delete(Integer id) throws MyDaoException {
 		GenericDAO<Universitate> gDao = new UnivDAO();
 		gDao.delete(id);
+		return true;
 
 	}
 

@@ -38,23 +38,23 @@ public class CursService implements GenericService<CursModel, Curs> {
 	}
 
 	@Override
-	public void create(CursModel t) throws MyDaoException {
+	public boolean create(CursModel t) throws MyDaoException {
 		GenericDAO<Curs> gDao = new CursDAO();
-		gDao.create(this.transformBack(t));
+		return gDao.create(this.transformBack(t));
 	}
 
 	@Override
-	public void update(CursModel t) throws MyDaoException {
+	public boolean update(CursModel t) throws MyDaoException {
 		GenericDAO<Curs> gDao = new CursDAO();
-		gDao.update(this.transformBack(t));
+		return gDao.update(this.transformBack(t));
 
 	}
 
 	@Override
-	public void delete(Integer id) throws MyDaoException {
-		System.out.println("This is what I have received: " + id);
+	public boolean delete(Integer id) throws MyDaoException {
 		GenericDAO<Curs> gDao = new CursDAO();
 		gDao.delete(id);
+		return true;
 
 	}
 

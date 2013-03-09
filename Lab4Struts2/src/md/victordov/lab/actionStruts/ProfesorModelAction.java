@@ -28,6 +28,7 @@ public class ProfesorModelAction extends ActionSupport implements
 	private static final int MAX_PER_PAGE = 5;
 	private Long countTotal = 0L;
 	private List<Long> pgArray = new ArrayList<Long>();
+	private Integer pgNr = 0;
 
 	public ProfesorModelAction() {
 		this.genService = new ProfesorService();
@@ -42,7 +43,6 @@ public class ProfesorModelAction extends ActionSupport implements
 	public String listAllProfesorModel() throws MyDaoException {
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
-		Integer pgNr = 0;
 		Integer totalNrPages;
 		countTotal = genService.countSize();
 		totalNrPages = (int) Math.ceil((double) countTotal / MAX_PER_PAGE);
@@ -65,21 +65,32 @@ public class ProfesorModelAction extends ActionSupport implements
 	}
 
 	public String addProfesorModel() throws MyDaoException {
-
-		genService.create(profesorModel);
-		this.profesorModelList = genService.retrieve();
-
-		return SUCCESS;
-
+		boolean rezultat = false;
+		if(profesorModel!=null){
+			rezultat = genService.create(profesorModel);
+		}
+		
+		return	rezultat?"success":"validate";
 	}
 
 	public String deleteProfesorModel() throws MyDaoException {
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
+		boolean rezult = false;
+		Integer id = null;
+		if(request.getParameter("id")!=null){
+			try{
+				id = Integer.parseInt(request.getParameter("id"));
+				rezult = genService.delete(id);
+			}catch(NumberFormatException nfe){
+				System.out.println("Profesor Id is null");
+			}
+			
+		}else{
+			System.out.println("Id of the Profesor to delete not received");
+		}
 
-		genService.delete(Integer.parseInt(request.getParameter("id")));
-
-		return SUCCESS;
+		return rezult ? "success":"validate";
 	}
 
 	public String editProfesorModel() throws MyDaoException {
@@ -92,11 +103,14 @@ public class ProfesorModelAction extends ActionSupport implements
 	}
 
 	public String updateProfesorModel() throws MyDaoException {
-
-		genService.update(this.profesorModel);
+		boolean rezult = false; 
+		if(this.profesorModel!=null){
+			rezult = genService.update(this.profesorModel);
+		}
+		
 		this.profesorModelList = genService.retrieve();
 
-		return SUCCESS;
+		return rezult ? "success" : "validate";
 	}
 
 	public List<ProfesorModel> getProfesorModelList() {
@@ -130,5 +144,13 @@ public class ProfesorModelAction extends ActionSupport implements
 
 	public void setPgArray(List<Long> pgArray) {
 		this.pgArray = pgArray;
+	}
+
+	public Integer getPgNr() {
+		return pgNr;
+	}
+
+	public void setPgNr(Integer pgNr) {
+		this.pgNr = pgNr;
 	}
 }

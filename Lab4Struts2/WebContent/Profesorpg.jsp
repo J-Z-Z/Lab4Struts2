@@ -4,7 +4,7 @@
 <s:if test="profesorModelList.size()>0  && profesorModelList!=null">
 	<div id="ajxTableData">
 		<h1>Profesor List</h1>
-		<table class="ui-widget ui-widget-content">
+		<table class="table table-striped table-hover table-condensed">
 			<caption>Profesor</caption>
 			<thead>
 				<tr class="ui-widget-header">
@@ -17,18 +17,18 @@
 				</tr>
 			</thead>
 			<s:iterator value="profesorModelList">
-				<tr>
+				<tr id="delProfLink<s:property value="PId" />">
 					<td><s:property value="PId" /></td>
 					<td><s:property value="nume" /></td>
 					<td><s:property value="prenume" /></td>
 					<td><s:property value="adresa" /></td>
 					<td>
-							<a href="javascript:void(null)"
-								onclick="editProf(<s:property value="PId" />)">Edit
+							<a href="javascript:void(null)" onclick="editProf(<s:property value="PId" />)" class="btn btn-mini">
+								Edit
 							</a>
 						</td>
 					<td>
-						<a href="javascript:void(null)" onclick="deleteProfesor(<s:property value="PId" />)" id="delProfLink<s:property value="PId" />">
+						<a href="javascript:void(null)" onclick="deleteProfesor(<s:property value="PId" />)"  class="btn btn-mini">
 							<s:property value="getText('global.delete')" />
 						</a>
 					</td>
@@ -36,14 +36,30 @@
 			</s:iterator>
 		</table>
 
-		<!-- Pagination logic -->
-		<div id="pager">
-			<s:iterator value="pgArray" var="m">
-				<a href="javascript:void(null)"
-					onclick="$nxtPgProfesor(<s:property value="#m+1" />)"><s:property
-						value="#m+1" /></a>
-			</s:iterator>
-		</div>
+<!-- Pagination logic -->
+<div id="pager">
+    <div class="pagination">
+        <ul>
+            <s:iterator value="pgArray" var="m">
+                <li>
+                    <s:if test="pgNr == #m+1">
+                        <a href="javascript:void(null)" onclick="$nxtPgProfesor(<s:property value="#m+1" />)" class="btn btn-link">
+                            <strong><s:property value="#m+1" /></strong>
+	                    </a>
+                    </s:if>
+
+                    <s:else>
+	                    <a href="javascript:void(null)" onclick="$nxtPgProfesor(<s:property value="#m+1" />)" class="btn btn-link">
+                            <s:property value="#m+1" />
+	                    </a>
+                    </s:else>
+                </li>
+            </s:iterator>
+
+        </ul>
+
+	</div>
+</div>
 	</div>
 
 </s:if>

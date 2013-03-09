@@ -75,21 +75,31 @@ public class CursModelAction extends ActionSupport implements
 	}
 
 	public String addCursModel() throws MyDaoException {
-
-		genService.create(cursModel);
-		this.cursModelList = genService.retrieve();
-
-		return SUCCESS;
-
+		boolean rezultat = false;
+		if(cursModel!=null){
+			rezultat = genService.create(cursModel);	
+		}
+		return	rezultat?"success":"validate";
 	}
 
 	public String deleteCursModel() throws MyDaoException {
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
+		boolean rezult = false;
+		Integer id = null;
+		if(request.getParameter("id")!=null){
+			try{
+				id = Integer.parseInt(request.getParameter("id"));
+				rezult = genService.delete(id);
+			}catch(NumberFormatException nfe){
+				System.out.println("Curs Id is null");
+			}
+			
+		}else{
+			System.out.println("Id of the Curs to delete not received");
+		}
 
-		genService.delete(Integer.parseInt(request.getParameter("id")));
-
-		return SUCCESS;
+		return rezult ? "success":"validate";
 	}
 
 	public String editCursModel() throws MyDaoException {
@@ -102,13 +112,13 @@ public class CursModelAction extends ActionSupport implements
 	}
 
 	public String updateCursModel() throws MyDaoException {
+		boolean rezult = false;
 		if (this.cursModel != null) {
-			genService.update(this.cursModel);
+			rezult = genService.update(this.cursModel);
 		}
 
 		this.cursModelList = genService.retrieve();
-
-		return SUCCESS;
+		return rezult ? "success" : "validate";
 	}
 
 	public List<CursModel> getCursModelList() {

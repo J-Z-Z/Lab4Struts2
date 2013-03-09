@@ -33,22 +33,23 @@ public class ProfesorService implements GenericService<ProfesorModel, Profesor> 
 	}
 
 	@Override
-	public void create(ProfesorModel t) throws MyDaoException {
+	public boolean create(ProfesorModel t) throws MyDaoException {
 		GenericDAO<Profesor> gDao = new ProfesorDAO();
-		gDao.create(this.transformBack(t));
+		return gDao.create(this.transformBack(t));
 
 	}
 
 	@Override
-	public void update(ProfesorModel t) throws MyDaoException {
+	public boolean update(ProfesorModel t) throws MyDaoException {
 		GenericDAO<Profesor> gDao = new ProfesorDAO();
-		gDao.update(this.transformBack(t));
+		return gDao.update(this.transformBack(t));
 	}
 
 	@Override
-	public void delete(Integer id) throws MyDaoException {
+	public boolean delete(Integer id) throws MyDaoException {
 		GenericDAO<Profesor> gDao = new ProfesorDAO();
 		gDao.delete(id);
+		return true;
 	}
 
 	@Override

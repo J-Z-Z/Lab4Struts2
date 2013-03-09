@@ -29,6 +29,15 @@ public class StudCursModelAction extends ActionSupport implements
 	private static final int MAX_PER_PAGE = 5;
 	private Long countTotal = 0L;
 	private List<Long> pgArray = new ArrayList<Long>();
+	private Integer pgNr = 0;
+
+	public Integer getPgNr() {
+		return pgNr;
+	}
+
+	public void setPgNr(Integer pgNr) {
+		this.pgNr = pgNr;
+	}
 
 	public StudCursModelAction() {
 		this.genService = new StudCursService();
@@ -44,7 +53,7 @@ public class StudCursModelAction extends ActionSupport implements
 	public String listAllStudCursModel() throws MyDaoException {
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
-		Integer pgNr = 0;
+		
 		Integer totalNrPages;
 		countTotal = genService.countSize();
 		totalNrPages = (int) Math.ceil((double) countTotal / MAX_PER_PAGE);
@@ -67,21 +76,33 @@ public class StudCursModelAction extends ActionSupport implements
 	}
 
 	public String addStudCursModel() throws MyDaoException {
-
-		genService.create(studCursModel);
-		this.studCursModelList = genService.retrieve();
-
-		return SUCCESS;
+		boolean rezultat = false;
+		if(studCursModel!=null){
+			rezultat = genService.create(studCursModel);			
+		}
+		
+		return	rezultat?"success":"validate";
 
 	}
 
 	public String deleteStudCursModel() throws MyDaoException {
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
+		boolean rezult = false;
+		Integer id = null;
+		if(request.getParameter("id")!=null){
+			try{
+				id = Integer.parseInt(request.getParameter("id"));
+				rezult = genService.delete(id);
+			}catch(NumberFormatException nfe){
+				System.out.println("Student-Curs Id is null");
+			}
+			
+		}else{
+			System.out.println("Id of the Student-Curs to delete not received");
+		}
 
-		genService.delete(Integer.parseInt(request.getParameter("id")));
-
-		return SUCCESS;
+		return rezult ? "success":"validate";
 	}
 
 	public String editStudCursModel() throws MyDaoException {
@@ -95,11 +116,14 @@ public class StudCursModelAction extends ActionSupport implements
 	}
 
 	public String updateStudCursModel() throws MyDaoException {
-
-		genService.update(this.studCursModel);
+		boolean rezult = false;
+		if(this.studCursModel != null){
+			rezult = genService.update(this.studCursModel);	
+		}
+		
 		this.studCursModelList = genService.retrieve();
 
-		return SUCCESS;
+		return rezult ? "success" : "validate";
 	}
 
 	public List<StudCursModel> getStudCursModelList() {

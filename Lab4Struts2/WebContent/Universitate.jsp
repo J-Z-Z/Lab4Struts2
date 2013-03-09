@@ -21,7 +21,7 @@
 		
 		<div id="ajxTableData">
 			<h1>Universitates List</h1>
-			<table class="ui-widget ui-widget-content">
+			<table class="table table-striped table-hover table-condensed">
 				<caption>Universitate</caption>
 				<thead>
 					<tr class="ui-widget-header ">
@@ -34,19 +34,19 @@
 					</tr>
 				</thead>
 				<s:iterator value="universitateModelList">
-					<tr>
+					<tr id="delUnivLink<s:property value="UId" />">
 						<td><s:property value="UId" /></td>
 						<td><s:property value="numeUniver" /></td>
 						<td><s:property value="adresa" /></td>
 						<td><s:property value="telefon" /></td>
 						<td>
 							<a href="javascript:void(null)"
-								onclick="editUniversitate(<s:property value="UId" />)">Edit
+								onclick="editUniversitate(<s:property value="UId" />)" class="btn btn-mini">Edit
 							</a>
 						</td>
 						<td>
 						
-						<a href="javascript:void(null)" onclick="deleteUniversitate(<s:property value="UId" />)" id="delUnivLink<s:property value="UId" />">
+						<a href="javascript:void(null)" onclick="deleteUniversitate(<s:property value="UId" />)"  class="btn btn-mini">
 							<s:property value="getText('global.delete')" />
 						</a>
 					</td>
@@ -54,35 +54,34 @@
 				</s:iterator>
 			</table>
 
-			<!-- Pagination logic -->
+<!-- Pagination logic -->
+<div id="pager">
+    <div class="pagination">
+        <ul>
+            <s:iterator value="pgArray" var="m">
+                <li>
+                    <s:if test="pgNr == #m+1">
+                        <a href="javascript:void(null)" onclick="$nxtPgUniversitate(<s:property value="#m+1" />)" class="btn btn-link">
+                            <strong><s:property value="#m+1" /></strong>
+	                    </a>
+                    </s:if>
 
-			<div id="pager">
-				<s:iterator value="pgArray" var="m">
-					<a href="javascript:void(null)"
-						onclick="$nxtPgUniversitate(<s:property value="#m+1" />)"><s:property
-							value="#m+1" /></a>
-				</s:iterator>
-			</div>
+                    <s:else>
+	                    <a href="javascript:void(null)" onclick="$nxtPgUniversitate(<s:property value="#m+1" />)" class="btn btn-link">
+                            <s:property value="#m+1" />
+	                    </a>
+                    </s:else>
+                </li>
+            </s:iterator>
+        </ul>
+	</div>
+</div>
 
 		</div>
 
 		<!-- Auto-hidden Insert University dialog window -->
-		<div id="UniversitateInsForm" title="Create new Universitate">
-			<h2>
-				<s:property value="getText('global.insertMessage')" />
-				Universitate
-			</h2>
-			<s:form method="post" validate="true">
-				<s:hidden name="universitateModel.UId" />
-				<s:textfield name="universitateModel.numeUniver" key="global.denum"
-					id="univNume" />
-				<s:textfield name="universitateModel.adresa" key="global.address"
-					id="univAdresa" />
-				<s:textfield name="universitateModel.telefon" key="global.phone"
-					id="univTel" />
-			</s:form>
-		</div>
-		<button id="create-Universitate">Create new Universitate</button>
+		<div id="UnivAddForm" title="Create new Universitate"></div>
+		<button name="Insert_Universitate" onclick="addUniversitate();" class="btn btn-primary" type="button">Insert New University</button>	
 	</s:if>
 </div>
 

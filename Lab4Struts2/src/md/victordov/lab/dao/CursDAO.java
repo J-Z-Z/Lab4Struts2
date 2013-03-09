@@ -76,7 +76,7 @@ public class CursDAO implements Serializable, GenericDAO<Curs> {
 	}
 
 	@Override
-	public void create(Curs t) throws MyDaoException {
+	public boolean create(Curs t) throws MyDaoException {
 
 		session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
@@ -90,11 +90,11 @@ public class CursDAO implements Serializable, GenericDAO<Curs> {
 		} finally {
 			session.close();
 		}
-
+		return true;
 	}
 
 	@Override
-	public void update(Curs t) throws MyDaoException {
+	public boolean update(Curs t) throws MyDaoException {
 
 		session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
@@ -108,17 +108,18 @@ public class CursDAO implements Serializable, GenericDAO<Curs> {
 		} finally {
 			session.close();
 		}
+		
+		return true;
 
 	}
 
 	@Override
-	public void delete(int id) throws MyDaoException {
+	public boolean delete(int id) throws MyDaoException {
 		session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
-		Curs p;
+		
 		try {
-			p = (Curs) session.get(Curs.class, id);
-			session.delete(p);
+			session.delete((Curs) session.get(Curs.class, id));
 			tx.commit();
 		} catch (HibernateException he) {
 			if (tx != null)
@@ -127,6 +128,7 @@ public class CursDAO implements Serializable, GenericDAO<Curs> {
 		} finally {
 			session.close();
 		}
+		return true;
 
 	}
 

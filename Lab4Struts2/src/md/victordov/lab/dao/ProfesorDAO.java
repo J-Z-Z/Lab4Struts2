@@ -70,7 +70,7 @@ public class ProfesorDAO implements Serializable, GenericDAO<Profesor> {
 
 	}
 
-	public void create(Profesor t) throws MyDaoException {
+	public boolean create(Profesor t) throws MyDaoException {
 
 		session = HibernateUtil.getSessionFactory().openSession();
 
@@ -83,10 +83,12 @@ public class ProfesorDAO implements Serializable, GenericDAO<Profesor> {
 		} finally {
 			session.close();
 		}
+		
+		return true;
 
 	}
 
-	public void update(Profesor t) throws MyDaoException {
+	public boolean update(Profesor t) throws MyDaoException {
 
 		session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
@@ -100,10 +102,11 @@ public class ProfesorDAO implements Serializable, GenericDAO<Profesor> {
 		} finally {
 			session.close();
 		}
-
+		
+		return true;
 	}
 
-	public void delete(int id) throws MyDaoException {
+	public boolean delete(int id) throws MyDaoException {
 
 		session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
@@ -119,6 +122,8 @@ public class ProfesorDAO implements Serializable, GenericDAO<Profesor> {
 		} finally {
 			session.close();
 		}
+		
+		return true;
 
 	}
 

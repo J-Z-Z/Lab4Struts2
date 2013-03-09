@@ -100,22 +100,28 @@ public class StudCursDAO implements Serializable, GenericDAO<StudCurs> {
 	}
 
 	@Override
-	public void create(StudCurs t) throws MyDaoException {
+	public boolean create(StudCurs t) throws MyDaoException {
 		session = HibernateUtil.getSessionFactory().openSession();
 		StudCurs studCurs = new StudCurs(t);
-		
-		System.out.println("Nume curs" + t.getCurs().getNumeCurs());
-		System.out.println("Email student" + t.getStudent().getEmail());
-		
+
 		Transaction tx = session.beginTransaction();
-		session.save(studCurs);
-		tx.commit();
-		session.close();
+		try {
+			session.save(studCurs);
+			tx.commit();
+		} catch (HibernateException he) {
+			if (tx != null)
+				tx.rollback();
+			throw new MyDaoException(ErrorList.CREATE_ERR_KEY, he);
+		} finally {
+			session.close();
+		}
+
+		return true;
 
 	}
 
 	@Override
-	public void update(StudCurs t) throws MyDaoException {
+	public boolean update(StudCurs t) throws MyDaoException {
 
 		session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
@@ -129,11 +135,12 @@ public class StudCursDAO implements Serializable, GenericDAO<StudCurs> {
 		} finally {
 			session.close();
 		}
+		return true;
 
 	}
 
 	@Override
-	public void delete(int id) throws MyDaoException {
+	public boolean delete(int id) throws MyDaoException {
 		session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		StudCurs p;
@@ -148,6 +155,7 @@ public class StudCursDAO implements Serializable, GenericDAO<StudCurs> {
 		} finally {
 			session.close();
 		}
+		return true;
 
 	}
 

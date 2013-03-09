@@ -72,7 +72,7 @@ public class StudentDAO implements Serializable, GenericDAO<Student> {
 		}
 	}
 
-	public void create(Student t) throws MyDaoException {
+	public boolean create(Student t) throws MyDaoException {
 
 		session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
@@ -86,10 +86,12 @@ public class StudentDAO implements Serializable, GenericDAO<Student> {
 		} finally {
 			session.close();
 		}
+		
+		return true;
 
 	}
 
-	public void update(Student t) throws MyDaoException {
+	public boolean update(Student t) throws MyDaoException {
 
 		session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
@@ -104,10 +106,11 @@ public class StudentDAO implements Serializable, GenericDAO<Student> {
 		} finally {
 			session.close();
 		}
+		return true;
 
 	}
 
-	public void delete(int id) throws MyDaoException {
+	public boolean delete(int id) throws MyDaoException {
 
 		session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
@@ -123,6 +126,7 @@ public class StudentDAO implements Serializable, GenericDAO<Student> {
 		} finally {
 			session.close();
 		}
+		return true;
 
 	}
 

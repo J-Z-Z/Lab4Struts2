@@ -1,9 +1,6 @@
 @CHARSET "ISO-8859-1";
 
-html,body,p {
-	padding: 0;
-	margin: 0;
-}
+
 
 table {
 	margin-right: auto;
@@ -29,13 +26,11 @@ h1 {
 }
 
 a,a:VISITED {
-	color: black;
-	padding: 5px 10px;
+	
 	-webkit-transition: all 0.3s ease;
 	-moz-transition: all 0.3s ease;
 	-o-transition: all 0.3s ease;
 	transition: all 0.3s ease;
-	padding: 5px 10px;
 }
 
 a:hover,a:focus {
@@ -57,6 +52,10 @@ body {
 #container {
 	min-height: 145px;
 	position: relative;
+	width: 1024px;
+	margin-left: auto;
+	margin-right: auto;
+	
 }
 
 #header {
@@ -90,7 +89,6 @@ body {
 /* Applied for odd rows for display tag */
 #pager {
 	width: 500px;
-	height: 70px;
 	margin: 8px auto 0px auto;
 	overflow: auto;
 }

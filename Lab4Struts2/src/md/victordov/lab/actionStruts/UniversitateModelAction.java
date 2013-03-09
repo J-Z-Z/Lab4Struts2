@@ -28,6 +28,15 @@ public class UniversitateModelAction extends ActionSupport implements
 	private static final int MAX_PER_PAGE = 5;
 	private Long countTotal = 0L;
 	private List<Long> pgArray = new ArrayList<Long>();
+	private Integer pgNr = 0;
+
+	public Integer getPgNr() {
+		return pgNr;
+	}
+
+	public void setPgNr(Integer pgNr) {
+		this.pgNr = pgNr;
+	}
 
 	public UniversitateModelAction() {
 		this.genService = new UniversitateService();
@@ -43,7 +52,7 @@ public class UniversitateModelAction extends ActionSupport implements
 	public String listAllUniversitateModel() throws MyDaoException {
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
-		Integer pgNr = 0;
+		
 		Integer totalNrPages;
 		countTotal = genService.countSize();
 		totalNrPages = (int) Math.ceil((double) countTotal / MAX_PER_PAGE);
@@ -66,39 +75,63 @@ public class UniversitateModelAction extends ActionSupport implements
 	}
 
 	public String addUniversitateModel() throws MyDaoException {
-
-		genService.create(universitateModel);
-		this.universitateModelList = genService.retrieve();
-
-		return SUCCESS;
+		boolean rezultat = false;
+		if(universitateModel!=null){
+			rezultat = genService.create(universitateModel);
+		}
+		return	rezultat?"success":"validate";
 
 	}
 
 	public String deleteUniversitateModel() throws MyDaoException {
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
+		boolean rezult = false;
+		Integer id = null;
+		if(request.getParameter("id")!=null){
+			try{
+				id = Integer.parseInt(request.getParameter("id"));
+				rezult = genService.delete(id);
+			}
+			catch(NumberFormatException nfe){
+				System.out.println("Universitate Id is null");
+			}
+		}else{
+			System.out.println("Id of the University to delete not received");
+		}
 
-		genService.delete(Integer.parseInt(request.getParameter("id")));
-
-		return SUCCESS;
+		
+		return	rezult?"success":"validate";
 	}
 
 	public String editUniversitateModel() throws MyDaoException {
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
+		boolean rezult = false;
+		Integer id = null;
+		if(request.getParameter("id") != null){
+			try {
+				id = Integer.parseInt(request.getParameter("id"));
+				universitateModel = genService.retrieve(id);
+				rezult = (universitateModel != null) ? true :false; 
+			} catch (NumberFormatException nfe) {
+				System.out.println("Edit Universitate: Id is null");
+			}
+		}
+		
+		return rezult ? "success" : "validate";
 
-		universitateModel = genService.retrieve(Integer.parseInt(request
-				.getParameter("id")));
-
-		return SUCCESS;
 	}
 
 	public String updateUniversitateModel() throws MyDaoException {
-
-		genService.update(this.universitateModel);
+		boolean rezult = false;
+		if(this.universitateModel != null){
+			rezult = genService.update(this.universitateModel);	
+		}
+		
 		this.universitateModelList = genService.retrieve();
 
-		return SUCCESS;
+		return rezult ? "success" : "validate";
 	}
 
 	public List<UniversitateModel> getUniversitateModelList() {

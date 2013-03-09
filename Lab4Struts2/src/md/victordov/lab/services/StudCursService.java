@@ -33,21 +33,22 @@ public class StudCursService implements GenericService<StudCursModel, StudCurs> 
 	}
 
 	@Override
-	public void create(StudCursModel t) throws MyDaoException {
+	public boolean create(StudCursModel t) throws MyDaoException {
 		GenericDAO<StudCurs> gDao = new StudCursDAO();
-		gDao.create(this.transformBack(t));
+		return gDao.create(this.transformBack(t));
 	}
 
 	@Override
-	public void update(StudCursModel t) throws MyDaoException {
+	public boolean update(StudCursModel t) throws MyDaoException {
 		GenericDAO<StudCurs> gDao = new StudCursDAO();
-		gDao.update(this.transformBack(t));
+		return gDao.update(this.transformBack(t));
 	}
 
 	@Override
-	public void delete(Integer id) throws MyDaoException {
+	public boolean delete(Integer id) throws MyDaoException {
 		GenericDAO<StudCurs> gDao = new StudCursDAO();
 		gDao.delete(id);
+		return true;
 
 	}
 

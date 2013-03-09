@@ -29,6 +29,15 @@ public class StudentModelAction extends ActionSupport implements
 	private static final int MAX_PER_PAGE = 5;
 	private Long countTotal = 0L;
 	private List<Long> pgArray = new ArrayList<Long>();
+	private Integer pgNr = 0;
+
+	public Integer getPgNr() {
+		return pgNr;
+	}
+
+	public void setPgNr(Integer pgNr) {
+		this.pgNr = pgNr;
+	}
 
 	public StudentModelAction() {
 		this.genService = new StudentService();
@@ -44,7 +53,7 @@ public class StudentModelAction extends ActionSupport implements
 	public String listAllStudentModel() throws MyDaoException {
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
-		Integer pgNr = 0;
+		
 		Integer totalNrPages;
 		countTotal = genService.countSize();
 		totalNrPages = (int) Math.ceil((double) countTotal / MAX_PER_PAGE);
@@ -67,20 +76,32 @@ public class StudentModelAction extends ActionSupport implements
 	}
 
 	public String addStudentModel() throws MyDaoException {
-
-		genService.create(studentModel);
-
-		return SUCCESS;
+		boolean rezultat = false;
+		if(studentModel!=null){
+			rezultat = genService.create(studentModel);	
+		}
+		return	rezultat?"success":"validate";
 
 	}
 
 	public String deleteStudentModel() throws MyDaoException {
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
+		boolean rezult = false;
+		Integer id = null;
+		if(request.getParameter("id")!=null){
+			try{
+				id = Integer.parseInt(request.getParameter("id"));
+				rezult = genService.delete(id);
+			}catch(NumberFormatException nfe){
+				System.out.println("Student Id is null");
+			}
+			
+		}else{
+			System.out.println("Id of the Student to delete not received");
+		}
 
-		genService.delete(Integer.parseInt(request.getParameter("id")));
-
-		return SUCCESS;
+		return rezult ? "success":"validate";
 	}
 
 	public String editStudentModel() throws MyDaoException {
@@ -89,13 +110,6 @@ public class StudentModelAction extends ActionSupport implements
 
 		studentModel = genService.retrieve(Integer.parseInt(request
 				.getParameter("id")));
-		System.out.println("from edit:  ");
-		System.out.println("ID:"+this.studentModel.getSId());
-		System.out.println("Nume: " + this.studentModel.getNume());
-		System.out.println("Prenume: " + this.studentModel.getPrenume());
-		System.out.println("Grupa: " + this.studentModel.getGrupa());
-		System.out.println("Email: " + this.studentModel.getEmail());
-		System.out.println("TelFix: " + this.studentModel.getTelFix());
 		return SUCCESS;
 	}
 
@@ -103,28 +117,11 @@ public class StudentModelAction extends ActionSupport implements
 		if(this.studentModel!=null){
 			try{
 				genService.update(this.studentModel);
-				System.out.println("From Update, If id !=null => Ok: ");
-				System.out.println("ID:"+this.studentModel.getSId());
-				System.out.println("Nume: " + this.studentModel.getNume());
-				System.out.println("Prenume: " + this.studentModel.getPrenume());
-				System.out.println("Grupa: " + this.studentModel.getGrupa());
-				System.out.println("Email: " + this.studentModel.getEmail());
-				System.out.println("TelFix: " + this.studentModel.getTelFix());
 			}
 				catch(MyDaoException mde){
-					System.out.println("Student Update Fail, Object NUll");
-					System.out.println("ID:"+this.studentModel.getSId());
-					System.out.println("Nume: " + this.studentModel.getNume());
-					System.out.println("Prenume: " + this.studentModel.getPrenume());
-					System.out.println("Grupa: " + this.studentModel.getGrupa());
-					System.out.println("Email: " + this.studentModel.getEmail());
-					System.out.println("TelFix: " + this.studentModel.getTelFix());	
 					throw mde;
 				}
 			}
-			
-			
-
 		
 		this.studentModelList = genService.retrieve();
 

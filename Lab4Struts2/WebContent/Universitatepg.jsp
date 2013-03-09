@@ -3,7 +3,7 @@
 <s:if test="universitateModelList!=null && universitateModelList.size()>0">
 
 		<h1>Universitates List</h1>
-		<table class="ui-widget ui-widget-content">
+		<table class="table table-striped table-hover table-condensed">
 			<caption>Universitate</caption>
 			<thead>
 				<tr class="ui-widget-header ">
@@ -16,19 +16,19 @@
 				</tr>
 			</thead>
 			<s:iterator value="universitateModelList">
-				<tr>
+				<tr id="delUnivLink<s:property value="UId" />">
 					<td><s:property value="UId" /></td>
 					<td><s:property value="numeUniver" /></td>
 					<td><s:property value="adresa" /></td>
 					<td><s:property value="telefon" /></td>
 					<td>
 						<a href="javascript:void(null)"
-							onclick="editUniversitate(<s:property value="UId" />)">Edit
+							onclick="editUniversitate(<s:property value="UId" />)" class="btn btn-mini">Edit
 						</a>
 					</td>
 					<td>
 						
-						<a href="javascript:void(null)" onclick="deleteUniversitate(<s:property value="UId" />)" id="delUnivLink<s:property value="UId" />">
+						<a href="javascript:void(null)" onclick="deleteUniversitate(<s:property value="UId" />)"  class="btn btn-mini">
 							<s:property value="getText('global.delete')" />
 						</a>
 					</td>
@@ -38,12 +38,27 @@
 
 		<!-- Pagination logic -->
 
-		<div id="pager">
-			<s:iterator value="pgArray" var="m">
-				<a href="javascript:void(null)"
-					onclick="$nxtPgUniversitate(<s:property value="#m+1" />)"><s:property
-						value="#m+1" /></a>
-			</s:iterator>
-		</div>
+<!-- Pagination logic -->
+<div id="pager">
+    <div class="pagination">
+        <ul>
+            <s:iterator value="pgArray" var="m">
+                <li>
+                    <s:if test="pgNr == #m+1">
+                        <a href="javascript:void(null)" onclick="$nxtPgUniversitate(<s:property value="#m+1" />)" class="btn btn-link">
+                            <strong><s:property value="#m+1" /></strong>
+	                    </a>
+                    </s:if>
+
+                    <s:else>
+	                    <a href="javascript:void(null)" onclick="$nxtPgUniversitate(<s:property value="#m+1" />)" class="btn btn-link">
+                            <s:property value="#m+1" />
+	                    </a>
+                    </s:else>
+                </li>
+            </s:iterator>
+        </ul>
+	</div>
+</div>
 
 </s:if>

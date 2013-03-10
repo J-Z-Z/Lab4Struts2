@@ -53,7 +53,7 @@
 
 <!-- Pagination logic -->
 <div id="pager">
-    <div class="pagination">
+    <div class="pagination pagination-centered">
         <ul>
             <s:iterator value="pgArray" var="m">
                 <li>

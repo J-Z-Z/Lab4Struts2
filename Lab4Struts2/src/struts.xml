@@ -28,7 +28,7 @@
 		<interceptors>
 			<interceptor name="validation"
 				class="org.apache.struts2.interceptor.validation.AnnotationValidationInterceptor" />
-
+			<interceptor name="authInterceptor" class="md.victordov.lab.interceptrs.AuthInterceptor" />
 		</interceptors>
 
 		<global-results>
@@ -46,11 +46,28 @@
 			<exception-mapping exception="md.victordov.lab.common.exception.MyDaoException"
 				result="daoException" />
 		</global-exception-mappings>
+		
+		<action name="login">
+			<result>login.jsp</result>
+		</action>
+		
+		<action name="authentication" class="md.victordov.lab.authorization.Authentication" method="loginCredentialsCheck">
+			<result name="success" type="chain">authorizedonly</result>
+			<result name="failure">login.jsp</result>
+		</action>
+		
+		<action name="authorizedonly">
+			<interceptor-ref name="authInterceptor"/>
+			<result name="success" type="redirect">/</result>
+			<result name="failure">login.jsp</result>
+		</action>
 
 
 		<action name="*_list" class="md.victordov.lab.actionStruts.{1}ModelAction"
 			method="listAll{1}Model">
+			<interceptor-ref name="authInterceptor"/>
 			<result name="success" >{1}.jsp</result>
+			<result name="failure">login.jsp</result>
 		</action>
 
 		<action name="*_add" class="md.victordov.lab.actionStruts.{1}ModelAction"

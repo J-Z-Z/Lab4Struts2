@@ -20,7 +20,7 @@
 
 		<div id="ajxTableData">
 			<h1>Curs List</h1>
-			<table class="table table-striped table-hover table-condensed">
+			<table id="myTable" class="table table-striped table-hover table-condensed tablesorter">
 				<caption>Curs</caption>
 				<thead>
 					<tr class="ui-widget-header">
@@ -54,7 +54,7 @@
 
 <!-- Pagination logic -->
 <div id="pager">
-    <div class="pagination">
+    <div class="pagination pagination-centered">
         <ul>
             <s:iterator value="pgArray" var="m">
                 <li>

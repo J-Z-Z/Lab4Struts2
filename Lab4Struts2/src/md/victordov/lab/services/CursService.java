@@ -90,13 +90,19 @@ public class CursService implements GenericService<CursModel, Curs> {
 	@Override
 	public CursModel transform(Curs c) {
 		CursModel cursModel = new CursModel();
-		cursModel.setCursId(c.getCId());
-		cursModel.setNumeCurs(c.getNumeCurs());
-		cursModel.setUniversitateId(c.getUniversitate().getUId());
-		cursModel.setUniverNume(c.getUniversitate().getNumeUniver());
-		cursModel.setProfesorId(c.getProfesor().getPId());
-		cursModel.setProfesorNume(c.getProfesor().getNume() + " "
-				+ c.getProfesor().getPrenume());
+		if(c==null){
+			c = new Curs();
+		}else{
+
+			cursModel.setCursId(c.getCId());
+			cursModel.setNumeCurs(c.getNumeCurs());
+			cursModel.setUniversitateId(c.getUniversitate().getUId());
+			cursModel.setUniverNume(c.getUniversitate().getNumeUniver());
+			cursModel.setProfesorId(c.getProfesor().getPId());
+			cursModel.setProfesorNume(c.getProfesor().getNume() + " "
+					+ c.getProfesor().getPrenume());
+		}
+		
 
 		return cursModel;
 	}

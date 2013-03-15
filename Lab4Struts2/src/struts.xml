@@ -66,6 +66,9 @@
 		<action name="*_list" class="md.victordov.lab.actionStruts.{1}ModelAction"
 			method="listAll{1}Model">
 			<interceptor-ref name="authInterceptor"/>
+			<interceptor-ref name="defaultStack" >
+				<param name="validation.excludeMethods">success</param>
+			</interceptor-ref>
 			<result name="success" >{1}.jsp</result>
 			<result name="failure">login.jsp</result>
 		</action>

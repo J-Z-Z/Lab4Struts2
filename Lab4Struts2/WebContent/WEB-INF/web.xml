@@ -39,9 +39,10 @@
 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>
-	<!-- Security Constraint will remove the access to the jsp. Usually this 
-		can be avoided by putting all jsp's in the WEB-INF folder and that will remove 
-		direct access to files. However just to be sure, security is added. -->
 
+<error-page>
+    <error-code>404</error-code>
+    <location>/jsp/error404.jsp</location>
+  </error-page>
 
 </web-app>

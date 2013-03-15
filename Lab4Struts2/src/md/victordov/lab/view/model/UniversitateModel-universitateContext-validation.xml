@@ -12,7 +12,7 @@
 			<message>Denumirea este necesara</message>
 		</field-validator>
 		<field-validator type="regex">
-			<param name="expression"><![CDATA[([a-zA-Z]{2,25})]]></param>
+			<param name="expression"><![CDATA[([a-zA-Z\s]{2,25})]]></param>
 
 			<param name="caseSensitive">true</param>
 			<message><![CDATA[ Denumirea trebuie sa fie intre 2 si 25 litere]]></message>

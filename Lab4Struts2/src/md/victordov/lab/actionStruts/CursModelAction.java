@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import md.victordov.lab.common.exception.MyDaoException;
 import md.victordov.lab.services.CursService;
@@ -21,7 +23,8 @@ public class CursModelAction extends ActionSupport implements
 	/**
 	 * 
 	 */
-
+	private static Logger logger = LogManager.getLogger(CursModelAction.class);
+	
 	private static final long serialVersionUID = 1L;
 	private CursModel cursModel;
 	public GenericService<CursModel, Curs> genService;
@@ -52,7 +55,8 @@ public class CursModelAction extends ActionSupport implements
 	public String listAllCursModel() throws MyDaoException {
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
-
+		logger.info("AXVFD");
+		logger.debug("AXVFDEBUG");
 		Integer totalNrPages;
 		countTotal = genService.countSize();
 		totalNrPages = (int) Math.ceil((double) countTotal / MAX_PER_PAGE);
@@ -78,6 +82,11 @@ public class CursModelAction extends ActionSupport implements
 		boolean rezultat = false;
 		if(cursModel!=null){
 			rezultat = genService.create(cursModel);	
+		} else{
+			logger.debug("cursModel was received null");
+		}
+		if(rezultat){
+			logger.info("cursModel was added to database");
 		}
 		return	rezultat?"success":"validate";
 	}
@@ -92,23 +101,37 @@ public class CursModelAction extends ActionSupport implements
 				id = Integer.parseInt(request.getParameter("id"));
 				rezult = genService.delete(id);
 			}catch(NumberFormatException nfe){
-				System.out.println("Curs Id is null");
+				logger.info("Curs Id is null");
 			}
 			
 		}else{
-			System.out.println("Id of the Curs to delete not received");
+			logger.info("Id of the Curs to delete not received");
 		}
 
 		return rezult ? "success":"validate";
 	}
 
 	public String editCursModel() throws MyDaoException {
+
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
-
-		cursModel = genService.retrieve(Integer.parseInt(request
-				.getParameter("id")));
-		return SUCCESS;
+		
+		boolean rezult = false;
+		Integer id = null;
+		if(request.getParameter("id") != null){
+			try {
+				id = Integer.parseInt(request.getParameter("id"));
+				cursModel = genService.retrieve(id);
+				rezult = (cursModel != null) ? true :false; 
+			} catch (NumberFormatException nfe) {
+				logger.debug("Edit curs: Id is null");
+			}
+		}
+		if(rezult){
+			logger.info("curs successfuly retrieved for updating");
+		}
+		
+		return rezult ? "success" : "validate";
 	}
 
 	public String updateCursModel() throws MyDaoException {

@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 
 import md.victordov.lab.common.exception.MyDaoException;
@@ -22,6 +24,7 @@ public class ProfesorModelAction extends ActionSupport implements
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = LogManager.getLogger(ProfesorModelAction.class);
 	private ProfesorModel profesorModel;
 	public GenericService<ProfesorModel, Profesor> genService;
 	private List<ProfesorModel> profesorModelList;
@@ -41,6 +44,7 @@ public class ProfesorModelAction extends ActionSupport implements
 	}
 
 	public String listAllProfesorModel() throws MyDaoException {
+		logger.info("Starting listAllProfesorModel method");
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
 		Integer totalNrPages;
@@ -50,17 +54,16 @@ public class ProfesorModelAction extends ActionSupport implements
 			if (request.getParameter("pgNr") != null) {
 				pgNr = Integer.parseInt(request.getParameter("pgNr"));
 				pgNr = pgNr > totalNrPages ? totalNrPages : pgNr;
-
 			}
 		} catch (NumberFormatException nfe) {
-			System.out.println("Page Exception");
+			logger.debug("Page Exception, value of pageNr is not a number");
 		}
 		for (int i = 0; i < Math.ceil((double) countTotal / MAX_PER_PAGE); i++) {
 			pgArray.add((long) i);
 		}
 		
 		this.profesorModelList = genService.retrieve(pgNr,MAX_PER_PAGE);
-
+		logger.info("listAllProfesorModel executed");
 		return SUCCESS;
 	}
 
@@ -68,6 +71,11 @@ public class ProfesorModelAction extends ActionSupport implements
 		boolean rezultat = false;
 		if(profesorModel!=null){
 			rezultat = genService.create(profesorModel);
+		} else{
+			logger.debug("addProfesor: profesor model is null");
+		}
+		if(rezultat){
+			logger.info("profesor object was persisted to dabase");
 		}
 		
 		return	rezultat?"success":"validate";
@@ -83,31 +91,49 @@ public class ProfesorModelAction extends ActionSupport implements
 				id = Integer.parseInt(request.getParameter("id"));
 				rezult = genService.delete(id);
 			}catch(NumberFormatException nfe){
-				System.out.println("Profesor Id is null");
+				logger.debug("Profesor Id is null");
 			}
 			
 		}else{
-			System.out.println("Id of the Profesor to delete not received");
+			logger.debug("Id of the Profesor to delete not received");
+		}
+		if(rezult){
+			logger.info("profesor was deleted from database");
 		}
 
 		return rezult ? "success":"validate";
 	}
 
 	public String editProfesorModel() throws MyDaoException {
+		logger.info("editProfesorModel started");
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
-
-		profesorModel = genService.retrieve(Integer.parseInt(request
-				.getParameter("id")));
-		return SUCCESS;
+		
+		boolean rezult = false;
+		Integer id = null;
+		if(request.getParameter("id") != null){
+			try {
+				id = Integer.parseInt(request.getParameter("id"));
+				profesorModel = genService.retrieve(id);
+				rezult = (profesorModel != null) ? true :false; 
+			} catch (NumberFormatException nfe) {
+				logger.debug("Edit profesor: Id is null");
+			}
+		}
+		if(rezult){
+			logger.info("profesor successfuly retrieved for updating");
+		}
+		logger.info("editProfesorModel end");
+		return rezult ? "success" : "validate";
 	}
 
 	public String updateProfesorModel() throws MyDaoException {
+		logger.info("update profesor begin");
 		boolean rezult = false; 
 		if(this.profesorModel!=null){
 			rezult = genService.update(this.profesorModel);
 		}
-		
+		logger.info("update profesor end");
 		return rezult ? "success" : "validate";
 	}
 

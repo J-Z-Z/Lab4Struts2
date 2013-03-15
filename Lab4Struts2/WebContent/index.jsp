@@ -4,5 +4,6 @@
 <div id="container">
 <h1>
 	<s:property value="getText('global.welcome')" />
+	<img src="images/databaseScreen.jpg" >
 </h1>
 </div>

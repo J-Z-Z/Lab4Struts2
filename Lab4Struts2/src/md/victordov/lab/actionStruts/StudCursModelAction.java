@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 
 import md.victordov.lab.common.exception.MyDaoException;
@@ -23,6 +25,8 @@ public class StudCursModelAction extends ActionSupport implements
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = LogManager
+			.getLogger(StudCursModelAction.class);
 	private StudCursModel studCursModel;
 	public GenericService<StudCursModel, StudCurs> genService;
 	private List<StudCursModel> studCursModelList;
@@ -46,14 +50,15 @@ public class StudCursModelAction extends ActionSupport implements
 	public String execute() throws MyDaoException {
 
 		this.studCursModelList = genService.retrieve();
-
+		logger.info("execute methos was sucessfull");
 		return SUCCESS;
 	}
 
 	public String listAllStudCursModel() throws MyDaoException {
+		logger.info("listAllStudCursModel started");
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
-		
+
 		Integer totalNrPages;
 		countTotal = genService.countSize();
 		totalNrPages = (int) Math.ceil((double) countTotal / MAX_PER_PAGE);
@@ -64,63 +69,81 @@ public class StudCursModelAction extends ActionSupport implements
 
 			}
 		} catch (NumberFormatException nfe) {
-			System.out.println("Page Exception");
+			logger.info("Page Exception");
 		}
 		for (int i = 0; i < Math.ceil((double) countTotal / MAX_PER_PAGE); i++) {
 			pgArray.add((long) i);
 		}
-		
-		this.studCursModelList = genService.retrieve(pgNr,MAX_PER_PAGE);
-		
+
+		this.studCursModelList = genService.retrieve(pgNr, MAX_PER_PAGE);
+		logger.info("listAllStudCursModel was executed");
 		return SUCCESS;
 	}
 
 	public String addStudCursModel() throws MyDaoException {
 		boolean rezultat = false;
-		if(studCursModel!=null){
-			rezultat = genService.create(studCursModel);			
+		if (studCursModel != null) {
+			rezultat = genService.create(studCursModel);
+		} else {
+			logger.debug("student was received null, cannot persist");
 		}
-		
-		return	rezultat?"success":"validate";
+
+		return rezultat ? "success" : "validate";
 
 	}
 
 	public String deleteStudCursModel() throws MyDaoException {
+		logger.info("deleteStudent started");
+
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
 		boolean rezult = false;
 		Integer id = null;
-		if(request.getParameter("id")!=null){
-			try{
+		if (request.getParameter("id") != null) {
+			try {
 				id = Integer.parseInt(request.getParameter("id"));
 				rezult = genService.delete(id);
-			}catch(NumberFormatException nfe){
-				System.out.println("Student-Curs Id is null");
+			} catch (NumberFormatException nfe) {
+				logger.debug("Student-Curs Id is null");
 			}
-			
-		}else{
-			System.out.println("Id of the Student-Curs to delete not received");
-		}
 
-		return rezult ? "success":"validate";
+		} else {
+			logger.debug("Id of the Student-Curs to delete not received");
+		}
+		logger.info("deleteStudent was executed");
+
+		return rezult ? "success" : "validate";
 	}
 
 	public String editStudCursModel() throws MyDaoException {
+
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
-
-		studCursModel = genService.retrieve(Integer.parseInt(request
-				.getParameter("id")));
-
-		return SUCCESS;
+		
+		boolean rezult = false;
+		Integer id = null;
+		if(request.getParameter("id") != null){
+			try {
+				id = Integer.parseInt(request.getParameter("id"));
+				studCursModel = genService.retrieve(id);
+				rezult = (studCursModel != null) ? true :false; 
+			} catch (NumberFormatException nfe) {
+				logger.debug("Edit student-curs: Id is null");
+			}
+		}
+		if(rezult){
+			logger.info("student-curs successfuly retrieved for updating");
+		}
+		
+		return rezult ? "success" : "validate";
 	}
 
 	public String updateStudCursModel() throws MyDaoException {
 		boolean rezult = false;
-		if(this.studCursModel != null){
-			rezult = genService.update(this.studCursModel);	
+		if (this.studCursModel != null) {
+			rezult = genService.update(this.studCursModel);
 		}
-		
+
 		return rezult ? "success" : "validate";
 	}
 

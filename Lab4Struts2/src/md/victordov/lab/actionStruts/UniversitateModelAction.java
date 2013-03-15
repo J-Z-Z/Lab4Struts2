@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 
 import md.victordov.lab.common.exception.MyDaoException;
@@ -21,7 +23,9 @@ public class UniversitateModelAction extends ActionSupport implements
 	/**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = LogManager.getLogger(CursModelAction.class);
 	private UniversitateModel universitateModel;
 	public GenericService<UniversitateModel, Universitate> genService;
 	private List<UniversitateModel> universitateModelList;
@@ -45,11 +49,12 @@ public class UniversitateModelAction extends ActionSupport implements
 	public String execute() throws MyDaoException {
 
 		this.universitateModelList = genService.retrieve();
-
+		logger.info("Universitate List successfuly execute - > method execute");
 		return SUCCESS;
 	}
 
 	public String listAllUniversitateModel() throws MyDaoException {
+		logger.info("Starting listAllUniversityModel method");
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
 		
@@ -60,17 +65,17 @@ public class UniversitateModelAction extends ActionSupport implements
 			if (request.getParameter("pgNr") != null) {
 				pgNr = Integer.parseInt(request.getParameter("pgNr"));
 				pgNr = pgNr > totalNrPages ? totalNrPages : pgNr;
-
 			}
 		} catch (NumberFormatException nfe) {
-			System.out.println("Page Exception");
+			logger.debug("page value is not a number");
 		}
 		for (int i = 0; i < Math.ceil((double) countTotal / MAX_PER_PAGE); i++) {
 			pgArray.add((long) i);
 		}
 
 		this.universitateModelList = genService.retrieve(pgNr, MAX_PER_PAGE);
-
+		
+		logger.info("listAllUniversitateModel executed");
 		return SUCCESS;
 	}
 
@@ -78,12 +83,17 @@ public class UniversitateModelAction extends ActionSupport implements
 		boolean rezultat = false;
 		if(universitateModel!=null){
 			rezultat = genService.create(universitateModel);
+			logger.info("University Object was successfully persisted to database");
+		} else {
+			logger.debug("University Model was received null, cannot create");
 		}
+		
 		return	rezultat?"success":"validate";
 
 	}
 
 	public String deleteUniversitateModel() throws MyDaoException {
+		logger.info("Starting deleteUniversitateModel method");
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
 		boolean rezult = false;
@@ -92,15 +102,17 @@ public class UniversitateModelAction extends ActionSupport implements
 			try{
 				id = Integer.parseInt(request.getParameter("id"));
 				rezult = genService.delete(id);
+				
 			}
 			catch(NumberFormatException nfe){
-				System.out.println("Universitate Id is null");
+				logger.debug(nfe.getMessage(),nfe);
 			}
 		}else{
-			System.out.println("Id of the University to delete not received");
+			logger.info("Id of the University to delete not received");
 		}
-
-		
+		if(rezult){
+			logger.info("University model successfully deleted");
+		}
 		return	rezult?"success":"validate";
 	}
 
@@ -115,8 +127,11 @@ public class UniversitateModelAction extends ActionSupport implements
 				universitateModel = genService.retrieve(id);
 				rezult = (universitateModel != null) ? true :false; 
 			} catch (NumberFormatException nfe) {
-				System.out.println("Edit Universitate: Id is null");
+				logger.debug("Edit Universitate: Id is null");
 			}
+		}
+		if(rezult){
+			logger.info("University successfuly retrieved for updating");
 		}
 		
 		return rezult ? "success" : "validate";
@@ -127,6 +142,9 @@ public class UniversitateModelAction extends ActionSupport implements
 		boolean rezult = false;
 		if(this.universitateModel != null){
 			rezult = genService.update(this.universitateModel);	
+		}
+		else{
+			logger.debug("University cannot be updated because it is null");
 		}
 		
 		return rezult ? "success" : "validate";

@@ -4,57 +4,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 import md.victordov.lab.common.exception.MyDaoException;
-import md.victordov.lab.dao.GenericDAO;
 import md.victordov.lab.dao.ProfesorDAO;
 import md.victordov.lab.view.model.ProfesorModel;
 import md.victordov.lab.vo.Profesor;
 
 public class ProfesorService implements GenericService<ProfesorModel, Profesor> {
 
+	private ProfesorDAO gDao = new ProfesorDAO();
+	
 	@Override
 	public List<ProfesorModel> retrieve() throws MyDaoException {
-
-		GenericDAO<Profesor> gDao = new ProfesorDAO();
 		return this.transformList(gDao.retrieve());
 	}
 
 	@Override
 	public List<ProfesorModel> retrieve(Integer start, Integer maxRecords)
 			throws MyDaoException {
-		GenericDAO<Profesor> gDao = new ProfesorDAO();
 		return this.transformList(gDao.retrieve(start, maxRecords));
-
 	}
 
 	@Override
 	public ProfesorModel retrieve(Integer id) throws MyDaoException {
-		GenericDAO<Profesor> gDao = new ProfesorDAO();
 		return this.transform(gDao.retrieve(id));
 	}
 
 	@Override
 	public boolean create(ProfesorModel t) throws MyDaoException {
-		GenericDAO<Profesor> gDao = new ProfesorDAO();
 		return gDao.create(this.transformBack(t));
 
 	}
 
 	@Override
 	public boolean update(ProfesorModel t) throws MyDaoException {
-		GenericDAO<Profesor> gDao = new ProfesorDAO();
 		return gDao.update(this.transformBack(t));
 	}
 
 	@Override
 	public boolean delete(Integer id) throws MyDaoException {
-		GenericDAO<Profesor> gDao = new ProfesorDAO();
 		gDao.delete(id);
 		return true;
 	}
 
 	@Override
 	public Long countSize() throws MyDaoException {
-		GenericDAO<Profesor> gDao = new ProfesorDAO();
 		return gDao.countSize();
 	}
 

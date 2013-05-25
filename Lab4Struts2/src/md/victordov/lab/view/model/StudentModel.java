@@ -45,6 +45,11 @@ public class StudentModel implements java.io.Serializable {
 	public void setTelFix(String telFix) {
 		this.telFix = telFix;
 	}
+	@Override
+	public String toString(){
+		return this.getNume() + ", " + this.getPrenume() + ", " + this.getGrupa() + ", " + this.getEmail() + ", " + this.getTelFix();
+	}
+	
 	private Integer SId;
 	private String nume;
 	private String prenume;

@@ -39,6 +39,11 @@ public class ProfesorModel implements java.io.Serializable {
 	public void setAdresa(String adresa) {
 		this.adresa = adresa;
 	}
+	
+	@Override
+	public String toString(){
+		return this.nume + "," + this.prenume + ", " + this.adresa;
+	}
 
 	private Integer PId;
 	private String nume;

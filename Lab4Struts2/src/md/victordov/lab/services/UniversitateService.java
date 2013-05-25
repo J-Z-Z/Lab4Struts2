@@ -4,50 +4,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 import md.victordov.lab.common.exception.MyDaoException;
-import md.victordov.lab.dao.GenericDAO;
 import md.victordov.lab.dao.UnivDAO;
 import md.victordov.lab.view.model.UniversitateModel;
 import md.victordov.lab.vo.Universitate;
 
 public class UniversitateService implements
 		GenericService<UniversitateModel, Universitate> {
-
+	private UnivDAO gDao = new UnivDAO();
 	@Override
 	public List<UniversitateModel> retrieve() throws MyDaoException {
-		GenericDAO<Universitate> gDao = new UnivDAO();
+		
 		return this.transformList(gDao.retrieve());
 	}
 
 	@Override
 	public List<UniversitateModel> retrieve(Integer start, Integer maxRecords)
 			throws MyDaoException {
-		GenericDAO<Universitate> gDao = new UnivDAO();
 		return this.transformList(gDao.retrieve(start, maxRecords));
 	}
 
 	@Override
 	public UniversitateModel retrieve(Integer id) throws MyDaoException {
-		GenericDAO<Universitate> gDao = new UnivDAO();
 		return this.transform(gDao.retrieve(id));
 	}
 
 	@Override
 	public boolean create(UniversitateModel t) throws MyDaoException {
-		GenericDAO<Universitate> gDao = new UnivDAO();
 		return gDao.create(this.transformBack(t));
 
 	}
 
 	@Override
 	public boolean update(UniversitateModel t) throws MyDaoException {
-		GenericDAO<Universitate> gDao = new UnivDAO();
 		return gDao.update(this.transformBack(t));
 
 	}
 
 	@Override
 	public boolean delete(Integer id) throws MyDaoException {
-		GenericDAO<Universitate> gDao = new UnivDAO();
 		gDao.delete(id);
 		return true;
 
@@ -55,8 +49,6 @@ public class UniversitateService implements
 
 	@Override
 	public Long countSize() throws MyDaoException {
-		GenericDAO<Universitate> gDao = new UnivDAO();
-		
 		return gDao.countSize();
 	}
 

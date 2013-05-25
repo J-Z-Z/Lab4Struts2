@@ -9,13 +9,12 @@
 	<field name="numeCurs">
 		<field-validator type="requiredstring">
 			<param name="trim">true</param>
-			<message>Numele este necesar</message>
+			<message key="cours.required" />
 		</field-validator>
 		<field-validator type="regex">
 			<param name="expression"><![CDATA[([\w\s]{1,28}){1,3}([+]{2})?]]></param>
-
 			<param name="caseSensitive">true</param>
-			<message><![CDATA[ Numele trebuie sa fie intre 4 si 25 litere]]></message>
+			<message key="cours.format" />
 		</field-validator>
 	</field>
 

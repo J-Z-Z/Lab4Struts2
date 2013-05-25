@@ -1,6 +1,8 @@
 package md.victordov.lab.actionStruts;
 
 import java.util.ArrayList;
+import java.util.Map;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.dispatcher.SessionMap;
+import org.apache.struts2.interceptor.SessionAware;
+import org.apache.struts2.interceptor.validation.SkipValidation;
 
 import md.victordov.lab.common.exception.MyDaoException;
 import md.victordov.lab.services.GenericService;
@@ -15,13 +20,9 @@ import md.victordov.lab.services.StudentService;
 import md.victordov.lab.view.model.StudentModel;
 import md.victordov.lab.vo.Student;
 import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.Validateable;
-import com.opensymphony.xwork2.ValidationAware;
 
-public class StudentModelAction extends ActionSupport implements
-		ModelDriven<StudentModel>, Validateable, ValidationAware {
+public class StudentModelAction extends ActionSupport implements SessionAware{
 	/**
 	 * 
 	 */
@@ -31,19 +32,13 @@ public class StudentModelAction extends ActionSupport implements
 	private StudentModel studentModel;
 	public GenericService<StudentModel, Student> genService;
 	private List<StudentModel> studentModelList;
-	private static final int MAX_PER_PAGE = 5;
+	private Integer perPage = 5;
 	private Long countTotal = 0L;
 	private List<Long> pgArray = new ArrayList<Long>();
 	private Integer pgNr = 0;
-
-	public Integer getPgNr() {
-		return pgNr;
-	}
-
-	public void setPgNr(Integer pgNr) {
-		this.pgNr = pgNr;
-	}
-
+	private Integer[] perPageArray = new Integer[] {5,10,25};
+	private SessionMap<String, Object> session;
+	
 	public StudentModelAction() {
 		this.genService = new StudentService();
 	}
@@ -55,28 +50,24 @@ public class StudentModelAction extends ActionSupport implements
 		return SUCCESS;
 	}
 
+	@SkipValidation
 	public String listAllStudentModel() throws MyDaoException {
+		//Get per page preference from request
+		if (session.get("perPage") != null) {
+			perPage = (Integer) session.get("perPage");
+		}
 		logger.info("Started listAllStudentModel method");
-		HttpServletRequest request = (HttpServletRequest) ActionContext
-				.getContext().get(ServletActionContext.HTTP_REQUEST);
-
 		Integer totalNrPages;
 		countTotal = genService.countSize();
-		totalNrPages = (int) Math.ceil((double) countTotal / MAX_PER_PAGE);
-		try {
-			if (request.getParameter("pgNr") != null) {
-				pgNr = Integer.parseInt(request.getParameter("pgNr"));
-				pgNr = pgNr > totalNrPages ? totalNrPages : pgNr;
-
-			}
-		} catch (NumberFormatException nfe) {
-			logger.debug("listAllStudentModel - Page Exception, parameter is not a number");
+		totalNrPages = (int) Math.ceil((double) countTotal / perPage) - 1;
+		if(pgNr > totalNrPages) {
+			pgNr = totalNrPages;
 		}
-		for (int i = 0; i < Math.ceil((double) countTotal / MAX_PER_PAGE); i++) {
+		for (int i = 0; i < Math.ceil((double) countTotal / perPage); i++) {
 			pgArray.add((long) i);
 		}
-
-		this.studentModelList = genService.retrieve(pgNr, MAX_PER_PAGE);
+		//Get records from database
+		this.studentModelList = genService.retrieve(pgNr * perPage, perPage);
 		logger.info("listAllStudentModel - executed with success");
 		return SUCCESS;
 	}
@@ -88,8 +79,11 @@ public class StudentModelAction extends ActionSupport implements
 		} else {
 			logger.debug("Cannot add object to database null received");
 		}
-		return rezultat ? "success" : "validate";
-
+		if(rezultat) {
+			return "success";
+		} else {
+			return "validate";
+		}
 	}
 
 	public String deleteStudentModel() throws MyDaoException {
@@ -98,6 +92,7 @@ public class StudentModelAction extends ActionSupport implements
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
 		boolean rezult = false;
 		Integer id = null;
+		//Get id from request
 		if (request.getParameter("id") != null) {
 			try {
 				id = Integer.parseInt(request.getParameter("id"));
@@ -109,8 +104,11 @@ public class StudentModelAction extends ActionSupport implements
 		} else {
 			logger.debug("Id of the Student to delete not received");
 		}
-
-		return rezult ? "success" : "validate";
+		if(rezult){
+			return "success";
+		} else {
+			return "validate";
+		}
 	}
 
 	public String editStudentModel() throws MyDaoException {
@@ -120,6 +118,7 @@ public class StudentModelAction extends ActionSupport implements
 		
 		boolean rezult = false;
 		Integer id = null;
+		//Get the id of object from request
 		if(request.getParameter("id") != null){
 			try {
 				id = Integer.parseInt(request.getParameter("id"));
@@ -131,9 +130,10 @@ public class StudentModelAction extends ActionSupport implements
 		}
 		if(rezult){
 			logger.info("student successfuly retrieved for updating");
+			return "success";
+		} else {
+			return "validate";
 		}
-		
-		return rezult ? "success" : "validate";
 	}
 
 	public String updateStudentModel() throws MyDaoException {
@@ -148,11 +148,22 @@ public class StudentModelAction extends ActionSupport implements
 		}
 		if(rezult){
 			logger.info("Student was updated");
+			return "success";
+		} else {
+			return "validate";
 		}
-		
-		return rezult ? "success" : "validate";
 	}
 
+
+	public Integer getPerPage() {
+		return perPage;
+	}
+
+	public void setPerPage(Integer perPage) {
+		session.put("perPage", perPage);
+		this.perPage = perPage;
+	}
+	
 	public List<StudentModel> getStudentModelList() {
 		return this.studentModelList;
 	}
@@ -165,16 +176,6 @@ public class StudentModelAction extends ActionSupport implements
 		this.studentModel = studentModel;
 	}
 
-	@Override
-	public StudentModel getModel() {
-		return this.studentModel;
-	}
-
-	@Override
-	public void validate() {
-
-		super.validate();
-	}
 
 	public Long getCountTotal() {
 		return countTotal;
@@ -190,6 +191,23 @@ public class StudentModelAction extends ActionSupport implements
 
 	public void setPgArray(List<Long> pgArray) {
 		this.pgArray = pgArray;
+	}
+	public Integer[] getPerPageArray() {
+		return perPageArray;
+	}
+
+	public Integer getPgNr() {
+		return pgNr;
+	}
+
+	public void setPgNr(Integer pgNr) {
+		this.pgNr = (Integer)pgNr;
+	}
+
+	@Override
+	public void setSession(Map<String, Object> sessionInjected) {
+		session = (SessionMap<String, Object>) sessionInjected;
+		
 	}
 
 }

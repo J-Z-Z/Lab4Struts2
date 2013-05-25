@@ -4,13 +4,9 @@
 	<div id="ajxTableData">
 		<h1>Student-Curs List</h1>
 		<table class="table table-striped table-hover table-condensed">
-			<caption>Student Curs</caption>
 			<thead>
-				<tr>
-					<th><s:property value="getText('global.studcursId')" /></th>
-					<th><s:property value="getText('global.cursId')" /></th>
+				<tr class="ui-widget-header">
 					<th><s:property value="getText('global.denCurs')" /></th>
-					<th><s:property value="getText('global.studentId')" /></th>
 					<th><s:property value="getText('global.name')" /></th>
 					<th><s:property value="getText('global.edit')" /></th>
 					<th><s:property value="getText('global.delete')" /></th>
@@ -18,47 +14,50 @@
 			</thead>
 			<s:iterator value="studCursModelList">
 				<tr id="delStudCursLink<s:property value="scId" />">
-					<td><s:property value="scId" /></td>
-					<td><s:property value="cursId" /></td>
 					<td><s:property value="cursNume" /></td>
-					<td><s:property value="studentId" /></td>
 					<td><s:property value="studentNume" /></td>
-					<td>
-						<a href="javascript:void(null)"
-							onclick="editStudCurs(<s:property value="scId" />)" class="btn btn-mini">Edit
-						</a>
-					</td>
-					<td>
-						<a href="javascript:void(null)" onclick="deleteStudCurs(<s:property value="scId" />)"  class="btn btn-mini">
+
+					<td><s:url id="editURL" action="StudCurs_edit">
+							<s:param name="id" value="%{scId}"></s:param>
+						</s:url> <s:a href="%{editURL}" cssClass="btn btn-mini">
+							<s:property value="getText('global.edit')" />
+						</s:a></td>
+
+					<td><s:url id="deleteURL" action="StudCurs_delete">
+							<s:param name="id" value="%{scId}" />
+						</s:url> <s:a href="%{deleteURL}" cssClass="btn btn-mini">
 							<s:property value="getText('global.delete')" />
-						</a>
-					</td>
+						</s:a></td>
+
 				</tr>
 			</s:iterator>
 		</table>
 
-
-			<!-- Pagination logic -->
-			<div id="pager">
+		<!-- Pagination logic -->
+		<div id="pager">
 			<div class="pagination pagination-centered">
-			<ul>
-				<s:iterator value="pgArray" var="m">
-				<li>
-				
-				<s:if test="pgNr == #m+1">
-					<a href="javascript:void(null)" onclick="$nxtPgStudCurs(<s:property value="#m+1" />)" class="btn btn-link"><strong><s:property value="#m+1" /></strong>
-					</a>
-				</s:if>
-				
-				<s:else>
-					<a href="javascript:void(null)"
-						onclick="$nxtPgStudCurs(<s:property value="#m+1" />)" class="btn btn-link"><s:property
-							value="#m+1" /></a>
-				</s:else>
-				</li>
-				</s:iterator>
-				</ul>
-				</div>
+				<label for="pageSelector">Page: </label> <select
+					onChange="$nxtPgStudCurs(this.value)" name="pageSelector"
+					id="pageSelector">
+
+					<s:iterator value="pgArray" var="m">
+						<s:if test="pgNr==#m">
+							<option value="<s:property value="#m"/>" selected="selected">
+								<s:property value="#m+1" />
+							</option>
+						</s:if>
+						<s:else>
+							<option value="<s:property value="#m"/>">
+								<s:property value="#m+1" />
+							</option>
+						</s:else>
+					</s:iterator>
+
+				</select>
+			<s:form action="StudCurs_list">
+				<s:select list="perPageArray" name="perPage" cssClass="span1" label="Records Per Page" onchange="this.form.submit()"/>
+			</s:form>
 			</div>
+		</div>
 	</div>
 </s:if>

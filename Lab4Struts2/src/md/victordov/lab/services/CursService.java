@@ -5,7 +5,6 @@ import java.util.List;
 
 import md.victordov.lab.common.exception.MyDaoException;
 import md.victordov.lab.dao.CursDAO;
-import md.victordov.lab.dao.GenericDAO;
 import md.victordov.lab.view.model.CursModel;
 import md.victordov.lab.vo.Curs;
 import md.victordov.lab.vo.Profesor;
@@ -17,51 +16,44 @@ public class CursService implements GenericService<CursModel, Curs> {
 	 * @author victor dovgaliuc Curs. @ Service handles all DAO request but
 	 *         returns and receives different object CursModel object
 	 */
-
+	private CursDAO daoCurs = new CursDAO();
 	@Override
 	public List<CursModel> retrieve() throws MyDaoException {
-		GenericDAO<Curs> gDao = new CursDAO();
-		return this.transformList(gDao.retrieve());
+		 
+		return this.transformList(daoCurs.retrieve());
+		
 	}
 
 	@Override
 	public List<CursModel> retrieve(Integer start, Integer maxRecords)
 			throws MyDaoException {
-		GenericDAO<Curs> gDao = new CursDAO();
-		return this.transformList(gDao.retrieve(start, maxRecords));
+		return this.transformList(daoCurs.retrieve(start, maxRecords));
 	}
 
 	@Override
 	public CursModel retrieve(Integer id) throws MyDaoException {
-		GenericDAO<Curs> gDao = new CursDAO();
-		return this.transform(gDao.retrieve(id));
+		return this.transform(daoCurs.retrieve(id));
 	}
 
 	@Override
 	public boolean create(CursModel t) throws MyDaoException {
-		GenericDAO<Curs> gDao = new CursDAO();
-		return gDao.create(this.transformBack(t));
+		return daoCurs.create(this.transformBack(t));
 	}
 
 	@Override
 	public boolean update(CursModel t) throws MyDaoException {
-		GenericDAO<Curs> gDao = new CursDAO();
-		return gDao.update(this.transformBack(t));
-
+		return daoCurs.update(this.transformBack(t));
 	}
 
 	@Override
 	public boolean delete(Integer id) throws MyDaoException {
-		GenericDAO<Curs> gDao = new CursDAO();
-		gDao.delete(id);
+		daoCurs.delete(id);
 		return true;
-
 	}
 
 	@Override
 	public Long countSize() throws MyDaoException {
-		GenericDAO<Curs> gDao = new CursDAO();
-		return gDao.countSize();
+		return daoCurs.countSize();
 	}
 
 	@Override
@@ -74,14 +66,12 @@ public class CursService implements GenericService<CursModel, Curs> {
 
 			cursModelTemp.setUniversitateId(c.getUniversitate().getUId());
 			if (c.getUniversitate().getNumeUniver() != null) {
-				cursModelTemp
-						.setUniverNume(c.getUniversitate().getNumeUniver());
+				cursModelTemp.setUniverNume(c.getUniversitate().getNumeUniver());
 			}
 			cursModelTemp.setProfesorId(c.getProfesor().getPId());
-			if ((c.getProfesor().getNume() != null)
-					&& (c.getProfesor().getPrenume() != null))
-				cursModelTemp.setProfesorNume(c.getProfesor().getNume() + " "
-						+ c.getProfesor().getPrenume());
+			if ( (c.getProfesor().getNume() != null) && (c.getProfesor().getPrenume() != null))
+				
+				cursModelTemp.setProfesorNume(c.getProfesor().getNume() + " " + c.getProfesor().getPrenume());
 			cursModelList.add(cursModelTemp);
 		}
 		return cursModelList;
@@ -90,10 +80,7 @@ public class CursService implements GenericService<CursModel, Curs> {
 	@Override
 	public CursModel transform(Curs c) {
 		CursModel cursModel = new CursModel();
-		if(c==null){
-			c = new Curs();
-		}else{
-
+		if(c!=null){
 			cursModel.setCursId(c.getCId());
 			cursModel.setNumeCurs(c.getNumeCurs());
 			cursModel.setUniversitateId(c.getUniversitate().getUId());
@@ -102,8 +89,7 @@ public class CursService implements GenericService<CursModel, Curs> {
 			cursModel.setProfesorNume(c.getProfesor().getNume() + " "
 					+ c.getProfesor().getPrenume());
 		}
-		
-
+	
 		return cursModel;
 	}
 
@@ -117,9 +103,9 @@ public class CursService implements GenericService<CursModel, Curs> {
 		curs.setNumeCurs(t.getNumeCurs());
 
 		univ.setUId(t.getUniversitateId());
-		curs.setUniversitate(univ);
-
 		profesor.setPId(t.getProfesorId());
+		
+		curs.setUniversitate(univ);
 		curs.setProfesor(profesor);
 
 		return curs;

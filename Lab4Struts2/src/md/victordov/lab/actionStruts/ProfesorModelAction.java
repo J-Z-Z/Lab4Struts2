@@ -1,6 +1,8 @@
 package md.victordov.lab.actionStruts;
 
 import java.util.ArrayList;
+import java.util.Map;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.dispatcher.SessionMap;
+import org.apache.struts2.interceptor.SessionAware;
+import org.apache.struts2.interceptor.validation.SkipValidation;
 
 import md.victordov.lab.common.exception.MyDaoException;
 import md.victordov.lab.services.ProfesorService;
@@ -15,11 +20,9 @@ import md.victordov.lab.services.GenericService;
 import md.victordov.lab.view.model.ProfesorModel;
 import md.victordov.lab.vo.Profesor;
 import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.ActionContext;
 
-public class ProfesorModelAction extends ActionSupport implements
-		ModelDriven<ProfesorModel> {
+public class ProfesorModelAction extends ActionSupport implements SessionAware{
 	/**
 	 * 
 	 */
@@ -28,41 +31,36 @@ public class ProfesorModelAction extends ActionSupport implements
 	private ProfesorModel profesorModel;
 	public GenericService<ProfesorModel, Profesor> genService;
 	private List<ProfesorModel> profesorModelList;
-	private static final int MAX_PER_PAGE = 5;
 	private Long countTotal = 0L;
 	private List<Long> pgArray = new ArrayList<Long>();
 	private Integer pgNr = 0;
-
-	public ProfesorModelAction() {
-		this.genService = new ProfesorService();
-	}
-
+	private int perPage = 5;
+	private int[] perPageArray = new int[]{5,10,25};
+	private SessionMap<String, Object> session;
+	
 	public String execute() throws MyDaoException {
-
 		this.profesorModelList = genService.retrieve();
 		return SUCCESS;
 	}
 
+	@SkipValidation
 	public String listAllProfesorModel() throws MyDaoException {
 		logger.info("Starting listAllProfesorModel method");
-		HttpServletRequest request = (HttpServletRequest) ActionContext
-				.getContext().get(ServletActionContext.HTTP_REQUEST);
+		//Set preferred records per page
+		if (session.get("perPage") != null) {
+			perPage = (Integer) session.get("perPage");
+		}
 		Integer totalNrPages;
 		countTotal = genService.countSize();
-		totalNrPages = (int) Math.ceil((double) countTotal / MAX_PER_PAGE);
-		try {
-			if (request.getParameter("pgNr") != null) {
-				pgNr = Integer.parseInt(request.getParameter("pgNr"));
-				pgNr = pgNr > totalNrPages ? totalNrPages : pgNr;
-			}
-		} catch (NumberFormatException nfe) {
-			logger.debug("Page Exception, value of pageNr is not a number");
+		totalNrPages = (int) Math.ceil((double) countTotal / perPage) - 1;
+		if(pgNr > totalNrPages) {
+			pgNr = 	totalNrPages;
 		}
-		for (int i = 0; i < Math.ceil((double) countTotal / MAX_PER_PAGE); i++) {
+		for (int i = 0; i < Math.ceil((double) countTotal / perPage); i++) {
 			pgArray.add((long) i);
 		}
-		
-		this.profesorModelList = genService.retrieve(pgNr,MAX_PER_PAGE);
+		//Retreive profesors from database
+		this.profesorModelList = genService.retrieve(pgNr*perPage,perPage);
 		logger.info("listAllProfesorModel executed");
 		return SUCCESS;
 	}
@@ -76,9 +74,10 @@ public class ProfesorModelAction extends ActionSupport implements
 		}
 		if(rezultat){
 			logger.info("profesor object was persisted to dabase");
+			return "success";
+		} else {
+			return "validate";
 		}
-		
-		return	rezultat?"success":"validate";
 	}
 
 	public String deleteProfesorModel() throws MyDaoException {
@@ -86,6 +85,7 @@ public class ProfesorModelAction extends ActionSupport implements
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
 		boolean rezult = false;
 		Integer id = null;
+		//Get the id from request
 		if(request.getParameter("id")!=null){
 			try{
 				id = Integer.parseInt(request.getParameter("id"));
@@ -99,9 +99,10 @@ public class ProfesorModelAction extends ActionSupport implements
 		}
 		if(rezult){
 			logger.info("profesor was deleted from database");
+			return "success";
+		} else {
+			return "validate";
 		}
-
-		return rezult ? "success":"validate";
 	}
 
 	public String editProfesorModel() throws MyDaoException {
@@ -111,6 +112,7 @@ public class ProfesorModelAction extends ActionSupport implements
 		
 		boolean rezult = false;
 		Integer id = null;
+		//Get the id from request
 		if(request.getParameter("id") != null){
 			try {
 				id = Integer.parseInt(request.getParameter("id"));
@@ -134,7 +136,11 @@ public class ProfesorModelAction extends ActionSupport implements
 			rezult = genService.update(this.profesorModel);
 		}
 		logger.info("update profesor end");
-		return rezult ? "success" : "validate";
+		if(rezult) {
+			return "success";
+		} else {
+			return "validate";
+		}
 	}
 
 	public List<ProfesorModel> getProfesorModelList() {
@@ -147,11 +153,6 @@ public class ProfesorModelAction extends ActionSupport implements
 
 	public void setProfesorModel(ProfesorModel profesorModel) {
 		this.profesorModel = profesorModel;
-	}
-
-	@Override
-	public ProfesorModel getModel() {
-		return this.profesorModel;
 	}
 
 	public Long getCountTotal() {
@@ -176,5 +177,27 @@ public class ProfesorModelAction extends ActionSupport implements
 
 	public void setPgNr(Integer pgNr) {
 		this.pgNr = pgNr;
+	}
+	
+	public int[] getPerPageArray() {
+		return perPageArray;
+	}
+
+	public int getPerPage() {
+		return perPage;
+	}
+
+	public void setPerPage(int perPage) {
+		session.put("perPage", perPage);
+		this.perPage = perPage;
+	}
+
+	public ProfesorModelAction() {
+		this.genService = new ProfesorService();
+	}
+
+	@Override
+	public void setSession(Map<String, Object> sessionInjected) {
+		session = (SessionMap<String, Object>) sessionInjected;
 	}
 }

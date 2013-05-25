@@ -4,16 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import md.victordov.lab.common.exception.MyDaoException;
-import md.victordov.lab.dao.GenericDAO;
 import md.victordov.lab.dao.StudentDAO;
 import md.victordov.lab.view.model.StudentModel;
 import md.victordov.lab.vo.Student;
 
 public class StudentService implements GenericService<StudentModel, Student> {
-
+	
+	private StudentDAO gDao = new StudentDAO();
+	
 	@Override
 	public List<StudentModel> retrieve() throws MyDaoException {
-		GenericDAO<Student> gDao = new StudentDAO();
+		
 
 		return this.transformList(gDao.retrieve());
 	}
@@ -21,33 +22,33 @@ public class StudentService implements GenericService<StudentModel, Student> {
 	@Override
 	public List<StudentModel> retrieve(Integer start, Integer maxRecords)
 			throws MyDaoException {
-		GenericDAO<Student> gDao = new StudentDAO();
+		
 		return this.transformList(gDao.retrieve(start, maxRecords));
 	}
 
 	@Override
 	public StudentModel retrieve(Integer id) throws MyDaoException {
-		GenericDAO<Student> gDao = new StudentDAO();
+		
 		return this.transform(gDao.retrieve(id));
 	}
 
 	@Override
 	public boolean create(StudentModel t) throws MyDaoException {
-		GenericDAO<Student> gDao = new StudentDAO();
+		
 		return gDao.create(this.transformBack(t));
 
 	}
 
 	@Override
 	public boolean update(StudentModel t) throws MyDaoException {
-		GenericDAO<Student> gDao = new StudentDAO();
+		
 		return gDao.update(this.transformBack(t));
 
 	}
 
 	@Override
 	public boolean delete(Integer id) throws MyDaoException {
-		GenericDAO<Student> gDao = new StudentDAO();
+		
 		gDao.delete(id);
 		return true;
 
@@ -55,7 +56,7 @@ public class StudentService implements GenericService<StudentModel, Student> {
 
 	@Override
 	public Long countSize() throws MyDaoException {
-		GenericDAO<Student> gDao = new StudentDAO();
+		
 		return gDao.countSize();
 	}
 
@@ -64,7 +65,7 @@ public class StudentService implements GenericService<StudentModel, Student> {
 		List<StudentModel> studentModelList = new ArrayList<StudentModel>();
 		for (Student s : r) {
 			StudentModel studentModelTemp = new StudentModel();
-			studentModelTemp.setSId(s.getSId());
+			studentModelTemp.setSId(s.getSId() != null? s.getSId() : -1);
 			studentModelTemp.setNume(s.getNume());
 			studentModelTemp.setPrenume(s.getPrenume());
 			studentModelTemp.setGrupa(s.getGrupa());

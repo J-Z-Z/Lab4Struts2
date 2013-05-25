@@ -1,174 +1,68 @@
 package md.victordov.lab.dao;
 
-import java.io.Serializable;
 import java.util.List;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import md.victordov.lab.common.HibernateUtil;
-import md.victordov.lab.common.exception.ErrorList;
 import md.victordov.lab.common.exception.MyDaoException;
+import md.victordov.lab.dao.AbstractDao;
 import md.victordov.lab.vo.StudCurs;
 
-public class StudCursDAO implements Serializable, GenericDAO<StudCurs> {
+public class StudCursDAO extends AbstractDao{
 
-	/**
-	 * @author VictorDov
-	 * 
-	 *         DAO class StudCurs manages the StudCurs objects ( creates, reads
-	 *         one or all or predefined number, updates, deletes, counts the
-	 *         number of records.
-	 */
-	private static final long serialVersionUID = 1L;
-	private Session session;
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<StudCurs> retrieve() throws MyDaoException {
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-		List<StudCurs> list = null;
-		try {
-			list = (List<StudCurs>) session.createQuery("from StudCurs").list();
-			tx.commit();
-		} catch (HibernateException he) {
-			if (tx != null)
-				tx.rollback();
-			throw new MyDaoException(ErrorList.RETRIEVE_LIST_ERR_KEY, he);
-		} finally {
-			session.close();
-		}
-
-		return list;
+	public StudCursDAO(){
+		super();
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<StudCurs> retrieve(int start, int maxRecords)
-			throws MyDaoException {
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
+	 /**
+     * Insert a new Student into the database.
+     * @param student
+     */
+    public boolean create(StudCurs studCurs) throws MyDaoException {
+        return super.create(studCurs);
+        
+    }
 
-		Query q = session.createQuery("from StudCurs as sc ");
-		int pageIndex = start;
-		int numberOfRecordsPerPage = maxRecords;
-		int s;
-		s = (pageIndex * numberOfRecordsPerPage) - numberOfRecordsPerPage;
-		q.setFirstResult(s);
-		q.setMaxResults(numberOfRecordsPerPage);
+    /**
+     * Delete a detached StudCurs from the database.
+     * @param studCurs
+     */
+    public boolean delete(Integer id) throws MyDaoException {
+    	return super.delete(StudCurs.class, id);
+    }
 
-		List<StudCurs> list = null;
-		try {
-			list = (List<StudCurs>) (List<StudCurs>) q.list();
-			tx.commit();
-		} catch (HibernateException he) {
-			if (tx != null)
-				tx.rollback();
-			throw new MyDaoException(ErrorList.RETRIEVE_LIST_ERR_KEY, he);
-		} finally {
-			session.close();
-		}
-		return list;
+    /**
+     * Find an StudCurs by its primary key.
+     * @param id
+     * @return
+     */
+    public StudCurs retrieve(Integer id) throws MyDaoException {
+        return (StudCurs) super.retrieve(StudCurs.class, id);
+    }
+
+    /**
+     * Updates the state of a detached StudCurs.
+     *
+     * @param studCurs
+     */
+    public boolean update(StudCurs studCurs) throws MyDaoException {
+        return super.create(studCurs);
+    }
+
+    /**
+     * Finds all Events in the database.
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+	public List<StudCurs> retrieve() throws MyDaoException{
+        return (List<StudCurs>) super.retrieve(StudCurs.class);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<StudCurs> retrieve(int start, int maxRecords) throws MyDaoException{
+        return (List<StudCurs>)super.retrieve(StudCurs.class, start, maxRecords);
+    }
+    
+public Long countSize() throws MyDaoException {
+		
+		return super.countSize(StudCurs.class);
 	}
-
-	@Override
-	public StudCurs retrieve(int id) throws MyDaoException {
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-
-		try {
-			StudCurs instance = (StudCurs) session.get(StudCurs.class, id);
-			if (instance == null) {
-				System.out.println("get successful, no instance found");
-			} else {
-				System.out.println("get successful, instance found");
-			}
-			return instance;
-		} catch (HibernateException he) {
-			if (tx != null)
-				tx.rollback();
-			throw new MyDaoException(ErrorList.RETRIEVE_ERR_KEY, he);
-		} catch (RuntimeException re) {
-			re.printStackTrace();
-			throw re;
-		} finally {
-			session.close();
-		}
-	}
-
-	@Override
-	public boolean create(StudCurs t) throws MyDaoException {
-		session = HibernateUtil.getSessionFactory().openSession();
-		StudCurs studCurs = new StudCurs(t);
-
-		Transaction tx = session.beginTransaction();
-		try {
-			session.save(studCurs);
-			tx.commit();
-		} catch (HibernateException he) {
-			if (tx != null)
-				tx.rollback();
-			throw new MyDaoException(ErrorList.CREATE_ERR_KEY, he);
-		} finally {
-			session.close();
-		}
-
-		return true;
-
-	}
-
-	@Override
-	public boolean update(StudCurs t) throws MyDaoException {
-
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-		try {
-			session.update(t);
-			tx.commit();
-		} catch (HibernateException he) {
-			if (tx != null)
-				tx.rollback();
-			throw new MyDaoException(ErrorList.UPDATE_ERR_KEY, he);
-		} finally {
-			session.close();
-		}
-		return true;
-
-	}
-
-	@Override
-	public boolean delete(int id) throws MyDaoException {
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-		StudCurs p;
-		try {
-			p = (StudCurs) session.get(StudCurs.class, id);
-			session.delete(p);
-			tx.commit();
-		} catch (HibernateException he) {
-			if (tx != null)
-				tx.rollback();
-			throw new MyDaoException(ErrorList.DELETE_ERR_KEY, he);
-		} finally {
-			session.close();
-		}
-		return true;
-
-	}
-
-	@Override
-	public Long countSize() throws MyDaoException {
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-
-		Long count = ((Long) session
-				.createQuery("select count(*) from StudCurs as studentStudCurs")
-				.iterate().next()).longValue();
-		tx.commit();
-		return count;
-	}
-
 }

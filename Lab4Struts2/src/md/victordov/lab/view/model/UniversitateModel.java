@@ -39,6 +39,11 @@ public class UniversitateModel implements java.io.Serializable {
 	public void setTelefon(String telefon) {
 		this.telefon = telefon;
 	}
+	
+	@Override
+	public String toString(){
+		return numeUniver + ", " + adresa + ", " + telefon;
+	}
 
 	private Integer UId;
 	private String numeUniver;

@@ -5,12 +5,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>DB operation error</title>
 </head>
 <body>
 	<h3>Dao Exception Occurred</h3>
 
 	<s:property value="exception.message" />
-	<s:property value="exceptionStack" />
+	<a href="http://localhost:8080/Lab4Struts2/">Go back</a>
 </body>
 </html>

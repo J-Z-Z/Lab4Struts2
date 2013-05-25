@@ -1,174 +1,68 @@
 package md.victordov.lab.dao;
 
-import java.io.Serializable;
 import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import md.victordov.lab.common.HibernateUtil;
-import md.victordov.lab.common.exception.ErrorList;
 import md.victordov.lab.common.exception.MyDaoException;
+import md.victordov.lab.dao.AbstractDao;
 import md.victordov.lab.vo.Student;
 
-public class StudentDAO implements Serializable, GenericDAO<Student> {
+public class StudentDAO extends AbstractDao{
 
-	/**
-	 * @author VictorDov
-	 * 
-	 *         DAO class Student manages the Student objects ( creates, reads
-	 *         one or all or predefined number, updates, deletes, counts the
-	 *         number of records.
-	 */
-	private static final long serialVersionUID = 1L;
-
-	private Session session;
-
-	@SuppressWarnings("unchecked")
-	public List<Student> retrieve() throws MyDaoException {
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-		List<Student> listStudents = null;
-		try {
-			listStudents = (List<Student>) session.createQuery("from Student")
-					.list();
-			tx.commit();
-		} catch (HibernateException he) {
-			if (tx != null)
-				tx.rollback();
-			throw new MyDaoException(ErrorList.RETRIEVE_LIST_ERR_KEY, he);
-		} finally {
-			session.close();
-		}
-
-		return listStudents;
-
+	public StudentDAO(){
+		super();
 	}
 
-	public Student retrieve(int id) throws MyDaoException {
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
+	 /**
+     * Insert a new Student into the database.
+     * @param student
+     */
+    public boolean create(Student student) throws MyDaoException {
+        return super.create(student);
+        
+    }
 
-		try {
-			Student instance = (Student) session.get(Student.class, id);
-			if (instance == null) {
-				System.out.println("get successful, no instance found");
-			} else {
-				System.out.println("get successful, instance found");
-			}
-			return instance;
-		} catch (HibernateException he) {
-			if (tx != null)
-				tx.rollback();
-			throw new MyDaoException(ErrorList.RETRIEVE_ERR_KEY, he);
-		} catch (RuntimeException re) {
-			System.out.println("get failed");
-			re.printStackTrace();
-			throw re;
-		} finally {
-			session.close();
-		}
-	}
+    /**
+     * Delete a detached Student from the database.
+     * @param student
+     */
+    public boolean delete(Integer id) throws MyDaoException {
+    	return super.delete(Student.class, id);
+    }
 
-	public boolean create(Student t) throws MyDaoException {
+    /**
+     * Find an Student by its primary key.
+     * @param id
+     * @return
+     */
+    public Student retrieve(Integer id) throws MyDaoException {
+        return (Student) super.retrieve(Student.class, id);
+    }
 
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-		try {
-			session.save(t);
-			tx.commit();
-		} catch (HibernateException he) {
-			if (tx != null)
-				tx.rollback();
-			throw new MyDaoException(ErrorList.CREATE_ERR_KEY, he);
-		} finally {
-			session.close();
-		}
+    /**
+     * Updates the state of a detached Student.
+     *
+     * @param student
+     */
+    public boolean update(Student student) throws MyDaoException {
+        return super.create(student);
+    }
+
+    /**
+     * Finds all Events in the database.
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+	public List<Student> retrieve() throws MyDaoException{
+        return (List<Student>) super.retrieve(Student.class);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<Student> retrieve(int start, int maxRecords) throws MyDaoException{
+        return (List<Student>)super.retrieve(Student.class, start, maxRecords);
+    }
+    
+public Long countSize() throws MyDaoException {
 		
-		return true;
-
+		return super.countSize(Student.class);
 	}
-
-	public boolean update(Student t) throws MyDaoException {
-
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-		try {
-			session.update(t);
-			// session.saveOrUpdate(t);
-			tx.commit();
-		} catch (HibernateException he) {
-			if (tx != null)
-				tx.rollback();
-			throw new MyDaoException(ErrorList.UPDATE_ERR_KEY, he);
-		} finally {
-			session.close();
-		}
-		return true;
-
-	}
-
-	public boolean delete(int id) throws MyDaoException {
-
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-		Student p;
-		try {
-			p = (Student) session.get(Student.class, id);
-			session.delete(p);
-			tx.commit();
-		} catch (HibernateException he) {
-			if (tx != null)
-				tx.rollback();
-			throw new MyDaoException(ErrorList.DELETE_ERR_KEY, he);
-		} finally {
-			session.close();
-		}
-		return true;
-
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Student> retrieve(int start, int maxRecords)
-			throws MyDaoException {
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-
-		Criteria crit = session.createCriteria(Student.class);
-		int pageIndex = start;
-		int numberOfRecordsPerPage = maxRecords;
-		int s;
-		s = (pageIndex * numberOfRecordsPerPage) - numberOfRecordsPerPage;
-		crit.setFirstResult(s);
-		crit.setMaxResults(numberOfRecordsPerPage);
-
-		List<Student> list = null;
-		try {
-			list = (List<Student>) (List<Student>) crit.list();
-			tx.commit();
-		} catch (HibernateException he) {
-			if (tx != null)
-				tx.rollback();
-			throw new MyDaoException(ErrorList.RETRIEVE_LIST_ERR_KEY, he);
-		} finally {
-			session.close();
-		}
-		return list;
-	}
-
-	@Override
-	public Long countSize() throws MyDaoException {
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-
-		Long count = ((Long) session
-				.createQuery("select count(*) from Student as stud").iterate()
-				.next()).longValue();
-		tx.commit();
-		return count;
-	}
-
 }

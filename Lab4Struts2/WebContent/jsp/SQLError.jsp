@@ -7,6 +7,9 @@
 <title>Sql Error</title>
 </head>
 <body>
-<h2>Eroare SQL</h2>
+<h3>Pagina nu a putut fi afisata</h3>
+<p>Contactati administratorul...</p>
+<img src="images/monkeys.jpg" />
+
 </body>
 </html>

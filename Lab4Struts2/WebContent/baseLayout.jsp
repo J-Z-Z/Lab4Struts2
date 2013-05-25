@@ -18,7 +18,6 @@
 <script src="js/validInsForm.js"></script>
 
 
-
 </head>
 <body>
 	<tiles:insertAttribute name="header" />

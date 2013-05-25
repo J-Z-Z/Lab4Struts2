@@ -1,174 +1,68 @@
 package md.victordov.lab.dao;
 
-import java.io.Serializable;
 import java.util.List;
 
-import md.victordov.lab.common.HibernateUtil;
-import md.victordov.lab.common.exception.ErrorList;
 import md.victordov.lab.common.exception.MyDaoException;
+import md.victordov.lab.dao.AbstractDao;
 import md.victordov.lab.vo.Universitate;
 
-import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+public class UnivDAO extends AbstractDao{
 
-public class UnivDAO implements GenericDAO<Universitate>, Serializable {
-
-	private static final long serialVersionUID = 1L;
-
-	private Session session;
-
-	/**
-	 * @author victor Clasa UnivDAO - Universitate Data Access Object, classa
-	 *         destinata sa faca legatura dintre baza de date si utilizator
-	 *         gestionind clasa Universitate Executa 4 tipuri de functii CRUD
-	 */
-
-	public UnivDAO() {
-
+	public UnivDAO(){
+		super();
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<Universitate> retrieve() throws MyDaoException {
+	 /**
+     * Insert a new Student into the database.
+     * @param student
+     */
+    public boolean create(Universitate universitate) throws MyDaoException {
+        return super.create(universitate);
+        
+    }
 
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
+    /**
+     * Delete a detached Universitate from the database.
+     * @param universitate
+     */
+    public boolean delete(Integer id) throws MyDaoException {
+    	return super.delete(Universitate.class, id);
+    }
 
-		List<Universitate> list = null;
-		try {
-			list = (List<Universitate>) session
-					.createQuery("from Universitate").list();
+    /**
+     * Find an Universitate by its primary key.
+     * @param id
+     * @return
+     */
+    public Universitate retrieve(Integer id) throws MyDaoException {
+        return (Universitate) super.retrieve(Universitate.class, id);
+    }
 
-			tx.commit();
-		} catch (HibernateException he) {
-			if (tx != null)
-				tx.rollback();
-			throw new MyDaoException(ErrorList.RETRIEVE_LIST_ERR_KEY, he);
-		} finally {
-			session.close();
-		}
+    /**
+     * Updates the state of a detached Universitate.
+     *
+     * @param universitate
+     */
+    public boolean update(Universitate universitate) throws MyDaoException {
+        return super.create(universitate);
+    }
 
-		return list;
-
-	}
-
-	public Universitate retrieve(int id) throws MyDaoException {
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-		Universitate instance = null;
-		try {
-			instance = (Universitate) session.get(Universitate.class, id);
-			if (instance == null) {
-				System.out.println("get successful, no instance found");
-			} else {
-				System.out.println("get successful, instance found");
-			}
-
-		} catch (HibernateException he) {
-			if (tx != null)
-				tx.rollback();
-			throw new MyDaoException(ErrorList.RETRIEVE_ERR_KEY, he);
-		} finally {
-			session.close();
-		}
-		return instance;
-
-	}
-
-	public boolean create(Universitate t) throws MyDaoException {
-
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-		try {
-			session.save(t);
-			tx.commit();
-
-		} catch (HibernateException he) {
-			if (tx != null)
-				tx.rollback();
-			throw new MyDaoException(ErrorList.CREATE_ERR_KEY, he);
-		} finally {
-			session.close();
-		}
+    /**
+     * Finds all Events in the database.
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+	public List<Universitate> retrieve() throws MyDaoException{
+        return (List<Universitate>) super.retrieve(Universitate.class);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<Universitate> retrieve(int start, int maxRecords) throws MyDaoException{
+        return (List<Universitate>)super.retrieve(Universitate.class, start, maxRecords);
+    }
+    
+public Long countSize() throws MyDaoException {
 		
-		return true;
-
+		return super.countSize(Universitate.class);
 	}
-
-	public boolean update(Universitate t) throws MyDaoException {
-
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-		try {
-			session.update(t);
-			tx.commit();
-		} catch (HibernateException he) {
-			if (tx != null)
-				tx.rollback();
-			throw new MyDaoException(ErrorList.UPDATE_ERR_KEY, he);
-		} finally {
-			session.close();
-		}
-		return true;
-	}
-
-	public boolean delete(int id) throws MyDaoException {
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-		try {
-			session.delete((Universitate) session.get(Universitate.class, id));
-			tx.commit();
-		} catch (HibernateException he) {
-			if (tx != null)
-				tx.rollback();
-			throw new MyDaoException(ErrorList.DELETE_ERR_KEY, he);
-		} finally {
-			session.close();
-		}
-		return true;
-
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Universitate> retrieve(int start, int maxRecords)
-			throws MyDaoException {
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-
-		Criteria crit = session.createCriteria(Universitate.class);
-		int pageIndex = start;
-		int numberOfRecordsPerPage = maxRecords;
-		int s;
-		s = (pageIndex * numberOfRecordsPerPage) - numberOfRecordsPerPage;
-		crit.setFirstResult(s);
-		crit.setMaxResults(numberOfRecordsPerPage);
-
-		List<Universitate> list = null;
-		try {
-			list = (List<Universitate>) (List<Universitate>) crit.list();
-			tx.commit();
-		} catch (HibernateException he) {
-			if (tx != null)
-				tx.rollback();
-			throw new MyDaoException(ErrorList.RETRIEVE_LIST_ERR_KEY, he);
-		} finally {
-			session.close();
-		}
-		return list;
-	}
-
-	@Override
-	public Long countSize() throws MyDaoException {
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-
-		Long count =  ((Long) session
-				.createQuery("select count(*) from Universitate as univ")
-				.iterate().next()).longValue();
-		tx.commit();
-		return count;
-	}
-
 }

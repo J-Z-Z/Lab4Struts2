@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import md.victordov.lab.common.exception.MyDaoException;
-import md.victordov.lab.dao.GenericDAO;
 import md.victordov.lab.dao.StudCursDAO;
 import md.victordov.lab.view.model.StudCursModel;
 import md.victordov.lab.vo.Curs;
@@ -12,50 +11,46 @@ import md.victordov.lab.vo.StudCurs;
 import md.victordov.lab.vo.Student;
 
 public class StudCursService implements GenericService<StudCursModel, StudCurs> {
+	
+	private StudCursDAO studCursDAO = new StudCursDAO();
 
 	@Override
 	public List<StudCursModel> retrieve() throws MyDaoException {
-		GenericDAO<StudCurs> gDao = new StudCursDAO();
-		return this.transformList(gDao.retrieve());
+		
+		return this.transformList(studCursDAO.retrieve());
 	}
 
 	@Override
 	public List<StudCursModel> retrieve(Integer start, Integer maxRecords)
 			throws MyDaoException {
-		GenericDAO<StudCurs> gDao = new StudCursDAO();
-		return this.transformList(gDao.retrieve(start, maxRecords));
+		return this.transformList(studCursDAO.retrieve(start, maxRecords));
 	}
 
 	@Override
 	public StudCursModel retrieve(Integer id) throws MyDaoException {
-		GenericDAO<StudCurs> gDao = new StudCursDAO();
-		return this.transform(gDao.retrieve(id));
+		return this.transform(studCursDAO.retrieve(id));
 	}
 
 	@Override
 	public boolean create(StudCursModel t) throws MyDaoException {
-		GenericDAO<StudCurs> gDao = new StudCursDAO();
-		return gDao.create(this.transformBack(t));
+		return studCursDAO.create(this.transformBack(t));
 	}
 
 	@Override
 	public boolean update(StudCursModel t) throws MyDaoException {
-		GenericDAO<StudCurs> gDao = new StudCursDAO();
-		return gDao.update(this.transformBack(t));
+		return studCursDAO.update(this.transformBack(t));
 	}
 
 	@Override
 	public boolean delete(Integer id) throws MyDaoException {
-		GenericDAO<StudCurs> gDao = new StudCursDAO();
-		gDao.delete(id);
+		studCursDAO.delete(id);
 		return true;
 
 	}
 
 	@Override
 	public Long countSize() throws MyDaoException {
-		GenericDAO<StudCurs> gDao = new StudCursDAO();
-		return gDao.countSize();
+		return studCursDAO.countSize();
 	}
 
 	@Override

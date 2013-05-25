@@ -1,5 +1,8 @@
 package md.victordov.lab.common;
 
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,10 +15,11 @@ import org.hibernate.service.ServiceRegistryBuilder;
  * @author VictorDov HibernateUtil - creates and manages sessions. Pattern:
  *         Singleton & Abstract Factory
  */
-public class HibernateUtil {
-
+public abstract class HibernateUtil {
+	private static Logger logger = LogManager.getLogger(HibernateUtil.class);
 	private static SessionFactory sessionFactory;
 	private static ServiceRegistry serviceRegistry;
+	private HibernateUtil(){}
 
 	static {
 		try {
@@ -26,6 +30,7 @@ public class HibernateUtil {
 					configuration.getProperties()).buildServiceRegistry();
 			sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 		} catch (HibernateException he) {
+			logger.info("No connection static try");
 			throw he;
 		}
 

@@ -1,6 +1,8 @@
 package md.victordov.lab.actionStruts;
 
 import java.util.ArrayList;
+import java.util.Map;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,19 +10,25 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.dispatcher.SessionMap;
+import org.apache.struts2.interceptor.SessionAware;
+import org.apache.struts2.interceptor.validation.SkipValidation;
 
 import md.victordov.lab.common.exception.MyDaoException;
+import md.victordov.lab.services.CursService;
 import md.victordov.lab.services.GenericService;
 import md.victordov.lab.services.StudCursService;
+import md.victordov.lab.services.StudentService;
+import md.victordov.lab.view.model.CursModel;
 import md.victordov.lab.view.model.StudCursModel;
+import md.victordov.lab.view.model.StudentModel;
 import md.victordov.lab.vo.StudCurs;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.Preparable;
 
-public class StudCursModelAction extends ActionSupport implements
-		ModelDriven<StudCursModel> {
+public class StudCursModelAction extends ActionSupport implements Preparable, SessionAware {
 	/**
 	 * 
 	 */
@@ -30,18 +38,14 @@ public class StudCursModelAction extends ActionSupport implements
 	private StudCursModel studCursModel;
 	public GenericService<StudCursModel, StudCurs> genService;
 	private List<StudCursModel> studCursModelList;
-	private static final int MAX_PER_PAGE = 5;
 	private Long countTotal = 0L;
 	private List<Long> pgArray = new ArrayList<Long>();
 	private Integer pgNr = 0;
-
-	public Integer getPgNr() {
-		return pgNr;
-	}
-
-	public void setPgNr(Integer pgNr) {
-		this.pgNr = pgNr;
-	}
+	private List<StudentModel> studentList;
+	private List<CursModel> cursList;
+	private Integer perPage = 5;
+	private int[] perPageArray = new int[] { 5, 10, 25 };
+	private SessionMap<String, Object> session;
 
 	public StudCursModelAction() {
 		this.genService = new StudCursService();
@@ -54,28 +58,25 @@ public class StudCursModelAction extends ActionSupport implements
 		return SUCCESS;
 	}
 
+	@SkipValidation
 	public String listAllStudCursModel() throws MyDaoException {
 		logger.info("listAllStudCursModel started");
-		HttpServletRequest request = (HttpServletRequest) ActionContext
-				.getContext().get(ServletActionContext.HTTP_REQUEST);
-
+		//Get records per page from session
+		if (session.get("perPage") != null) {
+			perPage = (Integer) session.get("perPage");
+		}
 		Integer totalNrPages;
 		countTotal = genService.countSize();
-		totalNrPages = (int) Math.ceil((double) countTotal / MAX_PER_PAGE);
-		try {
-			if (request.getParameter("pgNr") != null) {
-				pgNr = Integer.parseInt(request.getParameter("pgNr"));
-				pgNr = pgNr > totalNrPages ? totalNrPages : pgNr;
-
-			}
-		} catch (NumberFormatException nfe) {
-			logger.info("Page Exception");
+		totalNrPages = (int) Math.ceil((double) countTotal / perPage)-1;
+		if(pgNr > totalNrPages) {
+			pgNr = totalNrPages;
 		}
-		for (int i = 0; i < Math.ceil((double) countTotal / MAX_PER_PAGE); i++) {
+		//fill the array with page numbers
+		for (int i = 0; i < Math.ceil((double) countTotal / perPage); i++) {
 			pgArray.add((long) i);
 		}
-
-		this.studCursModelList = genService.retrieve(pgNr, MAX_PER_PAGE);
+		//Retrieve data from database
+		this.studCursModelList = genService.retrieve(pgNr * perPage, perPage);
 		logger.info("listAllStudCursModel was executed");
 		return SUCCESS;
 	}
@@ -119,23 +120,25 @@ public class StudCursModelAction extends ActionSupport implements
 
 		HttpServletRequest request = (HttpServletRequest) ActionContext
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
-		
+
 		boolean rezult = false;
 		Integer id = null;
-		if(request.getParameter("id") != null){
+		//Get id of object from request
+		if (request.getParameter("id") != null) {
 			try {
 				id = Integer.parseInt(request.getParameter("id"));
 				studCursModel = genService.retrieve(id);
-				rezult = (studCursModel != null) ? true :false; 
+				rezult = (studCursModel != null) ? true : false;
 			} catch (NumberFormatException nfe) {
 				logger.debug("Edit student-curs: Id is null");
 			}
 		}
-		if(rezult){
+		if (rezult) {
 			logger.info("student-curs successfuly retrieved for updating");
+			return "success";
+		} else{
+			return "validate";
 		}
-		
-		return rezult ? "success" : "validate";
 	}
 
 	public String updateStudCursModel() throws MyDaoException {
@@ -143,8 +146,11 @@ public class StudCursModelAction extends ActionSupport implements
 		if (this.studCursModel != null) {
 			rezult = genService.update(this.studCursModel);
 		}
-
-		return rezult ? "success" : "validate";
+		if(rezult) {
+			return "success";
+		} else {
+			return "validate";
+		}
 	}
 
 	public List<StudCursModel> getStudCursModelList() {
@@ -159,17 +165,8 @@ public class StudCursModelAction extends ActionSupport implements
 		this.studCursModel = studCursModel;
 	}
 
-	@Override
-	public StudCursModel getModel() {
-		return this.studCursModel;
-	}
-
 	public Long getCountTotal() {
 		return countTotal;
-	}
-
-	public void setCountTotal(Long countTotal) {
-		this.countTotal = countTotal;
 	}
 
 	public List<Long> getPgArray() {
@@ -178,6 +175,57 @@ public class StudCursModelAction extends ActionSupport implements
 
 	public void setPgArray(List<Long> pgArray) {
 		this.pgArray = pgArray;
+	}
+
+	@Override
+	public void prepare() throws Exception {
+		setStudentList(new ArrayList<StudentModel>());
+		setStudentList(new StudentService().retrieve());
+
+		setCursList(new ArrayList<CursModel>());
+		setCursList(new CursService().retrieve());
+	}
+
+	public List<StudentModel> getStudentList() {
+		return studentList;
+	}
+
+	public void setStudentList(List<StudentModel> studentList) {
+		this.studentList = studentList;
+	}
+
+	public List<CursModel> getCursList() {
+		return cursList;
+	}
+
+	public void setCursList(List<CursModel> cursList) {
+
+		this.cursList = cursList;
+	}
+	public void setPgNr(Integer pgNr){
+		this.pgNr = pgNr;
+	}
+	public int[] getPerPageArray() {
+		return perPageArray;
+	}
+
+	public Integer getPerPage() {
+		return perPage;
+	}
+
+	public void setPerPage(Integer perPage) {
+		session.put("perPage", perPage);
+		this.perPage = perPage;
+	}
+
+	public Integer getPgNr() {
+		return pgNr;
+	}
+
+	@Override
+	public void setSession(Map<String, Object> sessionInjected) {
+		session = (SessionMap<String, Object>) sessionInjected;
+		
 	}
 
 }

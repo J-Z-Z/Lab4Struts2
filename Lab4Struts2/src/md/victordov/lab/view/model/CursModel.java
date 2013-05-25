@@ -1,10 +1,10 @@
 package md.victordov.lab.view.model;
 
+
 public class CursModel implements java.io.Serializable {
 
 	private static final long serialVersionUID = 6462054439131634000L;
 	public CursModel() {
-
 	}
 
 
@@ -56,6 +56,11 @@ public class CursModel implements java.io.Serializable {
 
 	public void setCursId(Integer cursId) {
 		this.cursId = cursId;
+	}
+	
+	@Override
+	public String toString(){
+		return numeCurs + ", " + universitateId + "," + univerNume + ", " + profesorId + ", " + profesorNume;
 	}
 
 	private Integer cursId; // Curs Id

@@ -29,22 +29,56 @@
 			<interceptor name="validation"
 				class="org.apache.struts2.interceptor.validation.AnnotationValidationInterceptor" />
 			<interceptor name="authInterceptor" class="md.victordov.lab.interceptrs.AuthInterceptor" />
+			
+			<interceptor-stack name="defaultStack">
+            <interceptor-ref name="exception"/>
+            <interceptor-ref name="alias"/>
+            <interceptor-ref name="servletConfig"/>
+            <interceptor-ref name="i18n"/>
+            <interceptor-ref name="prepare"/>
+            <interceptor-ref name="chain"/>
+            <interceptor-ref name="debugging"/>
+            <interceptor-ref name="scopedModelDriven"/>
+            <interceptor-ref name="modelDriven"/>
+            <interceptor-ref name="fileUpload"/>
+            <interceptor-ref name="checkbox"/>
+            <interceptor-ref name="multiselect"/>
+            <interceptor-ref name="staticParams"/>
+            <interceptor-ref name="actionMappingParams"/>
+            <interceptor-ref name="params">
+              <param name="excludeParams">dojo\..*,^struts\..*</param>
+            </interceptor-ref>
+            <interceptor-ref name="conversionError"/>
+            <interceptor-ref name="validation">
+                <param name="excludeMethods">input,back,cancel,browse</param>
+            </interceptor-ref>
+            <interceptor-ref name="workflow">
+                <param name="excludeMethods">input,back,cancel,browse</param>
+            </interceptor-ref>
+           
+        </interceptor-stack>
 		</interceptors>
 
 		<global-results>
 			<result name="error">/jsp/Error.jsp</result>
 			<result name="sqlError">/jsp/SQLError.jsp</result>
 			<result name="daoException">/jsp/DaoEx.jsp</result>
+			<result name="sqlException">/jsp/SQLError.jsp</result>
+			<result name="HibsqlException">/jsp/SQLError.jsp</result>
+			<result name="Hib2sqlException">/jsp/SQLError.jsp</result>
+			<result name="ModelObjectNotFound">/jsp/ObjNotFound.jsp</result>
 		</global-results>
 
 
 		<global-exception-mappings>
-			<exception-mapping exception="java.sql.SQLException"
-				result="sqlError" />
-			<exception-mapping exception="java.lang.Exception"
-				result="error" />
-			<exception-mapping exception="md.victordov.lab.common.exception.MyDaoException"
-				result="daoException" />
+			<exception-mapping exception="java.sql.SQLException" result="sqlError" />
+			<exception-mapping result="sqlException" exception="java.sql.JDBCConnectionException"/>
+			<exception-mapping result="HibsqlException" exception="org.hibernate.exception.JDBCConnectionException"/>
+			<exception-mapping result="Hib2sqlException" exception="org.hibernate.engine.jdbc.spi.SqlExceptionHelper"/>
+			<exception-mapping result="ModelObjectNotFound" exception="org.hibernate.ObjectNotFoundException" />
+			
+			<exception-mapping exception="java.lang.Exception" result="error" />
+			<exception-mapping exception="md.victordov.lab.common.exception.MyDaoException" result="daoException" />
 		</global-exception-mappings>
 		
 		<action name="login">
@@ -58,7 +92,7 @@
 		
 		<action name="authorizedonly">
 			<interceptor-ref name="authInterceptor"/>
-			<result name="success" type="redirect">/</result>
+			<result name="success" type="redirect">${url}</result>
 			<result name="failure">login.jsp</result>
 		</action>
 
@@ -67,17 +101,18 @@
 			method="listAll{1}Model">
 			<interceptor-ref name="authInterceptor"/>
 			<interceptor-ref name="defaultStack" >
-				<param name="validation.excludeMethods">success</param>
+				<param name="validation.excludeMethods">listAll{1}Model</param>
 			</interceptor-ref>
-			<result name="success" >{1}.jsp</result>
+			<result name="success" type="tiles">{1}</result>
+			<result name="input" type="redirect">{1}_list.html</result>
 			<result name="failure">login.jsp</result>
 		</action>
 
 		<action name="*_add" class="md.victordov.lab.actionStruts.{1}ModelAction"
 			method="add{1}Model">
-			<result name="success">successInsert.jsp</result>
-			<result name="validate">{1}add.jsp</result>
-			<result name="input">{1}add.jsp</result>
+			<result name="success" type="redirect">{1}_list.html</result>
+			<result name="input" type="tiles">{1}</result>
+			<result name="input" type="tiles">{1}</result>
 		</action>
 
 		<action name="*_edit" method="edit{1}Model"
@@ -96,7 +131,10 @@
 
 		<action name="*_delete" method="delete{1}Model"
 			class="md.victordov.lab.actionStruts.{1}ModelAction">
-			<result name="success" type="redirect">{1}_list.html</result>
+			<result name="success" type="redirectAction">
+				<param name="actionName">{1}_list</param>
+				<param name="pgNr">${pgNr}</param>
+			</result>
 			<result name="validate" type="redirect">{1}_list.html</result>
 			<result name="input" type="tiles">{1}</result>
 		</action>
@@ -117,21 +155,9 @@
 		<action name="*pg" class="md.victordov.lab.actionStruts.{1}ModelAction"
 			method="listAll{1}Model">
 			<result name="success" >{1}pg.jsp</result>
+			<result name="input" type="redirect">/jsp/error404.jsp</result>
 		</action>
 		
-		<action name="*edit" class="md.victordov.lab.actionStruts.{1}ModelAction"
-			method="edit{1}Model">
-			<result name="success" >{1}edit.jsp</result>
-			<result name="validate" >{1}edit.jsp</result>
-			<result name="input" >{1}edit.jsp</result>
-		</action>
-		
-		<action name="*update" class="md.victordov.lab.actionStruts.{1}ModelAction"
-			method="update{1}Model">
-			<result name="success">successUpdate.jsp</result>
-			<result name="validate" >{1}edit.jsp</result>
-			<result name="input" >{1}edit.jsp</result>
-		</action>
-	 
+
 	</package>
 </struts>

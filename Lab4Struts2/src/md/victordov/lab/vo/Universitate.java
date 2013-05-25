@@ -16,7 +16,7 @@ import javax.persistence.Table;
  * Designed By Victor Dovgaliuc
  */
 @Entity
-@Table(name = "universitate", catalog = "uni2_4t")
+@Table(name = "universitate")
 public class Universitate implements java.io.Serializable {
 
 	/**

@@ -1,173 +1,68 @@
 package md.victordov.lab.dao;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import md.victordov.lab.common.HibernateUtil;
-import md.victordov.lab.common.exception.ErrorList;
 import md.victordov.lab.common.exception.MyDaoException;
+import md.victordov.lab.dao.AbstractDao;
 import md.victordov.lab.vo.Curs;
 
-public class CursDAO implements Serializable, GenericDAO<Curs> {
+public class CursDAO extends AbstractDao{
 
-	/**
-	 * @author VictorDov
-	 * 
-	 *         DAO class CursDAO manages the Curs objects ( creates, reads one
-	 *         or all or predefined number, updates, deletes, counts the number
-	 *         of records.
-	 */
-
-	private static final long serialVersionUID = 1L;
-	private Session session;
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Curs> retrieve() throws MyDaoException {
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-		List<Curs> list = new ArrayList<Curs>();
-		try {
-			list = (List<Curs>) session.createQuery("from Curs").list();
-			tx.commit();
-		} catch (HibernateException he) {
-			if (tx != null)
-				tx.rollback();
-			throw new MyDaoException(ErrorList.RETRIEVE_LIST_ERR_KEY, he);
-		} finally {
-			session.close();
-		}
-		return list;
+	public CursDAO(){
+		super();
 	}
 
-	@Override
-	public Curs retrieve(int id) throws MyDaoException {
-		Session session = null;
+	 /**
+     * Insert a new Student into the database.
+     * @param student
+     */
+    public boolean create(Curs curs) throws MyDaoException {
+        return super.create(curs);
+        
+    }
 
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
+    /**
+     * Delete a detached Curs from the database.
+     * @param curs
+     */
+    public boolean delete(Integer id) throws MyDaoException {
+    	return super.delete(Curs.class, id);
+    }
 
-		try {
-			Curs instance = (Curs) session.get(Curs.class, id);
-			if (instance == null) {
-				System.out.println("get successful, no instance found");
-			} else {
-				System.out.println("CursDao, method retrieve( id )");
-				System.out.println("get successful, instance found");
-			}
-			return instance;
-		} catch (HibernateException he) {
-			if (tx != null)
-				tx.rollback();
-			throw new MyDaoException(ErrorList.RETRIEVE_ERR_KEY, he);
-		} catch (RuntimeException re) {
-			re.printStackTrace();
-			throw re;
-		} finally {
-			session.close();
-		}
+    /**
+     * Find an Curs by its primary key.
+     * @param id
+     * @return
+     */
+    public Curs retrieve(Integer id) throws MyDaoException {
+        return (Curs) super.retrieve(Curs.class, id);
+    }
 
-	}
+    /**
+     * Updates the state of a detached Curs.
+     *
+     * @param curs
+     */
+    public boolean update(Curs curs) throws MyDaoException {
+        return super.create(curs);
+    }
 
-	@Override
-	public boolean create(Curs t) throws MyDaoException {
-
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-		try {
-			session.save(t);
-			tx.commit();
-		} catch (HibernateException he) {
-			if (tx != null)
-				tx.rollback();
-			throw new MyDaoException(ErrorList.CREATE_ERR_KEY, he);
-		} finally {
-			session.close();
-		}
-		return true;
-	}
-
-	@Override
-	public boolean update(Curs t) throws MyDaoException {
-
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-		try {
-			session.update(t);
-			tx.commit();
-		} catch (HibernateException he) {
-			if (tx != null)
-				tx.rollback();
-			throw new MyDaoException(ErrorList.UPDATE_ERR_KEY, he);
-		} finally {
-			session.close();
-		}
+    /**
+     * Finds all Events in the database.
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+	public List<Curs> retrieve() throws MyDaoException{
+        return (List<Curs>) super.retrieve(Curs.class);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<Curs> retrieve(int start, int maxRecords) throws MyDaoException{
+        return (List<Curs>)super.retrieve(Curs.class, start, maxRecords);
+    }
+    
+public Long countSize() throws MyDaoException {
 		
-		return true;
-
+		return super.countSize(Curs.class);
 	}
-
-	@Override
-	public boolean delete(int id) throws MyDaoException {
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-		
-		try {
-			session.delete((Curs) session.get(Curs.class, id));
-			tx.commit();
-		} catch (HibernateException he) {
-			if (tx != null)
-				tx.rollback();
-			throw new MyDaoException(ErrorList.DELETE_ERR_KEY, he);
-		} finally {
-			session.close();
-		}
-		return true;
-
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Curs> retrieve(int start, int maxRecords) throws MyDaoException {
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-
-		Query q = session.createQuery("from Curs as c");
-		int pageIndex = start;
-		int numberOfRecordsPerPage = maxRecords;
-		int s;
-		s = (pageIndex * numberOfRecordsPerPage) - numberOfRecordsPerPage;
-		q.setFirstResult(s);
-		q.setMaxResults(numberOfRecordsPerPage);
-		List<Curs> list = null;
-		try {
-			list = (List<Curs>) q.list();
-			tx.commit();
-		} catch (HibernateException he) {
-			if (tx != null)
-				tx.rollback();
-			throw new MyDaoException(ErrorList.RETRIEVE_LIST_ERR_KEY, he);
-		} finally {
-			session.close();
-		}
-		return list;
-	}
-
-	@Override
-	public Long countSize() throws MyDaoException {
-		session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-
-		Long count = ((Long) session.createQuery("select count(*) from Curs")
-				.iterate().next()).longValue();
-		tx.commit();
-		return count;
-	}
-
 }

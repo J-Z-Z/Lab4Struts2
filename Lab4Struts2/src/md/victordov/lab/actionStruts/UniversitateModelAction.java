@@ -2,12 +2,16 @@ package md.victordov.lab.actionStruts;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.dispatcher.SessionMap;
+import org.apache.struts2.interceptor.SessionAware;
+import org.apache.struts2.interceptor.validation.SkipValidation;
 
 import md.victordov.lab.common.exception.MyDaoException;
 import md.victordov.lab.services.GenericService;
@@ -15,11 +19,9 @@ import md.victordov.lab.services.UniversitateService;
 import md.victordov.lab.view.model.UniversitateModel;
 import md.victordov.lab.vo.Universitate;
 import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.ActionContext;
 
-public class UniversitateModelAction extends ActionSupport implements
-		ModelDriven<UniversitateModel> {
+public class UniversitateModelAction extends ActionSupport implements SessionAware{
 	/**
 	 * 
 	 */
@@ -29,19 +31,13 @@ public class UniversitateModelAction extends ActionSupport implements
 	private UniversitateModel universitateModel;
 	public GenericService<UniversitateModel, Universitate> genService;
 	private List<UniversitateModel> universitateModelList;
-	private static final int MAX_PER_PAGE = 5;
 	private Long countTotal = 0L;
 	private List<Long> pgArray = new ArrayList<Long>();
 	private Integer pgNr = 0;
-
-	public Integer getPgNr() {
-		return pgNr;
-	}
-
-	public void setPgNr(Integer pgNr) {
-		this.pgNr = pgNr;
-	}
-
+	private int perPage = 5;
+	private final int[] perPageArray = new int[]{5,10,25};
+	private SessionMap<String, Object> session;
+	
 	public UniversitateModelAction() {
 		this.genService = new UniversitateService();
 	}
@@ -53,27 +49,24 @@ public class UniversitateModelAction extends ActionSupport implements
 		return SUCCESS;
 	}
 
+	@SkipValidation
 	public String listAllUniversitateModel() throws MyDaoException {
 		logger.info("Starting listAllUniversityModel method");
-		HttpServletRequest request = (HttpServletRequest) ActionContext
-				.getContext().get(ServletActionContext.HTTP_REQUEST);
-		
+		//Check & get records per page preference
+		if(session.get("perPage")!= null){
+			perPage = (Integer) session.get("perPage");
+		}
 		Integer totalNrPages;
 		countTotal = genService.countSize();
-		totalNrPages = (int) Math.ceil((double) countTotal / MAX_PER_PAGE);
-		try {
-			if (request.getParameter("pgNr") != null) {
-				pgNr = Integer.parseInt(request.getParameter("pgNr"));
-				pgNr = pgNr > totalNrPages ? totalNrPages : pgNr;
-			}
-		} catch (NumberFormatException nfe) {
-			logger.debug("page value is not a number");
+		totalNrPages = (int) Math.ceil((double) countTotal / perPage) - 1;
+		if(pgNr > totalNrPages) {
+			pgNr = totalNrPages;
 		}
-		for (int i = 0; i < Math.ceil((double) countTotal / MAX_PER_PAGE); i++) {
+		for (int i = 0; i < Math.ceil((double) countTotal / perPage); i++) {
 			pgArray.add((long) i);
 		}
-
-		this.universitateModelList = genService.retrieve(pgNr, MAX_PER_PAGE);
+		//Retreive data from database
+		this.universitateModelList = genService.retrieve(pgNr * perPage, perPage);
 		
 		logger.info("listAllUniversitateModel executed");
 		return SUCCESS;
@@ -91,7 +84,7 @@ public class UniversitateModelAction extends ActionSupport implements
 		return	rezultat?"success":"validate";
 
 	}
-
+	
 	public String deleteUniversitateModel() throws MyDaoException {
 		logger.info("Starting deleteUniversitateModel method");
 		HttpServletRequest request = (HttpServletRequest) ActionContext
@@ -112,8 +105,10 @@ public class UniversitateModelAction extends ActionSupport implements
 		}
 		if(rezult){
 			logger.info("University model successfully deleted");
+			return "success";
+		} else {
+			return "validate";
 		}
-		return	rezult?"success":"validate";
 	}
 
 	public String editUniversitateModel() throws MyDaoException {
@@ -121,6 +116,7 @@ public class UniversitateModelAction extends ActionSupport implements
 				.getContext().get(ServletActionContext.HTTP_REQUEST);
 		boolean rezult = false;
 		Integer id = null;
+		//id of object from request
 		if(request.getParameter("id") != null){
 			try {
 				id = Integer.parseInt(request.getParameter("id"));
@@ -132,10 +128,10 @@ public class UniversitateModelAction extends ActionSupport implements
 		}
 		if(rezult){
 			logger.info("University successfuly retrieved for updating");
+			return "success";
+		} else {
+			return "validate";
 		}
-		
-		return rezult ? "success" : "validate";
-
 	}
 
 	public String updateUniversitateModel() throws MyDaoException {
@@ -146,8 +142,11 @@ public class UniversitateModelAction extends ActionSupport implements
 		else{
 			logger.debug("University cannot be updated because it is null");
 		}
-		
-		return rezult ? "success" : "validate";
+		if(rezult){
+			return "success";
+		} else { 
+			return "validate";
+		}
 	}
 
 	public List<UniversitateModel> getUniversitateModelList() {
@@ -162,10 +161,6 @@ public class UniversitateModelAction extends ActionSupport implements
 		this.universitateModel = universitateModel;
 	}
 
-	@Override
-	public UniversitateModel getModel() {
-		return this.universitateModel;
-	}
 
 	public Long getCountTotal() {
 		return countTotal;
@@ -181,6 +176,32 @@ public class UniversitateModelAction extends ActionSupport implements
 
 	public void setPgArray(List<Long> pgArray) {
 		this.pgArray = pgArray;
+	}
+
+	public int[] getPerPageArray(){
+		return perPageArray;
+	}
+
+	public int getPerPage() {
+		return perPage;
+	}
+
+	public void setPerPage(int perPage) {
+		session.put("perPage", perPage);
+		this.perPage = perPage;
+	}
+
+	public Integer getPgNr() {
+		return pgNr;
+	}
+
+	public void setPgNr(Integer pgNr) {
+		this.pgNr = pgNr;
+	}
+
+	@Override
+	public void setSession(Map<String, Object> injectedSession) {
+		session = (SessionMap<String, Object>) injectedSession;
 	}
 
 }

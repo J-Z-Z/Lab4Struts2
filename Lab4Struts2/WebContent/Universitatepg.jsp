@@ -38,7 +38,7 @@
 	<div id="pager">
 		<div class="pagination pagination-centered">
 			<label for="pageSelector">Page: </label> <select
-				onChange="$nxtPgUniversitate(this.value)" name="pageSelector"
+				onChange="$nxtPg('Universitate', this.value)" name="pageSelector"
 				id="pageSelector">
 				<s:iterator value="pgArray" var="m">
 					<s:if test="pgNr==#m">

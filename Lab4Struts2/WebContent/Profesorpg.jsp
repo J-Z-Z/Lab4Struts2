@@ -44,7 +44,7 @@
 <div id="pager">
 	<div class="pagination pagination-centered">
 		<label for="pageSelector">Page: </label>
-		<select onChange="$nxtPgProfesor(this.value)" name="pageSelector" id="pageSelector">
+		<select onChange="$nxtPg('Profesor', this.value)" name="pageSelector" id="pageSelector">
 			<s:iterator value="pgArray" var="m" >
 				<s:if test="pgNr==#m">
 					<option value="<s:property value="#m"/>" selected="selected">

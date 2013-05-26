@@ -8,7 +8,6 @@
 <s:if test="cursModelList!=null && cursModelList.size()>0">
 	<div id="ajxTableData">
 		<h3>Curs List</h3>
-		
 		<table id="myTable" class="table table-striped table-hover table-condensed">
 			<thead>
 				<tr class="ui-widget-header">
@@ -49,7 +48,7 @@
 	<div id="pager">
 		<div class="pagination pagination-centered">
 			<label for="pageSelector">Page: </label>
-			<select	onChange="$nxtPgCurs(this.value)" name="pageSelector" id="pageSelector">
+			<select	onChange="$nxtPg('Curs', this.value)" name="pageSelector" id="pageSelector">
 				<s:iterator value="pgArray" var="m">
 					<s:if test="pgNr==#m">
 						<option value="<s:property value="#m"/>" selected="selected">
